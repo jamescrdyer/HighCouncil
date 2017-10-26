@@ -6,14 +6,15 @@
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024180054_added_entity_Card.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20171024161657_added_entity_Game.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024164600_added_entity_Player.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024183718_added_entity_Deck.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024164600_added_entity_OrderResolution.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024200012_added_entity_ActionResolution.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171025154649_added_entity_Kingdom.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20171024165034_added_entity_Game.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20171024200012_added_entity_constraints_ActionResolution.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024164600_added_entity_constraints_Player.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20171024165034_added_entity_constraints_Game.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

@@ -2,20 +2,18 @@ package highcouncil.service.mapper;
 
 import highcouncil.domain.*;
 import highcouncil.service.dto.GameDTO;
-import highcouncil.service.dto.KingdomDTO;
 
 import org.mapstruct.*;
 
 /**
  * Mapper for the entity Game and its DTO GameDTO.
  */
-@Mapper(componentModel = "spring", uses = {KingdomMapper.class, DeckMapper.class})
+@Mapper(componentModel = "spring", uses = {KingdomMapper.class, DeckMapper.class, PlayerMapper.class})
 public interface GameMapper extends EntityMapper<GameDTO, Game> {
 
     @Mapping(source = "deck.id", target = "deckId")
     GameDTO toDto(Game game); 
-    
-    @Mapping(target = "players", ignore = true)
+
     @Mapping(source = "deckId", target = "deck")
     Game toEntity(GameDTO gameDTO);
 
