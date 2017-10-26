@@ -1,0 +1,84 @@
+<div>
+    <h2>
+        <span jhiTranslate="highCouncilApp.player.home.title">Players</span>
+        <button class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/', { outlets: { popup: ['player-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="highCouncilApp.player.home.createLabel">
+            Create new Player
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="players">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.piety">Piety</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.popularity">Popularity</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.military">Military</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.wealth">Wealth</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.favour">Favour</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.chancellor">Chancellor</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.name">Name</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.game">Game</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.user">User</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.hand">Hand</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let player of players ;trackBy: trackId">
+                <td><a [routerLink]="['../player', player.id ]">{{player.id}}</a></td>
+                <td>{{player.piety}}</td>
+                <td>{{player.popularity}}</td>
+                <td>{{player.military}}</td>
+                <td>{{player.wealth}}</td>
+                <td>{{player.favour}}</td>
+                <td>{{player.chancellor}}</td>
+                <td>{{player.name}}</td>
+                <td>
+                    <div *ngIf="player.gameId">
+                        <a [routerLink]="['../game', player.gameId  ]" >{{player.gameId}}</a>
+                    </div>
+                </td>
+                <td>
+                    {{player.userLogin}}
+                </td>
+                <td>
+                    <span *ngFor="let hand of player.hands; let last = last">
+                            <a class="form-control-static" [routerLink]="['../card', hand?.id ]">{{hand.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../player', player.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'player/'+ player.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'player/'+ player.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

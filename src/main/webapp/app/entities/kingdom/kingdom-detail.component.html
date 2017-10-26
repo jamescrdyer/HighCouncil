@@ -1,0 +1,41 @@
+
+<div *ngIf="kingdom">
+    <h2><span jhiTranslate="highCouncilApp.kingdom.detail.title">Kingdom</span> {{kingdom.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="highCouncilApp.kingdom.piety">Piety</span></dt>
+        <dd>
+            <span>{{kingdom.piety}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.kingdom.popularity">Popularity</span></dt>
+        <dd>
+            <span>{{kingdom.popularity}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.kingdom.military">Military</span></dt>
+        <dd>
+            <span>{{kingdom.military}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.kingdom.wealth">Wealth</span></dt>
+        <dd>
+            <span>{{kingdom.wealth}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.kingdom.health">Health</span></dt>
+        <dd>
+            <span>{{kingdom.health}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'kingdom/'+ kingdom.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -42,6 +42,19 @@ public class CacheConfiguration {
             cm.createCache(highcouncil.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(highcouncil.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(highcouncil.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Game.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Game.class.getName() + ".players", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Game.class.getName() + ".decks", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Game.class.getName() + ".cards", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Player.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Player.class.getName() + ".hands", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Deck.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Deck.class.getName() + ".cards", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Deck.class.getName() + ".discards", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Kingdom.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Card.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.OrderResolution.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.ActionResolution.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

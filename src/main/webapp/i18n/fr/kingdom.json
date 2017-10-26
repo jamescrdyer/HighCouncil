@@ -1,0 +1,26 @@
+{
+    "highCouncilApp": {
+        "kingdom" : {
+            "home": {
+                "title": "Kingdoms",
+                "createLabel": "Créer un nouveau Kingdom",
+                "createOrEditLabel": "Créer ou éditer un Kingdom"
+            },
+            "created": "Un nouveau Kingdom a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Kingdom avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Kingdom avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Kingdom {{ id }} ?"
+            },
+            "detail": {
+                "title": "Kingdom"
+            },
+            "piety": "Piety",
+            "popularity": "Popularity",
+            "military": "Military",
+            "wealth": "Wealth",
+            "health": "Health",
+            "game": "Game"
+        }
+    }
+}

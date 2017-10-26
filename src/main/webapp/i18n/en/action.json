@@ -1,0 +1,12 @@
+{
+    "highCouncilApp": {
+        "Action" : {
+            "null": "",
+            "Piety": "Piety",
+            "Popularity": "Popularity",
+            "Indulge": "Indulge",
+            "Military": "Military",
+            "Wealth": "Wealth"
+        }
+    }
+}

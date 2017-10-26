@@ -1,0 +1,100 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myKingdomLabel" jhiTranslate="highCouncilApp.kingdom.home.createOrEditLabel">Create or edit a Kingdom</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!kingdom.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="kingdom.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.kingdom.piety" for="field_piety">Piety</label>
+            <input type="number" class="form-control" name="piety" id="field_piety"
+                [(ngModel)]="kingdom.piety" required />
+            <div [hidden]="!(editForm.controls.piety?.dirty && editForm.controls.piety?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.piety?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.piety?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.kingdom.popularity" for="field_popularity">Popularity</label>
+            <input type="number" class="form-control" name="popularity" id="field_popularity"
+                [(ngModel)]="kingdom.popularity" required />
+            <div [hidden]="!(editForm.controls.popularity?.dirty && editForm.controls.popularity?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.popularity?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.popularity?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.kingdom.military" for="field_military">Military</label>
+            <input type="number" class="form-control" name="military" id="field_military"
+                [(ngModel)]="kingdom.military" required />
+            <div [hidden]="!(editForm.controls.military?.dirty && editForm.controls.military?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.military?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.military?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.kingdom.wealth" for="field_wealth">Wealth</label>
+            <input type="number" class="form-control" name="wealth" id="field_wealth"
+                [(ngModel)]="kingdom.wealth" required />
+            <div [hidden]="!(editForm.controls.wealth?.dirty && editForm.controls.wealth?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.wealth?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.wealth?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.kingdom.health" for="field_health">Health</label>
+            <input type="number" class="form-control" name="health" id="field_health"
+                [(ngModel)]="kingdom.health" required />
+            <div [hidden]="!(editForm.controls.health?.dirty && editForm.controls.health?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.health?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.health?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

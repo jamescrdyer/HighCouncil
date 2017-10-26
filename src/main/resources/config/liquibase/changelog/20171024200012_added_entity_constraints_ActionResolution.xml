@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity ActionResolution.
+    -->
+    <changeSet id="20171024200012-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="order_resolution_id"
+                                 baseTableName="action_resolution"
+                                 constraintName="fk_action_resolution_order_resolution_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="order_resolution"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+{
+    "highCouncilApp": {
+        "orderResolution" : {
+            "home": {
+                "title": "OrderResolutions",
+                "createLabel": "Créer un nouveau Order Resolution",
+                "createOrEditLabel": "Créer ou éditer un Order Resolution"
+            },
+            "created": "Un nouveau Order Resolution a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Order Resolution avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Order Resolution avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Order Resolution {{ id }} ?"
+            },
+            "detail": {
+                "title": "Order Resolution"
+            },
+            "minimum": "Minimum",
+            "maximum": "Maximum"
+        }
+    }
+}

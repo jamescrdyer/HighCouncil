@@ -1,0 +1,65 @@
+
+<div *ngIf="player">
+    <h2><span jhiTranslate="highCouncilApp.player.detail.title">Player</span> {{player.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="highCouncilApp.player.piety">Piety</span></dt>
+        <dd>
+            <span>{{player.piety}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.popularity">Popularity</span></dt>
+        <dd>
+            <span>{{player.popularity}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.military">Military</span></dt>
+        <dd>
+            <span>{{player.military}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.wealth">Wealth</span></dt>
+        <dd>
+            <span>{{player.wealth}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.favour">Favour</span></dt>
+        <dd>
+            <span>{{player.favour}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.chancellor">Chancellor</span></dt>
+        <dd>
+            <span>{{player.chancellor}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.name">Name</span></dt>
+        <dd>
+            <span>{{player.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.game">Game</span></dt>
+        <dd>
+            <div *ngIf="player.gameId">
+                <a [routerLink]="['/game', player.gameId]">{{player.gameId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.user">User</span></dt>
+        <dd>
+            {{player.userLogin}}
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.hand">Hand</span></dt>
+        <dd>
+            <span *ngFor="let hand of player.hands; let last = last">
+                <a [routerLink]="['/card', hand?.id ]">{{hand.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'player/'+ player.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

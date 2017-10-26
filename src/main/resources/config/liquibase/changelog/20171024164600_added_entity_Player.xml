@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity Player.
+    -->
+    <changeSet id="20171024164600-1" author="jhipster">
+        <createTable tableName="player">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="piety" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="popularity" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="military" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="wealth" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="favour" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="chancellor" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="game_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="user_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        
+        <createTable tableName="player_hand">
+            <column name="hands_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="players_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="players_id, hands_id" tableName="player_hand"/>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

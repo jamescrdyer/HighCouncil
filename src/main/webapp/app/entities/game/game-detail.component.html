@@ -1,0 +1,26 @@
+
+<div *ngIf="game">
+	<div class="col-md-4" *ngIf="game.players">
+	    <jhi-stat-display *ngFor="let player of game.players; trackBy: player.id" 
+	    	[stats]="player" [name]="player.userLogin">
+	    </jhi-stat-display>
+	</div>
+	<div class="col-md-8">
+	    <h2><span jhiTranslate="{{'highCouncilApp.Phase.' + game.phase}}">{{game.phase}}</span></h2>
+	    <jhi-alert-error></jhi-alert-error>
+	    <jhi-stat-display [stats]="game.kingdom" [name]="'Kingdom'"></jhi-stat-display>
+		<hr>
+	    <button type="submit"
+	            (click)="previousState()"
+	            class="btn btn-info">
+	        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+	    </button>
+	
+	    <button type="button"
+	            [routerLink]="['/', { outlets: { popup: 'game/'+ game.id + '/edit'} }]"
+	            replaceUrl="true"
+	            class="btn btn-primary">
+	        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+	    </button>
+	</div>
+</div>

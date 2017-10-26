@@ -1,0 +1,23 @@
+{
+    "highCouncilApp": {
+        "deck" : {
+            "home": {
+                "title": "Decks",
+                "createLabel": "Créer un nouveau Deck",
+                "createOrEditLabel": "Créer ou éditer un Deck"
+            },
+            "created": "Un nouveau Deck a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Deck avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Deck avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Deck {{ id }} ?"
+            },
+            "detail": {
+                "title": "Deck"
+            },
+            "game": "Game",
+            "card": "Card",
+            "discard": "Discard"
+        }
+    }
+}

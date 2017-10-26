@@ -1,0 +1,30 @@
+{
+    "highCouncilApp": {
+        "player" : {
+            "home": {
+                "title": "Players",
+                "createLabel": "Créer un nouveau Player",
+                "createOrEditLabel": "Créer ou éditer un Player"
+            },
+            "created": "Un nouveau Player a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Player avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Player avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Player {{ id }} ?"
+            },
+            "detail": {
+                "title": "Player"
+            },
+            "piety": "Piety",
+            "popularity": "Popularity",
+            "military": "Military",
+            "wealth": "Wealth",
+            "favour": "Favour",
+            "chancellor": "Chancellor",
+            "name": "Name",
+            "game": "Game",
+            "user": "User",
+            "hand": "Hand"
+        }
+    }
+}

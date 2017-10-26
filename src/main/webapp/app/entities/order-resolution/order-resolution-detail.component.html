@@ -1,0 +1,29 @@
+
+<div *ngIf="orderResolution">
+    <h2><span jhiTranslate="highCouncilApp.orderResolution.detail.title">Order Resolution</span> {{orderResolution.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="highCouncilApp.orderResolution.minimum">Minimum</span></dt>
+        <dd>
+            <span>{{orderResolution.minimum}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orderResolution.maximum">Maximum</span></dt>
+        <dd>
+            <span>{{orderResolution.maximum}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'order-resolution/'+ orderResolution.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

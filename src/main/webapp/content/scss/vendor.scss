@@ -11,4 +11,65 @@ eg $input-color: red;
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/font-awesome/scss/font-awesome';
 
+$piety-forecolor:             black;
+$piety-backcolor:             white;
+$military-forecolor:             white;
+$military-backcolor:             #c61a00;
+$popularity-forecolor:             white;
+$popularity-backcolor:             #00098c;
+$favour-forecolor:             white;
+$favour-backcolor:             #52208e;
+$wealth-forecolor:             black;
+$wealth-backcolor:             #d3d617;
+$intrigue-forecolor:             white;
+$intrigue-backcolor:             #03680b;
+$health-forecolor:             white;
+$health-backcolor:             #ad6800;
+$most-color:             #28bc00;
+$least-color:             #ed0707;
+
+.piety {
+    background: $piety-backcolor;
+    color: $piety-forecolor;
+    font-weight: 800;
+}
+.military {
+    background: $military-backcolor;
+    color: $military-forecolor;
+    font-weight: 800;
+}
+.popularity {
+    background: $popularity-backcolor;
+    color: $popularity-forecolor;
+    font-weight: 800;
+}
+.favour {
+    background: $favour-backcolor;
+    color: $favour-forecolor;
+    font-weight: 800;
+}
+.wealth {
+    background: $wealth-backcolor;
+    color: $wealth-forecolor;
+    font-weight: 800;
+}
+.intrigue {
+    background: $intrigue-backcolor;
+    color: $intrigue-forecolor;
+}
+.health {
+    background: $health-backcolor;
+    color: $health-forecolor;
+    font-weight: 800;
+}
+.most {
+    border-style: solid;
+    border-width: 3px;
+    border-color: $most-color;
+}
+.least {
+    border-style: solid;
+    border-width: 3px;
+    border-color: $least-color;
+}
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */

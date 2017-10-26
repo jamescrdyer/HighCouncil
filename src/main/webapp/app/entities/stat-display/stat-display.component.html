@@ -1,0 +1,29 @@
+<div>
+	<h2>{{name}}</h2>
+    <div style="height: 30px" class="row justify-content-center">
+        <div class="col-2 piety value first" [ngClass]="{'most': mostStats && stats.piety==mostStats.piety,'least': leastStats && stats.piety==leastStats.piety}">
+        	<span class="d-none d-md-inline"><span jhiTranslate="highCouncilApp.Action.Piety"></span>: </span>
+        	{{stats.piety}}
+        </div>
+        <div class="col-2 popularity value">
+        	<span class="d-none d-md-inline"><span jhiTranslate="highCouncilApp.Action.Popularity"></span>: </span>
+        	{{stats.popularity}}
+        </div>
+        <div class="col-2 military value">
+        	<span class="d-none d-md-inline"><span jhiTranslate="highCouncilApp.Action.Military"></span>: </span>
+        	{{stats.military}}
+        </div>
+        <div class="col-2 wealth value">
+        	<span class="d-none d-md-inline"><span jhiTranslate="highCouncilApp.Action.Wealth"></span>: </span>
+        	{{stats.wealth}}
+        </div>
+        <div *ngIf="stats.favour!==undefined" class="col-2 favour value">
+        	<span class="d-none d-md-inline"><span jhiTranslate="highCouncilApp.Action.Favour"></span>: </span>
+        	{{stats.favour}}
+        </div>
+        <div *ngIf="stats.health!==undefined" class="col-2 health value">
+        	<span class="d-none d-md-inline"><span jhiTranslate="highCouncilApp.kingdom.health"></span>: </span>
+        	{{stats.health}}
+        </div>
+    </div>
+</div>

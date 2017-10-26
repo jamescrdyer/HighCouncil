@@ -1,0 +1,43 @@
+
+<div *ngIf="actionResolution">
+    <h2><span jhiTranslate="highCouncilApp.actionResolution.detail.title">Action Resolution</span> {{actionResolution.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="highCouncilApp.actionResolution.action">Action</span></dt>
+        <dd>
+            <span jhiTranslate="{{'highCouncilApp.Action.' + actionResolution.action}}">{{actionResolution.action}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.actionResolution.codeNormal">Code Normal</span></dt>
+        <dd>
+            <span>{{actionResolution.codeNormal}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.actionResolution.codeChancellor">Code Chancellor</span></dt>
+        <dd>
+            <span>{{actionResolution.codeChancellor}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.actionResolution.codeKingdom">Code Kingdom</span></dt>
+        <dd>
+            <span>{{actionResolution.codeKingdom}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.actionResolution.orderResolution">Order Resolution</span></dt>
+        <dd>
+            <div *ngIf="actionResolution.orderResolution">
+                <a [routerLink]="['/order-resolution', actionResolution.orderResolution?.id]">{{actionResolution.orderResolution?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'action-resolution/'+ actionResolution.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

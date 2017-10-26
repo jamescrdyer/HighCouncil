@@ -1,0 +1,25 @@
+{
+    "highCouncilApp": {
+        "actionResolution" : {
+            "home": {
+                "title": "ActionResolutions",
+                "createLabel": "Créer un nouveau Action Resolution",
+                "createOrEditLabel": "Créer ou éditer un Action Resolution"
+            },
+            "created": "Un nouveau Action Resolution a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Action Resolution avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Action Resolution avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Action Resolution {{ id }} ?"
+            },
+            "detail": {
+                "title": "Action Resolution"
+            },
+            "action": "Action",
+            "codeNormal": "Code Normal",
+            "codeChancellor": "Code Chancellor",
+            "codeKingdom": "Code Kingdom",
+            "orderResolution": "Order Resolution"
+        }
+    }
+}

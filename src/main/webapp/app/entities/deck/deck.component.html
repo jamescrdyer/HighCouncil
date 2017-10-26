@@ -1,0 +1,66 @@
+<div>
+    <h2>
+        <span jhiTranslate="highCouncilApp.deck.home.title">Decks</span>
+        <button class="btn btn-primary float-right jh-create-entity create-deck" [routerLink]="['/', { outlets: { popup: ['deck-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="highCouncilApp.deck.home.createLabel">
+            Create new Deck
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="decks">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="highCouncilApp.deck.card">Card</span></th>
+            <th><span jhiTranslate="highCouncilApp.deck.discard">Discard</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let deck of decks ;trackBy: trackId">
+                <td><a [routerLink]="['../deck', deck.id ]">{{deck.id}}</a></td>
+                <td>
+                    <span *ngFor="let card of deck.cards; let last = last">
+                            <a class="form-control-static" [routerLink]="['../card', card?.id ]">{{card.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let discard of deck.discards; let last = last">
+                            <a class="form-control-static" [routerLink]="['../card', discard?.id ]">{{discard.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../deck', deck.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'deck/'+ deck.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'deck/'+ deck.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

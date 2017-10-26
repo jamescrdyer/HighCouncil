@@ -1,0 +1,24 @@
+{
+    "highCouncilApp": {
+        "card" : {
+            "home": {
+                "title": "Cards",
+                "createLabel": "Créer un nouveau Card",
+                "createOrEditLabel": "Créer ou éditer un Card"
+            },
+            "created": "Un nouveau Card a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Card avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Card avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Card {{ id }} ?"
+            },
+            "detail": {
+                "title": "Card"
+            },
+            "name": "Name",
+            "description": "Description",
+            "code": "Code",
+            "numberInDeck": "Number In Deck"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "highCouncilApp": {
+        "Phase" : {
+            "null": "",
+            "Discussion": "Discussion",
+            "Orders": "Orders",
+            "Resolution": "Resolution",
+            "Intrigue": "Intrigue"
+        }
+    }
+}

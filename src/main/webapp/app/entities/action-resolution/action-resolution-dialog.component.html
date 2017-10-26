@@ -1,0 +1,57 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myActionResolutionLabel" jhiTranslate="highCouncilApp.actionResolution.home.createOrEditLabel">Create or edit a Action Resolution</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!actionResolution.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="actionResolution.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.actionResolution.action" for="field_action">Action</label>
+            <select class="form-control" name="action" [(ngModel)]="actionResolution.action" id="field_action" >
+                <option value="Piety">{{'highCouncilApp.Action.Piety' | translate}}</option>
+                <option value="Popularity">{{'highCouncilApp.Action.Popularity' | translate}}</option>
+                <option value="Indulge">{{'highCouncilApp.Action.Indulge' | translate}}</option>
+                <option value="Military">{{'highCouncilApp.Action.Military' | translate}}</option>
+                <option value="Wealth">{{'highCouncilApp.Action.Wealth' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.actionResolution.codeNormal" for="field_codeNormal">Code Normal</label>
+            <input type="text" class="form-control" name="codeNormal" id="field_codeNormal"
+                [(ngModel)]="actionResolution.codeNormal"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.actionResolution.codeChancellor" for="field_codeChancellor">Code Chancellor</label>
+            <input type="text" class="form-control" name="codeChancellor" id="field_codeChancellor"
+                [(ngModel)]="actionResolution.codeChancellor"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.actionResolution.codeKingdom" for="field_codeKingdom">Code Kingdom</label>
+            <input type="text" class="form-control" name="codeKingdom" id="field_codeKingdom"
+                [(ngModel)]="actionResolution.codeKingdom"  />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.actionResolution.orderResolution" for="field_orderResolution">Order Resolution</label>
+            <select class="form-control" id="field_orderResolution" name="orderResolution" [(ngModel)]="actionResolution.orderResolution" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="orderResolutionOption.id === actionResolution.orderResolution?.id ? actionResolution.orderResolution : orderResolutionOption" *ngFor="let orderResolutionOption of orderresolutions; trackBy: trackOrderResolutionById">{{orderResolutionOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

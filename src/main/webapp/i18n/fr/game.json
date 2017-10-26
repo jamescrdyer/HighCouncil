@@ -1,0 +1,25 @@
+{
+    "highCouncilApp": {
+        "game" : {
+            "home": {
+                "title": "Games",
+                "createLabel": "Créer un nouveau Game",
+                "createOrEditLabel": "Créer ou éditer un Game"
+            },
+            "created": "Un nouveau Game a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Game avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Game avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Game {{ id }} ?"
+            },
+            "detail": {
+                "title": "Game"
+            },
+            "timeLimitSeconds": "Time Limit Seconds",
+            "phase": "Phase",
+            "player": "Player",
+            "kingdom": "Kingdom",
+            "deck": "Deck"
+        }
+    }
+}
