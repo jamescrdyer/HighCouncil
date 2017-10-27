@@ -2,27 +2,27 @@
 	<h2>{{name}}</h2>
     <div style="height: 30px" class="row justify-content-center">
         <div class="col-2 piety value first" [ngClass]="{'most': mostStats && stats.piety==mostStats.piety,'least': leastStats && stats.piety==leastStats.piety}">
-        	<span class="d-none d-lg-inline"><span jhiTranslate="highCouncilApp.Action.short.Piety"></span>: </span>
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Piety"> </span>
         	{{stats.piety}}
         </div>
         <div class="col-2 popularity value">
-        	<span class="d-none d-lg-inline"><span jhiTranslate="highCouncilApp.Action.short.Popularity"></span>: </span>
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Popularity"> </span>
         	{{stats.popularity}}
         </div>
         <div class="col-2 military value">
-        	<span class="d-none d-lg-inline"><span jhiTranslate="highCouncilApp.Action.short.Military"></span>: </span>
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Military"> </span>
         	{{stats.military}}
         </div>
         <div class="col-2 wealth value">
-        	<span class="d-none d-lg-inline"><span jhiTranslate="highCouncilApp.Action.short.Wealth"></span>: </span>
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Wealth"> </span>
         	{{stats.wealth}}
         </div>
         <div *ngIf="stats.favour!==undefined" class="col-2 favour value">
-        	<span class="d-none d-lg-inline"><span jhiTranslate="highCouncilApp.player.favourShort"></span>: </span>
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.player.favourShort"> </span>
         	{{stats.favour}}
         </div>
         <div *ngIf="stats.health!==undefined" class="col-2 health value">
-        	<span class="d-none d-lg-inline"><span jhiTranslate="highCouncilApp.kingdom.healthShort"></span>: </span>
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.kingdom.healthShort"> </span>
         	{{stats.health}}
         </div>
     </div>

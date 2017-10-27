@@ -18,6 +18,7 @@
             "timeLimitSeconds": "Time Limit Seconds",
             "phase": "Phase",
             "player": "Player",
+            "playerFilter": "Recipients: ",
             "players": "Players",
             "kingdom": "Kingdom",
             "deck": "Deck"

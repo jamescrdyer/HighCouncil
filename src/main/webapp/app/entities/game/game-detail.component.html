@@ -15,14 +15,17 @@
 		<hr>
 		<div class="row">
 		    <div>
-		    	<button class="btn btn-primary d-inline active" type="button" aria-pressed="true"
-		    		*ngFor="let player of game.players; trackBy: id" [ngClass]="{'active': discussionDestinations[player.userLogin]}"
+		    	<span jhiTranslate="highCouncilApp.game.playerFilter"></span>
+		    	<button class="btn d-inline" type="button" aria-pressed="true"
+		    		*ngFor="let player of game.players; trackBy: id" [ngClass]="{'btn-primary active': discussionDestinations[player.userLogin]}"
 		    		(click)="sendToggle(player.userLogin)"
 		    	>
 		    		{{player.userLogin}}
 		    	</button>
 		    </div>
-			<input type="text" class="d-inline"></input><button class="d-inline"><span>Send</span></button>
+		    <div><textarea rows="5">{{messages}}</textarea></div>
+			<input type="text" class="d-inline" style="width:89%" #newMessage></input>
+			<button class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value)"><span>Send</span></button>
 		</div>
 	</div>
 	<div style="padding-top: 10px">

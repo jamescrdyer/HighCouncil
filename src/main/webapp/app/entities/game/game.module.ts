@@ -5,6 +5,7 @@ import { HighCouncilSharedModule } from '../../shared';
 import { HighCouncilStatDisplayModule } from '../stat-display';
 import {
     GameService,
+    GameDiscussionService,
     GamePopupService,
     GameComponent,
     GameDetailComponent,
@@ -44,6 +45,7 @@ const ENTITY_STATES = [
     ],
     providers: [
         GameService,
+        GameDiscussionService,
         GamePopupService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
