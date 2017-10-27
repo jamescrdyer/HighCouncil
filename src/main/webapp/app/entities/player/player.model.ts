@@ -12,6 +12,7 @@ export class Player implements BaseEntity {
         public name?: string,
         public gameId?: number,
         public userId?: number,
+        public userLogin?: string,
         public hands?: BaseEntity[],
     ) {
         this.chancellor = false;

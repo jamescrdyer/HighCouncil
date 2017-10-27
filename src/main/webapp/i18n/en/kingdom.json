@@ -16,6 +16,7 @@
                 "title": "Kingdom"
             },
             "health": "Health",
+            "healthShort": "Hlt",
             "game": "Game"
         }
     }

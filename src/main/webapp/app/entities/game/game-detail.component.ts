@@ -15,6 +15,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     game: Game;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+    private discussionDestinations = {};
 
     constructor(
         private eventManager: JhiEventManager,
@@ -33,10 +34,17 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     load(id) {
         this.gameService.find(id).subscribe((game) => {
             this.game = game;
+            this.game.players.forEach((p)=> {
+                this.discussionDestinations[p.userLogin] = true;
+            });
         });
     }
     previousState() {
         window.history.back();
+    }
+    
+    sendToggle(playerName: string) {
+        this.discussionDestinations[playerName] = !this.discussionDestinations[playerName];
     }
 
     ngOnDestroy() {
