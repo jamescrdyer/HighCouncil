@@ -170,7 +170,7 @@ public class GameResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(game.getId().intValue()))
             .andExpect(jsonPath("$.timeLimitSeconds").value(DEFAULT_TIME_LIMIT_SECONDS))
-            .andExpect(jsonPath("$.players[*].id").value(p.getId()))
+            .andExpect(jsonPath("$.players[*].id").value(p.getId().intValue()))
             .andExpect(jsonPath("$.phase").value(DEFAULT_PHASE.toString()));
     }
 

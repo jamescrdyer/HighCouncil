@@ -1,0 +1,21 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+    ],
+    "fields": [
+        {
+            "fieldName": "minimum",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "maximum",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20171024164600",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "order_resolution",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

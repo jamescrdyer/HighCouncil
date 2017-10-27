@@ -1,0 +1,32 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "code",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "numberInDeck",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20171024180054",
+    "dto": "mapstruct",
+    "service": "no",
+    "entityTableName": "card",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "game"
+        },
+        {
+            "relationshipName": "kingdom",
+            "otherEntityName": "kingdom",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "game"
+        },
+        {
+            "relationshipName": "deck",
+            "otherEntityName": "deck",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "game"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "timeLimitSeconds",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "phase",
+            "fieldType": "Phase",
+            "fieldValues": "Discussion,Orders,Resolution,Intrigue"
+        }
+    ],
+    "changelogDate": "20171024165034",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "game",
+    "jpaMetamodelFiltering": false,
+    "pagination": "infinite-scroll"
+}

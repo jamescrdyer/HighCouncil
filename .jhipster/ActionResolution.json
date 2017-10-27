@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "orderResolution",
+            "otherEntityName": "orderResolution",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "action",
+            "fieldType": "Action",
+            "fieldValues": "Piety,Popularity,Indulge,Military,Wealth"
+        },
+        {
+            "fieldName": "codeNormal",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "codeChancellor",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "codeKingdom",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "action_resolution",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

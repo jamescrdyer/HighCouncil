@@ -1,0 +1,30 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "game",
+            "otherEntityName": "game",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "card",
+            "otherEntityName": "card",
+            "ownerSide": true,
+            "relationshipType": "many-to-many"
+        },
+        {
+            "relationshipName": "discard",
+            "otherEntityName": "card",
+            "ownerSide": true,
+            "relationshipType": "many-to-many"
+        }
+    ],
+    "fields": [
+    ],
+    "dto": "mapstruct",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
