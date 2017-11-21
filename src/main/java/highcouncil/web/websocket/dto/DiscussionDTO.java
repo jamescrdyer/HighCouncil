@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class DiscussionDTO {
 
-    private List<String> toLogins = new ArrayList<String>();
+    private List<String> toUsers = new ArrayList<String>();
 
-    private String fromLogin;
+    private String fromUser;
 
     private long gameId;
 
@@ -27,12 +27,12 @@ public class DiscussionDTO {
         this.gameId = gameId;
     }
 
-    public String getFromLogin() {
-        return fromLogin;
+    public String getFromUser() {
+        return fromUser;
     }
 
-    public void setFromLogin(String fromLogin) {
-        this.fromLogin = fromLogin;
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
     }
 
     public String getMessage() {
@@ -43,12 +43,12 @@ public class DiscussionDTO {
         this.message = message;
     }
 
-    public List<String> getToLogins() {
-        return toLogins;
+    public List<String> getToUsers() {
+        return toUsers;
     }
 
-    public void setToLogins(List<String> toLogins) {
-        this.toLogins = toLogins;
+    public void setToUsers(List<String> toUsers) {
+        this.toUsers = toUsers;
     }
     
     public Instant getTime() {
@@ -63,8 +63,8 @@ public class DiscussionDTO {
     public String toString() {
         return "DiscussionDTO{" +
             "gameId=" + gameId + 
-            ", fromLogin='" + fromLogin + '\'' +
-            ", toLogins.size=" + toLogins.size() + 
+            ", fromUser='" + fromUser + '\'' +
+            ", toLogins.size=" + toUsers.size() + 
             ", message='" + message + '\'' + 
             ", time='" + time + '\'' +
             '}';

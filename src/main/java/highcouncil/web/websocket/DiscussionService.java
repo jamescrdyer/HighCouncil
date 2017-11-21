@@ -6,10 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SendToUser;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -30,11 +28,9 @@ public class DiscussionService implements ApplicationListener<SessionDisconnectE
         this.messagingTemplate = messagingTemplate;
     }
 
-    @SubscribeMapping("/topic/sendDiscussion/{gameId}")
-//    @SendToUser("/topic/discussion/{gameId}")
-    @SendTo("/topic/discussion/{gameId}")
+    @SendToUser("/topic/discussion/{gameId}")
     public DiscussionDTO sendActivity(@Payload DiscussionDTO discussionDTO, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
-    	discussionDTO.setFromLogin(principal.getName());
+    	discussionDTO.setFromUser(principal.getName());
         discussionDTO.setTime(Instant.now());
         log.debug("Sending discussion {}", discussionDTO);
         return discussionDTO;

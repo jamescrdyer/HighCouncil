@@ -6,6 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Game } from './game.model';
 import { GameService } from './game.service';
 import { GameDiscussionService } from './game-discussion.service';
+import { Message } from './message.model';
 
 @Component({
     selector: 'jhi-game-detail',
@@ -17,7 +18,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private eventSubscriber: Subscription;
     public discussionDestinations = {};
-    public messages = '';
+    public messages: Message[] = [];
 
     constructor(
         private eventManager: JhiEventManager,
@@ -40,18 +41,21 @@ export class GameDetailComponent implements OnInit, OnDestroy {
         this.registerChangeInGames();
     }
 
-    showDiscussion(discussion: any) {
+    showDiscussion(discussion: Message) {
         if (discussion && discussion.message) {
-            this.messages += '\n' + discussion.message;
+            this.messages.push(discussion);
         }
     }
 
     sendMessage(message: string) {
+        const toUsers = [];
+        const discussion = new Message(toUsers, message);
         Object.keys(this.discussionDestinations).forEach((key, index) => {
-            if (index) {
-                this.discussionService.sendMessage(key, message);
+            if (this.discussionDestinations[key]) {
+                toUsers.push(key);
             }
         });
+        toUsers.forEach((user) => this.discussionService.sendMessage(user, discussion));
     }
 
     load(id) {

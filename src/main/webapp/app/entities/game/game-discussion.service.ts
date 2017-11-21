@@ -4,6 +4,9 @@ import { Observable, Observer, Subscription } from 'rxjs/Rx';
 
 import { WindowRef } from './../../shared/tracker/window.service';
 import { AuthServerProvider } from '../../shared/auth/auth-jwt.service';
+import { Principal } from '../../shared/auth/principal.service';
+
+import { Message } from './message.model';
 
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'webstomp-client';
@@ -23,6 +26,7 @@ export class GameDiscussionService {
     constructor(
         private router: Router,
         private authServerProvider: AuthServerProvider,
+        private principal: Principal,
         private $window: WindowRef
     ) {
         this.connection = this.createConnection();
@@ -69,22 +73,23 @@ export class GameDiscussionService {
         return this.listener;
     }
 
-    sendMessage(recipient: string, message: string) {
-        if (this.stompClient !== null && this.stompClient.connected) {
-            this.stompClient.send(
-                '/topic/sendDiscussion/' + this.gameId, // destination
-//TODO                '/user/' + recipient + '/topic/sendDiscussion/' + this.gameId, // destination
-                JSON.stringify({'gameId': this.gameId, 'message': message}), // body
-                {} // header
-            );
-        }
+    sendMessage(recipient: string, message: Message) {
+        message.gameId = this.gameId;
+        this.principal.identity().then((account) => message.fromUser = account.login).then(() => {
+            if (this.stompClient !== null && this.stompClient.connected) {
+                this.stompClient.send(
+                    '/user/' + recipient + '/topic/discussion/' + this.gameId, // destination
+                    JSON.stringify(message), // body
+                    {} // header
+                );
+            }
+        });
     }
 
     subscribe(gameId: number) {
         this.gameId = gameId;
         this.connection.then(() => {
-//TODO            this.subscriber = this.stompClient.subscribe('/user/topic/discussion/' + gameId, (data) => {
-            this.subscriber = this.stompClient.subscribe('/topic/discussion/' + gameId, (data) => {
+            this.subscriber = this.stompClient.subscribe('/user/topic/discussion/' + gameId, (data) => {
                 this.listenerObserver.next(JSON.parse(data.body));
             });
         });
