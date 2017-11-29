@@ -1,0 +1,40 @@
+<div>
+	<h2>{{name}}</h2>
+    <div style="height: 30px" class="row justify-content-center">
+        <div class="col-2 piety value first">
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Piety"> </span>
+            <input type="number" class="form-control" name="piety" id="field_piety" (change)="checkSum()"
+            	[min]="0" [max]="numberToSubmit"
+                [(ngModel)]="orders.piety"  />
+        </div>
+        <div class="col-2 popularity value">
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Popularity"> </span>
+            <input #popularity type="number" class="form-control" name="popularity" id="field_popularity" (change)="checkSum()"
+            	[min]="0" [max]="numberToSubmit"
+                [(ngModel)]="orders.popularity"  />
+        </div>
+        <div class="col-2 military value">
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Military"> </span>
+            <input #military type="number" class="form-control" name="military" id="field_military" (change)="checkSum()"
+            	[min]="0" [max]="numberToSubmit"
+                [(ngModel)]="orders.military"  />
+        </div>
+        <div class="col-2 wealth value">
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Wealth"> </span>
+            <input #wealth type="number" class="form-control" name="wealth" id="field_wealth" (change)="checkSum()"
+            	[min]="0" [max]="numberToSubmit"
+                [(ngModel)]="orders.wealth"  />
+        </div>
+        <div class="col-2 favour value">
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.player.favourShort"> </span>
+            <input #favour type="number" class="form-control" name="favour" id="field_favour" (change)="checkSum()" 
+            	[min]="0" [max]="numberToSubmit"
+                [(ngModel)]="orders.favour"  />
+        </div>
+        <div class="col-2">
+	        <button type="submit" [disabled]="valueSumInvalid || isSaving" class="btn btn-primary" (click)="submit()">
+	            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.submit">Submit</span>
+	        </button>
+        </div>
+    </div>
+</div>

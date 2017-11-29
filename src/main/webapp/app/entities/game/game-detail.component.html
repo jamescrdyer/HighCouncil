@@ -25,16 +25,24 @@
 		</div>
 		<div class="row">
 	    	<span jhiTranslate="highCouncilApp.game.playerFilter"></span>
-	    	<button class="btn d-inline" type="button" aria-pressed="true"
-	    		*ngFor="let player of game.players; trackBy: id" [ngClass]="{'btn-primary active': discussionDestinations[player.userLogin]}"
-	    		(click)="sendToggle(player.userLogin)"
-	    	>
-	    		{{player.userLogin}}
-	    	</button>
+	    	<span *ngFor="let player of game.players; trackBy: id" >
+		    	<button class="btn d-inline" type="button" aria-pressed="true"
+		    		*ngIf="currentUser !== player.userLogin"
+		    		[ngClass]="{'btn-primary active': discussionDestinations[player.userLogin]}"
+		    		(click)="sendToggle(player.userLogin)"
+		    	>
+		    		{{player.userLogin}}
+		    	</button>
+	    	</span>
 		</div>
 		<div class="row">
 			<input type="text" class="d-inline" style="width:89%" #newMessage></input>
-			<button class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value)"><span>Send</span></button>
+			<button [disabled]="!recipientSelected" class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value)"><span>Send</span></button>
+		</div>
+		<br/>
+		<div *ngIf="numberOfOrdersToSubmit > 0">
+		    <jhi-stat-display [stats]="ordersSubmitted" [name]="'Orders Submitted'"></jhi-stat-display>
+		    <jhi-order-submit [name]="'Orders'" [numberToSubmit]="numberOfOrdersToSubmit" (submitted)="receiveOrders($event)"></jhi-stat-display>
 		</div>
 	</div>
 	<div style="padding-top: 10px">

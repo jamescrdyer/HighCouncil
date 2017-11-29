@@ -9,6 +9,7 @@ import { HighCouncilCardModule } from './card/card.module';
 import { HighCouncilOrderResolutionModule } from './order-resolution/order-resolution.module';
 import { HighCouncilActionResolutionModule } from './action-resolution/action-resolution.module';
 import { HighCouncilStatDisplayModule } from './stat-display/stat-display.module';
+import { HighCouncilOrderSubmitModule } from './order-submit/order-submit.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -22,6 +23,7 @@ import { HighCouncilStatDisplayModule } from './stat-display/stat-display.module
         HighCouncilOrderResolutionModule,
         HighCouncilActionResolutionModule,
         HighCouncilStatDisplayModule,
+        HighCouncilOrderSubmitModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [

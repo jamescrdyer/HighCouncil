@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { HighCouncilSharedModule } from '../../shared';
 import { HighCouncilStatDisplayModule } from '../stat-display';
+import { HighCouncilOrderSubmitModule } from '../order-submit';
 import {
     GameService,
     GameDiscussionService,
@@ -26,6 +27,7 @@ const ENTITY_STATES = [
     imports: [
         HighCouncilSharedModule,
         HighCouncilStatDisplayModule,
+        HighCouncilOrderSubmitModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
