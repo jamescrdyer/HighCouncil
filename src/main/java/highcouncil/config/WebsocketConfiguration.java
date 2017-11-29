@@ -48,6 +48,11 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         String[] allowedOrigins = Optional.ofNullable(jHipsterProperties.getCors().getAllowedOrigins()).map(origins -> origins.toArray(new String[0])).orElse(new String[0]);
+        registry.addEndpoint("/websocket/tracker")
+	        .setHandshakeHandler(defaultHandshakeHandler())
+	        .setAllowedOrigins(allowedOrigins)
+	        .withSockJS()
+	        .setInterceptors(httpSessionHandshakeInterceptor());
         registry.addEndpoint("/websocket/discussion")
             .setHandshakeHandler(defaultHandshakeHandler())
             .setAllowedOrigins(allowedOrigins)
@@ -58,7 +63,6 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
     @Bean
     public HandshakeInterceptor httpSessionHandshakeInterceptor() {
         return new HandshakeInterceptor() {
-
             @Override
             public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
                 if (request instanceof ServletServerHttpRequest) {
