@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -49,7 +50,7 @@ public class GameResource {
      */
     @PostMapping("/games")
     @Timed
-    public ResponseEntity<GameDTO> createGame(@RequestBody GameDTO gameDTO) throws URISyntaxException {
+    public ResponseEntity<GameDTO> createGame(@Valid @RequestBody GameDTO gameDTO) throws URISyntaxException {
         log.debug("REST request to save Game : {}", gameDTO);
         if (gameDTO.getId() != null) {
             throw new BadRequestAlertException("A new game cannot already have an ID", ENTITY_NAME, "idexists");
@@ -71,7 +72,7 @@ public class GameResource {
      */
     @PutMapping("/games")
     @Timed
-    public ResponseEntity<GameDTO> updateGame(@RequestBody GameDTO gameDTO) throws URISyntaxException {
+    public ResponseEntity<GameDTO> updateGame(@Valid @RequestBody GameDTO gameDTO) throws URISyntaxException {
         log.debug("REST request to update Game : {}", gameDTO);
         if (gameDTO.getId() == null) {
             return createGame(gameDTO);

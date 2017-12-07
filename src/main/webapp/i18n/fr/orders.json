@@ -1,0 +1,28 @@
+{
+    "highCouncilApp": {
+        "orders" : {
+            "home": {
+                "title": "Orders",
+                "createLabel": "Créer un nouveau Orders",
+                "createOrEditLabel": "Créer ou éditer un Orders"
+            },
+            "created": "Un nouveau Orders a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Orders avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Orders avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Orders {{ id }} ?"
+            },
+            "detail": {
+                "title": "Orders"
+            },
+            "turn": "Turn",
+            "piety": "Piety",
+            "popularity": "Popularity",
+            "military": "Military",
+            "wealth": "Wealth",
+            "favour": "Favour",
+            "game": "Game",
+            "player": "Player"
+        }
+    }
+}

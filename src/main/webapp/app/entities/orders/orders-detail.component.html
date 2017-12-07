@@ -1,0 +1,57 @@
+
+<div *ngIf="orders">
+    <h2><span jhiTranslate="highCouncilApp.orders.detail.title">Orders</span> {{orders.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="highCouncilApp.orders.turn">Turn</span></dt>
+        <dd>
+            <span>{{orders.turn}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.piety">Piety</span></dt>
+        <dd>
+            <span>{{orders.piety}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.popularity">Popularity</span></dt>
+        <dd>
+            <span>{{orders.popularity}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.military">Military</span></dt>
+        <dd>
+            <span>{{orders.military}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.wealth">Wealth</span></dt>
+        <dd>
+            <span>{{orders.wealth}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.favour">Favour</span></dt>
+        <dd>
+            <span>{{orders.favour}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.game">Game</span></dt>
+        <dd>
+            <div *ngIf="orders.game">
+                <a [routerLink]="['/game', orders.game?.id]">{{orders.game?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.player">Player</span></dt>
+        <dd>
+            <div *ngIf="orders.player">
+                <a [routerLink]="['/player', orders.player?.id]">{{orders.player?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'orders/'+ orders.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

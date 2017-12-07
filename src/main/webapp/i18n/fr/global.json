@@ -14,6 +14,7 @@
                 "card": "Card",
                 "orderResolution": "Order Resolution",
                 "actionResolution": "Action Resolution",
+                "orders": "Orders",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

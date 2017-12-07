@@ -1,6 +1,7 @@
 package highcouncil.service.dto;
 
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,11 +19,14 @@ public class GameDTO implements Serializable {
 
     private Phase phase;
 
+    @NotNull
+    @Min(value = 1)
+    private Integer turn;
+
     private KingdomDTO kingdom;
+    private Long deckId;
 
     private Set<PlayerDTO> players = new HashSet<>();
-
-    private Long deckId;
 
     public Long getId() {
         return id;
@@ -48,12 +52,12 @@ public class GameDTO implements Serializable {
         this.phase = phase;
     }
 
-    public Long getDeckId() {
-        return deckId;
+    public Integer getTurn() {
+        return turn;
     }
 
-    public void setDeckId(Long deckId) {
-        this.deckId = deckId;
+    public void setTurn(Integer turn) {
+        this.turn = turn;
     }
 
 	public KingdomDTO getKingdom() {
@@ -64,6 +68,14 @@ public class GameDTO implements Serializable {
 		this.kingdom = kingdom;
 	}
 
+    public Long getDeckId() {
+        return deckId;
+    }
+
+    public void setDeckId(Long deckId) {
+        this.deckId = deckId;
+    }
+
     public Set<PlayerDTO> getPlayers() {
         return players;
     }
@@ -71,7 +83,7 @@ public class GameDTO implements Serializable {
     public void setPlayers(Set<PlayerDTO> players) {
         this.players = players;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -99,6 +111,7 @@ public class GameDTO implements Serializable {
             "id=" + getId() +
             ", timeLimitSeconds='" + getTimeLimitSeconds() + "'" +
             ", phase='" + getPhase() + "'" +
+            ", turn='" + getTurn() + "'" +
             "}";
     }
 }

@@ -10,6 +10,7 @@ import { HighCouncilOrderResolutionModule } from './order-resolution/order-resol
 import { HighCouncilActionResolutionModule } from './action-resolution/action-resolution.module';
 import { HighCouncilStatDisplayModule } from './stat-display/stat-display.module';
 import { HighCouncilOrderSubmitModule } from './order-submit/order-submit.module';
+import { HighCouncilOrdersModule } from './orders/orders.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -24,6 +25,7 @@ import { HighCouncilOrderSubmitModule } from './order-submit/order-submit.module
         HighCouncilActionResolutionModule,
         HighCouncilStatDisplayModule,
         HighCouncilOrderSubmitModule,
+        HighCouncilOrdersModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { StatContainer } from '../stat-display/stat-container.model';
+import { Orders } from '../orders/orders.model';
 
 @Component({
     selector: 'jhi-order-submit',
@@ -11,9 +11,9 @@ export class OrderSubmitComponent implements OnInit {
     @Input() name: string;
     @Input() numberToSubmit: number;
 
-    @Output() submitted: EventEmitter<StatContainer> = new EventEmitter
+    @Output() submitted: EventEmitter<Orders> = new EventEmitter
 
-    public orders: StatContainer = {
+    public orders: Orders = {
             piety: 0,
             popularity: 0,
             military: 0,

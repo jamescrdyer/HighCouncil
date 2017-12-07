@@ -1,5 +1,4 @@
 import { BaseEntity } from './../../shared';
-import { Player } from './../player';
 
 export const enum Phase {
     'Discussion',
@@ -13,7 +12,8 @@ export class Game implements BaseEntity {
         public id?: number,
         public timeLimitSeconds?: number,
         public phase?: Phase,
-        public players?: Player[],
+        public turn?: number,
+        public players?: BaseEntity[],
         public kingdomId?: number,
         public deckId?: number,
     ) {

@@ -17,6 +17,7 @@
             },
             "timeLimitSeconds": "Time Limit Seconds",
             "phase": "Phase",
+            "turn": "Turn",
             "player": "Player",
             "playerFilter": "Recipients: ",
             "players": "Players",

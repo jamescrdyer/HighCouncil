@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,8 +34,12 @@ public class Game implements Serializable {
     @Column(name = "phase")
     private Phase phase;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "turn", nullable = false)
+    private Integer turn;
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Player> players = new HashSet<>();
 
@@ -79,6 +84,19 @@ public class Game implements Serializable {
 
     public void setPhase(Phase phase) {
         this.phase = phase;
+    }
+
+    public Integer getTurn() {
+        return turn;
+    }
+
+    public Game turn(Integer turn) {
+        this.turn = turn;
+        return this;
+    }
+
+    public void setTurn(Integer turn) {
+        this.turn = turn;
     }
 
     public Set<Player> getPlayers() {
@@ -159,6 +177,7 @@ public class Game implements Serializable {
             "id=" + getId() +
             ", timeLimitSeconds='" + getTimeLimitSeconds() + "'" +
             ", phase='" + getPhase() + "'" +
+            ", turn='" + getTurn() + "'" +
             "}";
     }
 }

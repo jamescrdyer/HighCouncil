@@ -18,10 +18,12 @@
 			<div class="col-md-2">To</div>
 			<div class="col-md-8">Message</div>
 		</div>
-		<div class="row" *ngFor="let message of messages">
-			<div class="col-md-2">{{message.fromUser}}</div>
-			<div class="col-md-2"><span *ngFor="let toUser of message.toUsers; let isLast = last">{{toUser}}<span *ngIf="!isLast">, </span></span></div>
-			<div class="col-md-8">{{message.message}}</div>
+		<div class="messageContainer" #messageContainer>
+			<div class="row" *ngFor="let message of messages" style="margin-right: 0px">
+				<div class="col-md-2">{{message.fromUser}}</div>
+				<div class="col-md-2"><span *ngFor="let toUser of message.toUsers; let isLast = last">{{toUser}}<span *ngIf="!isLast">, </span></span></div>
+				<div class="col-md-8">{{message.message}}</div>
+			</div>
 		</div>
 		<div class="row">
 	    	<span jhiTranslate="highCouncilApp.game.playerFilter"></span>
@@ -37,7 +39,7 @@
 		</div>
 		<div class="row">
 			<input type="text" class="d-inline" style="width:89%" #newMessage></input>
-			<button [disabled]="!recipientSelected" class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value)"><span>Send</span></button>
+			<button [disabled]="!recipientSelected" class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value); newMessage.value=''"><span>Send</span></button>
 		</div>
 		<br/>
 		<div *ngIf="numberOfOrdersToSubmit > 0">

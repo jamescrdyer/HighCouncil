@@ -3,7 +3,6 @@ package highcouncil.web.rest;
 import highcouncil.HighCouncilApp;
 
 import highcouncil.domain.Game;
-import highcouncil.domain.Player;
 import highcouncil.repository.GameRepository;
 import highcouncil.service.GameService;
 import highcouncil.service.dto.GameDTO;
@@ -47,6 +46,9 @@ public class GameResourceIntTest {
 
     private static final Phase DEFAULT_PHASE = Phase.Discussion;
     private static final Phase UPDATED_PHASE = Phase.Orders;
+
+    private static final Integer DEFAULT_TURN = 1;
+    private static final Integer UPDATED_TURN = 2;
 
     @Autowired
     private GameRepository gameRepository;
@@ -92,7 +94,8 @@ public class GameResourceIntTest {
     public static Game createEntity(EntityManager em) {
         Game game = new Game()
             .timeLimitSeconds(DEFAULT_TIME_LIMIT_SECONDS)
-            .phase(DEFAULT_PHASE);
+            .phase(DEFAULT_PHASE)
+            .turn(DEFAULT_TURN);
         return game;
     }
 
@@ -119,6 +122,7 @@ public class GameResourceIntTest {
         Game testGame = gameList.get(gameList.size() - 1);
         assertThat(testGame.getTimeLimitSeconds()).isEqualTo(DEFAULT_TIME_LIMIT_SECONDS);
         assertThat(testGame.getPhase()).isEqualTo(DEFAULT_PHASE);
+        assertThat(testGame.getTurn()).isEqualTo(DEFAULT_TURN);
     }
 
     @Test
@@ -143,6 +147,25 @@ public class GameResourceIntTest {
 
     @Test
     @Transactional
+    public void checkTurnIsRequired() throws Exception {
+        int databaseSizeBeforeTest = gameRepository.findAll().size();
+        // set the field null
+        game.setTurn(null);
+
+        // Create the Game, which fails.
+        GameDTO gameDTO = gameMapper.toDto(game);
+
+        restGameMockMvc.perform(post("/api/games")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Game> gameList = gameRepository.findAll();
+        assertThat(gameList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllGames() throws Exception {
         // Initialize the database
         gameRepository.saveAndFlush(game);
@@ -153,16 +176,15 @@ public class GameResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(game.getId().intValue())))
             .andExpect(jsonPath("$.[*].timeLimitSeconds").value(hasItem(DEFAULT_TIME_LIMIT_SECONDS)))
-            .andExpect(jsonPath("$.[*].phase").value(hasItem(DEFAULT_PHASE.toString())));
+            .andExpect(jsonPath("$.[*].phase").value(hasItem(DEFAULT_PHASE.toString())))
+            .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)));
     }
 
     @Test
     @Transactional
     public void getGame() throws Exception {
         // Initialize the database
-    	gameService.addPlayer(game, "admin");
-        Game gameResult = gameRepository.saveAndFlush(game);
-        Player p = gameResult.getPlayers().stream().findFirst().get();
+        gameRepository.saveAndFlush(game);
 
         // Get the game
         restGameMockMvc.perform(get("/api/games/{id}", game.getId()))
@@ -170,8 +192,8 @@ public class GameResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(game.getId().intValue()))
             .andExpect(jsonPath("$.timeLimitSeconds").value(DEFAULT_TIME_LIMIT_SECONDS))
-            .andExpect(jsonPath("$.players[*].id").value(p.getId().intValue()))
-            .andExpect(jsonPath("$.phase").value(DEFAULT_PHASE.toString()));
+            .andExpect(jsonPath("$.phase").value(DEFAULT_PHASE.toString()))
+            .andExpect(jsonPath("$.turn").value(DEFAULT_TURN));
     }
 
     @Test
@@ -193,7 +215,8 @@ public class GameResourceIntTest {
         Game updatedGame = gameRepository.findOne(game.getId());
         updatedGame
             .timeLimitSeconds(UPDATED_TIME_LIMIT_SECONDS)
-            .phase(UPDATED_PHASE);
+            .phase(UPDATED_PHASE)
+            .turn(UPDATED_TURN);
         GameDTO gameDTO = gameMapper.toDto(updatedGame);
 
         restGameMockMvc.perform(put("/api/games")
@@ -207,6 +230,7 @@ public class GameResourceIntTest {
         Game testGame = gameList.get(gameList.size() - 1);
         assertThat(testGame.getTimeLimitSeconds()).isEqualTo(UPDATED_TIME_LIMIT_SECONDS);
         assertThat(testGame.getPhase()).isEqualTo(UPDATED_PHASE);
+        assertThat(testGame.getTurn()).isEqualTo(UPDATED_TURN);
     }
 
     @Test

@@ -33,6 +33,15 @@
             "fieldName": "phase",
             "fieldType": "Phase",
             "fieldValues": "Discussion,Orders,Resolution,Intrigue"
+        },
+        {
+            "fieldName": "turn",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": "1"
         }
     ],
     "changelogDate": "20171024165034",
