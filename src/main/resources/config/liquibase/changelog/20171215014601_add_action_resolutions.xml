@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="add_order_resolutions" author="jdyer">
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Military', 5, 'Military 1 Wealth 3', 'Military 2 Favour 2 Piety -2', 'Military 2 Wealth 1 Piety -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Military', 4, 'Military 1 Wealth 1', 'Military 1', 'Military 1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Military', 3, 'Military 1', 'Wealth 1', 'Wealth 1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Military', 2, 'Wealth 1', null, 'Wealth 1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Military', 1, 'Military -1', 'Military -1 Wealth -1', 'Wealth -2 Military -1')
+        </sql>
+
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Popularity', 5, 'Popularity 3 Favour -1', 'Popularity 3 Favour 1 Wealth -2', 'Popularity 2 Wealth -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Popularity', 4, 'Popularity 2 Wealth -1', 'Popularity 1 Favour 2', 'Popularity 1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Popularity', 3, 'Popularity 1', 'Popularity 1 Favour 1 Wealth -1', 'Popularity 1 Wealth -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Popularity', 2, 'Favour 1', 'Popularity 1 Wealth -1', 'Popularity 1 Wealth -2')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Popularity', 1, 'Favour -1', 'Popularity -1', 'Wealth -2')
+        </sql>
+
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Wealth', 5, 'Wealth 5', 'Wealth 4 Favour 2 Popularity -2', 'Wealth 3 Popularity -1 Military -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Wealth', 4, 'Wealth 4', 'Wealth 2 Favour 2', 'Wealth 2')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Wealth', 3, 'Wealth 3 Favour -1', 'Favour 1', 'Wealth 1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Wealth', 2, 'Wealth 3 Popularity -1', 'Wealth 1 Popularity -1', 'Wealth 1 Popularity -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Wealth', 1, 'Wealth 1 Popularity -1', 'Popularity -1 Piety -1', 'Popularity -1 Piety -1')
+        </sql>
+
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Indulge', 5, 'Favour 6 Wealth -2', 'Favour 6 Piety -1 Popularity -1', 'Piety -2 Popularity -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Indulge', 4, 'Favour 5 Wealth -2', 'Favour 3 Wealth 1', 'Piety -1 Wealth -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Indulge', 3, 'Favour 4 Popularity -1', 'Favour 2', 'Piety -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Indulge', 2, 'Favour 3', 'Favour 1', 'Popularity -1 Wealth -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Indulge', 1, 'Favour 2 Wealth -1', 'Favour 1', 'Military -1 Wealth -1')
+        </sql>
+
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Piety', 5, 'Piety 3 Wealth -1', 'Piety 3 Military -1', 'Piety 3 Popularity -1 Military -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Piety', 4, 'Piety 3 Wealth -2', 'Piety 2', 'Piety 2 Wealth -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Piety', 3, 'Piety 2 Wealth -1', 'Piety 1 Favour -1', 'Piety 1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Piety', 2, 'Piety 2 Wealth -2', null, 'Piety 1 Wealth -1')
+        </sql>
+        <sql>insert into action_resolution (action, order_resolution_id, code_normal, code_chancellor, code_kingdom) 
+        							values ('Piety', 1, 'Piety 1 Wealth -1 Military -1', null, 'Piety 1 Military -1')
+        </sql>
+    </changeSet>
+</databaseChangeLog>

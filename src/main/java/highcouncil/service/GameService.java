@@ -1,14 +1,18 @@
 package highcouncil.service;
 
+import highcouncil.domain.ActionResolution;
 import highcouncil.domain.Game;
 import highcouncil.domain.Orders;
 import highcouncil.domain.Player;
+import highcouncil.domain.enumeration.Action;
+import highcouncil.repository.ActionResolutionRepository;
 import highcouncil.repository.GameRepository;
 import highcouncil.repository.OrdersRepository;
 import highcouncil.service.dto.GameDTO;
 import highcouncil.service.mapper.GameMapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +36,19 @@ public class GameService {
 
     private final OrdersRepository ordersRepository;
 
+    private final ActionResolutionRepository actionResolutionRepository;
+
     private final GameMapper gameMapper;
 
-    public GameService(GameRepository gameRepository, OrdersRepository ordersRepository, GameMapper gameMapper) {
+    private final CodeResolver codeResolver;
+    
+    public GameService(GameRepository gameRepository, OrdersRepository ordersRepository, ActionResolutionRepository actionResolutionRepository, 
+    		GameMapper gameMapper, CodeResolver codeResolver) {
         this.gameRepository = gameRepository;
         this.ordersRepository = ordersRepository;
+        this.actionResolutionRepository = actionResolutionRepository;
         this.gameMapper = gameMapper;
+        this.codeResolver = codeResolver;
     }
 
     /**
@@ -97,10 +108,59 @@ public class GameService {
         });
     }
 	
+
 	private void processGame(Game game) {
-		List<Orders> allOrders = ordersRepository.findByLockedByGameAndTurn(game.getId(), game.getTurn());
-		if (allOrders.size() == game.getPlayers().size()) {
-			
+		for (Player p: game.getPlayers()) {
+			if (!p.isPhaseLocked()) {
+				return;
+			}
 		}
+		List<Orders> allOrders = ordersRepository.findByGameAndTurn(game.getId(), game.getTurn());
+		if (allOrders.size() == game.getPlayers().size()) {
+			int wealth = allOrders.parallelStream().mapToInt(o -> o.getWealth()).sum();
+			int military = allOrders.parallelStream().mapToInt(o -> o.getMilitary()).sum();
+			int piety = allOrders.parallelStream().mapToInt(o -> o.getPiety()).sum();
+			int popularity = allOrders.parallelStream().mapToInt(o -> o.getPopularity()).sum();
+			int favour = allOrders.parallelStream().mapToInt(o -> o.getFavour()).sum();
+			for (Player p: game.getPlayers()) {
+				Optional<Orders> ordersFound = allOrders.stream().filter(o -> o.getPlayer().equals(p)).findFirst();
+				if (ordersFound.isPresent()) {
+					Action action = ordersFound.get().getAction();
+					int total = 0;
+					switch (action) {
+					case Indulge:
+						total = favour;
+						break;
+					case Military:
+						total = military;
+						break;
+					case Piety:
+						total = piety;
+						break;
+					case Popularity:
+						total = popularity;
+						break;
+					case Wealth:
+						total = wealth;
+						break;
+					default:
+						break;
+					}
+					ActionResolution resolution = actionResolutionRepository.findOneByTotalAndAction(total, action);
+					applyResolution(p, p.getId().equals(game.getFirstPlayerId()), resolution);
+				}
+			}
+		}
+	}
+
+	private void applyResolution(Player p, boolean isChancellor, ActionResolution resolution) {
+		applyResolution(p, resolution.getCodeNormal());
+		if (isChancellor) {
+			applyResolution(p, resolution.getCodeChancellor());
+		}
+	}
+
+	private void applyResolution(Player p, String code) {
+		codeResolver.resolveCode(code, p);
 	}
 }

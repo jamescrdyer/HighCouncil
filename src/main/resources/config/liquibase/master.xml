@@ -19,4 +19,6 @@
     <include file="config/liquibase/changelog/20171024165034_added_entity_constraints_Game.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171201014600_added_entity_constraints_Orders.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <include file="config/liquibase/changelog/20171215014600_add_order_resolutions.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20171215014601_add_action_resolutions.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

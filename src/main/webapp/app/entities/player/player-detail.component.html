@@ -32,6 +32,10 @@
         <dd>
             <span>{{player.name}}</span>
         </dd>
+        <dt><span jhiTranslate="highCouncilApp.player.phaseLocked">Phase Locked</span></dt>
+        <dd>
+            <span>{{player.phaseLocked}}</span>
+        </dd>
         <dt><span jhiTranslate="highCouncilApp.player.game">Game</span></dt>
         <dd>
             <div *ngIf="player.gameId">

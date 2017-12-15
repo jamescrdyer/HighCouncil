@@ -22,6 +22,7 @@
             "favour": "Favour",
             "chancellor": "Chancellor",
             "name": "Name",
+            "phaseLocked": "Phase Locked",
             "game": "Game",
             "user": "User",
             "hand": "Hand"

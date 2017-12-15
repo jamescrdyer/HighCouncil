@@ -20,6 +20,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query("select orders from Orders orders where orders.game.id =:gameId and orders.player.id =:playerId and orders.turn=:turn")
 	Orders findOneByGamePlayerAndTurn(@Param("gameId") Long gameId, @Param("playerId") Long playerId, @Param("turn") Integer turn); 
 
-    @Query("select orders from Orders orders where orders.game.id =:gameId and orders.turn=:turn and orders.locked = true")
-	List<Orders> findByLockedByGameAndTurn(@Param("gameId") Long gameId, @Param("turn") Integer turn); 
+    @Query("select orders from Orders orders where orders.game.id =:gameId and orders.turn=:turn")
+	List<Orders> findByGameAndTurn(@Param("gameId") Long gameId, @Param("turn") Integer turn); 
 }

@@ -56,6 +56,15 @@ describe('Player e2e test', () => {
         });
         playerDialogPage.setNameInput('name');
         expect(playerDialogPage.getNameInput()).toMatch('name');
+        playerDialogPage.getPhaseLockedInput().isSelected().then(function (selected) {
+            if (selected) {
+                playerDialogPage.getPhaseLockedInput().click();
+                expect(playerDialogPage.getPhaseLockedInput().isSelected()).toBeFalsy();
+            } else {
+                playerDialogPage.getPhaseLockedInput().click();
+                expect(playerDialogPage.getPhaseLockedInput().isSelected()).toBeTruthy();
+            }
+        });
         playerDialogPage.gameSelectLastOption();
         playerDialogPage.userSelectLastOption();
         // playerDialogPage.handSelectLastOption();
@@ -92,7 +101,7 @@ export class PlayerDialogPage {
     favourInput = element(by.css('input#field_favour'));
     chancellorInput = element(by.css('input#field_chancellor'));
     nameInput = element(by.css('input#field_name'));
-    phaseCompleteInput = element(by.css('input#field_phaseComplete'));
+    phaseLockedInput = element(by.css('input#field_phaseLocked'));
     gameSelect = element(by.css('select#field_game'));
     userSelect = element(by.css('select#field_user'));
     handSelect = element(by.css('select#field_hand'));
@@ -152,8 +161,8 @@ export class PlayerDialogPage {
         return this.nameInput.getAttribute('value');
     }
 
-    getPhaseCompleteInput = function () {
-        return this.phaseCompleteInput;
+    getPhaseLockedInput = function () {
+        return this.phaseLockedInput;
     }
     gameSelectLastOption = function () {
         this.gameSelect.all(by.tagName('option')).last().click();

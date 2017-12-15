@@ -34,6 +34,9 @@ public class PlayerDTO implements Serializable {
     @Size(min = 2, max = 100)
     private String name;
 
+    @NotNull
+    private Boolean phaseLocked;
+
     private Long gameId;
 
     private Long userId;
@@ -106,6 +109,14 @@ public class PlayerDTO implements Serializable {
         this.name = name;
     }
 
+    public Boolean isPhaseLocked() {
+        return phaseLocked;
+    }
+
+    public void setPhaseLocked(Boolean phaseLocked) {
+        this.phaseLocked = phaseLocked;
+    }
+
     public Long getGameId() {
         return gameId;
     }
@@ -170,6 +181,7 @@ public class PlayerDTO implements Serializable {
             ", favour='" + getFavour() + "'" +
             ", chancellor='" + isChancellor() + "'" +
             ", name='" + getName() + "'" +
+            ", phaseLocked='" + isPhaseLocked() + "'" +
             "}";
     }
 }

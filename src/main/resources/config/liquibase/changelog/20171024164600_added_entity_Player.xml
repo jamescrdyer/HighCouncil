@@ -50,6 +50,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="phase_locked" type="bit">
+                <constraints nullable="false" />
+            </column>
+
             <column name="game_id" type="bigint">
                 <constraints nullable="true" />
             </column>

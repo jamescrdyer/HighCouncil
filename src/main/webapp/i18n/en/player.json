@@ -20,9 +20,9 @@
             "military": "Military",
             "wealth": "Wealth",
             "favour": "Favour",
-            "favourShort": "Fvr",
             "chancellor": "Chancellor",
             "name": "Name",
+            "phaseLocked": "Phase Locked",
             "game": "Game",
             "user": "User",
             "hand": "Hand"

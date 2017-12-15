@@ -15,29 +15,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "kingdom")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Kingdom implements Serializable {
+public class Kingdom extends StatHolder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(name = "piety", nullable = false)
-    private Integer piety;
-
-    @NotNull
-    @Column(name = "popularity", nullable = false)
-    private Integer popularity;
-
-    @NotNull
-    @Column(name = "military", nullable = false)
-    private Integer military;
-
-    @NotNull
-    @Column(name = "wealth", nullable = false)
-    private Integer wealth;
 
     @NotNull
     @Column(name = "health", nullable = false)
@@ -56,21 +40,9 @@ public class Kingdom implements Serializable {
         this.id = id;
     }
 
-    public Integer getPiety() {
-        return piety;
-    }
-
     public Kingdom piety(Integer piety) {
         this.piety = piety;
         return this;
-    }
-
-    public void setPiety(Integer piety) {
-        this.piety = piety;
-    }
-
-    public Integer getPopularity() {
-        return popularity;
     }
 
     public Kingdom popularity(Integer popularity) {
@@ -78,34 +50,14 @@ public class Kingdom implements Serializable {
         return this;
     }
 
-    public void setPopularity(Integer popularity) {
-        this.popularity = popularity;
-    }
-
-    public Integer getMilitary() {
-        return military;
-    }
-
     public Kingdom military(Integer military) {
         this.military = military;
         return this;
     }
 
-    public void setMilitary(Integer military) {
-        this.military = military;
-    }
-
-    public Integer getWealth() {
-        return wealth;
-    }
-
     public Kingdom wealth(Integer wealth) {
         this.wealth = wealth;
         return this;
-    }
-
-    public void setWealth(Integer wealth) {
-        this.wealth = wealth;
     }
 
     public Integer getHealth() {

@@ -69,6 +69,13 @@
             ],
             "fieldValidateRulesMinlength": "2",
             "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "phaseLocked",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20171024164600",

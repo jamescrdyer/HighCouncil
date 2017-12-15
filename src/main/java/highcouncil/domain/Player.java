@@ -16,28 +16,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "player")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Player implements Serializable {
+public class Player extends StatHolder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "piety")
-    private Integer piety;
-
-    @NotNull
-    @Column(name = "popularity", nullable = false)
-    private Integer popularity;
-
-    @NotNull
-    @Column(name = "military", nullable = false)
-    private Integer military;
-
-    @NotNull
-    @Column(name = "wealth", nullable = false)
-    private Integer wealth;
 
     @NotNull
     @Column(name = "favour", nullable = false)
@@ -50,6 +35,10 @@ public class Player implements Serializable {
     @Size(min = 2, max = 100)
     @Column(name = "name", length = 100, nullable = false)
     private String name;
+
+    @NotNull
+    @Column(name = "phase_locked", nullable = false)
+    private Boolean phaseLocked;
 
     @ManyToOne
     private Game game;
@@ -73,21 +62,9 @@ public class Player implements Serializable {
         this.id = id;
     }
 
-    public Integer getPiety() {
-        return piety;
-    }
-
     public Player piety(Integer piety) {
         this.piety = piety;
         return this;
-    }
-
-    public void setPiety(Integer piety) {
-        this.piety = piety;
-    }
-
-    public Integer getPopularity() {
-        return popularity;
     }
 
     public Player popularity(Integer popularity) {
@@ -95,34 +72,14 @@ public class Player implements Serializable {
         return this;
     }
 
-    public void setPopularity(Integer popularity) {
-        this.popularity = popularity;
-    }
-
-    public Integer getMilitary() {
-        return military;
-    }
-
     public Player military(Integer military) {
         this.military = military;
         return this;
     }
 
-    public void setMilitary(Integer military) {
-        this.military = military;
-    }
-
-    public Integer getWealth() {
-        return wealth;
-    }
-
     public Player wealth(Integer wealth) {
         this.wealth = wealth;
         return this;
-    }
-
-    public void setWealth(Integer wealth) {
-        this.wealth = wealth;
     }
 
     public Integer getFavour() {
@@ -162,6 +119,19 @@ public class Player implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean isPhaseLocked() {
+        return phaseLocked;
+    }
+
+    public Player phaseLocked(Boolean phaseLocked) {
+        this.phaseLocked = phaseLocked;
+        return this;
+    }
+
+    public void setPhaseLocked(Boolean phaseLocked) {
+        this.phaseLocked = phaseLocked;
     }
 
     public Game getGame() {
@@ -245,6 +215,7 @@ public class Player implements Serializable {
             ", favour='" + getFavour() + "'" +
             ", chancellor='" + isChancellor() + "'" +
             ", name='" + getName() + "'" +
+            ", phaseLocked='" + isPhaseLocked() + "'" +
             "}";
     }
 }

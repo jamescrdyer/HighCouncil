@@ -10,11 +10,12 @@ export class Player implements BaseEntity {
         public favour?: number,
         public chancellor?: boolean,
         public name?: string,
+        public phaseLocked?: boolean,
         public gameId?: number,
         public userId?: number,
-        public userLogin?: string,
         public hands?: BaseEntity[],
     ) {
         this.chancellor = false;
+        this.phaseLocked = false;
     }
 }
