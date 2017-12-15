@@ -18,7 +18,8 @@
             "otherEntityName": "card",
             "relationshipType": "many-to-many",
             "ownerSide": true,
-            "otherEntityRelationshipName": "player"
+            "otherEntityRelationshipName": "player",
+            "otherEntityField": "id"
         }
     ],
     "fields": [

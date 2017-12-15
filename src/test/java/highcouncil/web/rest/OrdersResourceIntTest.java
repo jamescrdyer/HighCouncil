@@ -28,6 +28,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import highcouncil.domain.enumeration.Action;
 /**
  * Test class for the OrdersResource REST controller.
  *
@@ -54,6 +55,12 @@ public class OrdersResourceIntTest {
 
     private static final Integer DEFAULT_FAVOUR = 1;
     private static final Integer UPDATED_FAVOUR = 2;
+
+    private static final Action DEFAULT_ACTION = Action.Piety;
+    private static final Action UPDATED_ACTION = Action.Popularity;
+
+    private static final Boolean DEFAULT_LOCKED = false;
+    private static final Boolean UPDATED_LOCKED = true;
 
     @Autowired
     private OrdersRepository ordersRepository;
@@ -97,7 +104,9 @@ public class OrdersResourceIntTest {
             .popularity(DEFAULT_POPULARITY)
             .military(DEFAULT_MILITARY)
             .wealth(DEFAULT_WEALTH)
-            .favour(DEFAULT_FAVOUR);
+            .favour(DEFAULT_FAVOUR)
+            .action(DEFAULT_ACTION)
+            .locked(DEFAULT_LOCKED);
         return orders;
     }
 
@@ -127,6 +136,8 @@ public class OrdersResourceIntTest {
         assertThat(testOrders.getMilitary()).isEqualTo(DEFAULT_MILITARY);
         assertThat(testOrders.getWealth()).isEqualTo(DEFAULT_WEALTH);
         assertThat(testOrders.getFavour()).isEqualTo(DEFAULT_FAVOUR);
+        assertThat(testOrders.getAction()).isEqualTo(DEFAULT_ACTION);
+        assertThat(testOrders.isLocked()).isEqualTo(DEFAULT_LOCKED);
     }
 
     @Test
@@ -258,6 +269,24 @@ public class OrdersResourceIntTest {
 
     @Test
     @Transactional
+    public void checkLockedIsRequired() throws Exception {
+        int databaseSizeBeforeTest = ordersRepository.findAll().size();
+        // set the field null
+        orders.setLocked(null);
+
+        // Create the Orders, which fails.
+
+        restOrdersMockMvc.perform(post("/api/orders")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(orders)))
+            .andExpect(status().isBadRequest());
+
+        List<Orders> ordersList = ordersRepository.findAll();
+        assertThat(ordersList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllOrders() throws Exception {
         // Initialize the database
         ordersRepository.saveAndFlush(orders);
@@ -272,7 +301,9 @@ public class OrdersResourceIntTest {
             .andExpect(jsonPath("$.[*].popularity").value(hasItem(DEFAULT_POPULARITY)))
             .andExpect(jsonPath("$.[*].military").value(hasItem(DEFAULT_MILITARY)))
             .andExpect(jsonPath("$.[*].wealth").value(hasItem(DEFAULT_WEALTH)))
-            .andExpect(jsonPath("$.[*].favour").value(hasItem(DEFAULT_FAVOUR)));
+            .andExpect(jsonPath("$.[*].favour").value(hasItem(DEFAULT_FAVOUR)))
+            .andExpect(jsonPath("$.[*].action").value(hasItem(DEFAULT_ACTION.toString())))
+            .andExpect(jsonPath("$.[*].locked").value(hasItem(DEFAULT_LOCKED.booleanValue())));
     }
 
     @Test
@@ -291,7 +322,9 @@ public class OrdersResourceIntTest {
             .andExpect(jsonPath("$.popularity").value(DEFAULT_POPULARITY))
             .andExpect(jsonPath("$.military").value(DEFAULT_MILITARY))
             .andExpect(jsonPath("$.wealth").value(DEFAULT_WEALTH))
-            .andExpect(jsonPath("$.favour").value(DEFAULT_FAVOUR));
+            .andExpect(jsonPath("$.favour").value(DEFAULT_FAVOUR))
+            .andExpect(jsonPath("$.action").value(DEFAULT_ACTION.toString()))
+            .andExpect(jsonPath("$.locked").value(DEFAULT_LOCKED.booleanValue()));
     }
 
     @Test
@@ -317,7 +350,9 @@ public class OrdersResourceIntTest {
             .popularity(UPDATED_POPULARITY)
             .military(UPDATED_MILITARY)
             .wealth(UPDATED_WEALTH)
-            .favour(UPDATED_FAVOUR);
+            .favour(UPDATED_FAVOUR)
+            .action(UPDATED_ACTION)
+            .locked(UPDATED_LOCKED);
 
         restOrdersMockMvc.perform(put("/api/orders")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -334,6 +369,8 @@ public class OrdersResourceIntTest {
         assertThat(testOrders.getMilitary()).isEqualTo(UPDATED_MILITARY);
         assertThat(testOrders.getWealth()).isEqualTo(UPDATED_WEALTH);
         assertThat(testOrders.getFavour()).isEqualTo(UPDATED_FAVOUR);
+        assertThat(testOrders.getAction()).isEqualTo(UPDATED_ACTION);
+        assertThat(testOrders.isLocked()).isEqualTo(UPDATED_LOCKED);
     }
 
     @Test

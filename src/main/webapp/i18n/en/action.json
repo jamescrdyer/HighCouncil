@@ -1,13 +1,6 @@
 {
     "highCouncilApp": {
         "Action" : {
-        	"short": {
-	            "Piety": "Pty",
-	            "Popularity": "Pop",
-	            "Indulge": "Idg",
-	            "Military": "Mlt",
-	            "Wealth": "Wth"
-        	},
             "null": "",
             "Piety": "Piety",
             "Popularity": "Popularity",

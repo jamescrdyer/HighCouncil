@@ -60,6 +60,9 @@ public class PlayerResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_PHASE_COMPLETE = false;
+    private static final Boolean UPDATED_PHASE_COMPLETE = true;
+
     @Autowired
     private PlayerRepository playerRepository;
 
@@ -106,7 +109,8 @@ public class PlayerResourceIntTest {
             .wealth(DEFAULT_WEALTH)
             .favour(DEFAULT_FAVOUR)
             .chancellor(DEFAULT_CHANCELLOR)
-            .name(DEFAULT_NAME);
+            .name(DEFAULT_NAME)
+            .phaseComplete(DEFAULT_PHASE_COMPLETE);
         return player;
     }
 
@@ -138,6 +142,7 @@ public class PlayerResourceIntTest {
         assertThat(testPlayer.getFavour()).isEqualTo(DEFAULT_FAVOUR);
         assertThat(testPlayer.isChancellor()).isEqualTo(DEFAULT_CHANCELLOR);
         assertThat(testPlayer.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testPlayer.isPhaseComplete()).isEqualTo(DEFAULT_PHASE_COMPLETE);
     }
 
     @Test
@@ -257,6 +262,25 @@ public class PlayerResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPhaseCompleteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = playerRepository.findAll().size();
+        // set the field null
+        player.setPhaseComplete(null);
+
+        // Create the Player, which fails.
+        PlayerDTO playerDTO = playerMapper.toDto(player);
+
+        restPlayerMockMvc.perform(post("/api/players")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(playerDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Player> playerList = playerRepository.findAll();
+        assertThat(playerList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPlayers() throws Exception {
         // Initialize the database
         playerRepository.saveAndFlush(player);
@@ -272,7 +296,8 @@ public class PlayerResourceIntTest {
             .andExpect(jsonPath("$.[*].wealth").value(hasItem(DEFAULT_WEALTH)))
             .andExpect(jsonPath("$.[*].favour").value(hasItem(DEFAULT_FAVOUR)))
             .andExpect(jsonPath("$.[*].chancellor").value(hasItem(DEFAULT_CHANCELLOR.booleanValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].phaseComplete").value(hasItem(DEFAULT_PHASE_COMPLETE.booleanValue())));
     }
 
     @Test
@@ -292,7 +317,8 @@ public class PlayerResourceIntTest {
             .andExpect(jsonPath("$.wealth").value(DEFAULT_WEALTH))
             .andExpect(jsonPath("$.favour").value(DEFAULT_FAVOUR))
             .andExpect(jsonPath("$.chancellor").value(DEFAULT_CHANCELLOR.booleanValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.phaseComplete").value(DEFAULT_PHASE_COMPLETE.booleanValue()));
     }
 
     @Test
@@ -319,7 +345,8 @@ public class PlayerResourceIntTest {
             .wealth(UPDATED_WEALTH)
             .favour(UPDATED_FAVOUR)
             .chancellor(UPDATED_CHANCELLOR)
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .phaseComplete(UPDATED_PHASE_COMPLETE);
         PlayerDTO playerDTO = playerMapper.toDto(updatedPlayer);
 
         restPlayerMockMvc.perform(put("/api/players")
@@ -338,6 +365,7 @@ public class PlayerResourceIntTest {
         assertThat(testPlayer.getFavour()).isEqualTo(UPDATED_FAVOUR);
         assertThat(testPlayer.isChancellor()).isEqualTo(UPDATED_CHANCELLOR);
         assertThat(testPlayer.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testPlayer.isPhaseComplete()).isEqualTo(UPDATED_PHASE_COMPLETE);
     }
 
     @Test

@@ -23,6 +23,8 @@
             <th><span jhiTranslate="highCouncilApp.orders.military">Military</span></th>
             <th><span jhiTranslate="highCouncilApp.orders.wealth">Wealth</span></th>
             <th><span jhiTranslate="highCouncilApp.orders.favour">Favour</span></th>
+            <th><span jhiTranslate="highCouncilApp.orders.action">Action</span></th>
+            <th><span jhiTranslate="highCouncilApp.orders.locked">Locked</span></th>
             <th><span jhiTranslate="highCouncilApp.orders.game">Game</span></th>
             <th><span jhiTranslate="highCouncilApp.orders.player">Player</span></th>
             <th></th>
@@ -37,6 +39,8 @@
                 <td>{{orders.military}}</td>
                 <td>{{orders.wealth}}</td>
                 <td>{{orders.favour}}</td>
+                <td jhiTranslate="{{'highCouncilApp.Action.' + orders.action}}">{{orders.action}}</td>
+                <td>{{orders.locked}}</td>
                 <td>
                     <div *ngIf="orders.game">
                         <a [routerLink]="['../game', orders.game?.id ]" >{{orders.game?.id}}</a>

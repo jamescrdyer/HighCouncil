@@ -92,6 +92,7 @@ export class PlayerDialogPage {
     favourInput = element(by.css('input#field_favour'));
     chancellorInput = element(by.css('input#field_chancellor'));
     nameInput = element(by.css('input#field_name'));
+    phaseCompleteInput = element(by.css('input#field_phaseComplete'));
     gameSelect = element(by.css('select#field_game'));
     userSelect = element(by.css('select#field_user'));
     handSelect = element(by.css('select#field_hand'));
@@ -151,6 +152,9 @@ export class PlayerDialogPage {
         return this.nameInput.getAttribute('value');
     }
 
+    getPhaseCompleteInput = function () {
+        return this.phaseCompleteInput;
+    }
     gameSelectLastOption = function () {
         this.gameSelect.all(by.tagName('option')).last().click();
     }

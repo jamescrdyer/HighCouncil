@@ -47,6 +47,16 @@ describe('Orders e2e test', () => {
         expect(ordersDialogPage.getWealthInput()).toMatch('5');
         ordersDialogPage.setFavourInput('5');
         expect(ordersDialogPage.getFavourInput()).toMatch('5');
+        ordersDialogPage.actionSelectLastOption();
+        ordersDialogPage.getLockedInput().isSelected().then(function (selected) {
+            if (selected) {
+                ordersDialogPage.getLockedInput().click();
+                expect(ordersDialogPage.getLockedInput().isSelected()).toBeFalsy();
+            } else {
+                ordersDialogPage.getLockedInput().click();
+                expect(ordersDialogPage.getLockedInput().isSelected()).toBeTruthy();
+            }
+        });
         ordersDialogPage.gameSelectLastOption();
         ordersDialogPage.playerSelectLastOption();
         ordersDialogPage.save();
@@ -81,6 +91,8 @@ export class OrdersDialogPage {
     militaryInput = element(by.css('input#field_military'));
     wealthInput = element(by.css('input#field_wealth'));
     favourInput = element(by.css('input#field_favour'));
+    actionSelect = element(by.css('select#field_action'));
+    lockedInput = element(by.css('input#field_locked'));
     gameSelect = element(by.css('select#field_game'));
     playerSelect = element(by.css('select#field_player'));
 
@@ -136,6 +148,20 @@ export class OrdersDialogPage {
         return this.favourInput.getAttribute('value');
     }
 
+    setActionSelect = function (action) {
+        this.actionSelect.sendKeys(action);
+    }
+
+    getActionSelect = function () {
+        return this.actionSelect.element(by.css('option:checked')).getText();
+    }
+
+    actionSelectLastOption = function () {
+        this.actionSelect.all(by.tagName('option')).last().click();
+    }
+    getLockedInput = function () {
+        return this.lockedInput;
+    }
     gameSelectLastOption = function () {
         this.gameSelect.all(by.tagName('option')).last().click();
     }

@@ -1,5 +1,13 @@
 import { BaseEntity } from './../../shared';
 
+export const enum Action {
+    'Piety',
+    ' Popularity',
+    ' Indulge',
+    ' Military',
+    ' Wealth'
+}
+
 export class Orders implements BaseEntity {
     constructor(
         public id?: number,
@@ -9,8 +17,11 @@ export class Orders implements BaseEntity {
         public military?: number,
         public wealth?: number,
         public favour?: number,
+        public action?: Action,
+        public locked?: boolean,
         public game?: BaseEntity,
         public player?: BaseEntity,
     ) {
+        this.locked = false;
     }
 }

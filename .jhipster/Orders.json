@@ -56,6 +56,18 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "action",
+            "fieldType": "Action",
+            "fieldValues": "Piety, Popularity, Indulge, Military, Wealth"
+        },
+        {
+            "fieldName": "locked",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20171201014600",

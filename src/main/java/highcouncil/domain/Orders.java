@@ -8,6 +8,8 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+import highcouncil.domain.enumeration.Action;
+
 /**
  * A Orders.
  */
@@ -45,6 +47,14 @@ public class Orders implements Serializable {
     @NotNull
     @Column(name = "favour", nullable = false)
     private Integer favour;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "action")
+    private Action action;
+
+    @NotNull
+    @Column(name = "jhi_locked", nullable = false)
+    private Boolean locked;
 
     @ManyToOne
     private Game game;
@@ -139,6 +149,32 @@ public class Orders implements Serializable {
         this.favour = favour;
     }
 
+    public Action getAction() {
+        return action;
+    }
+
+    public Orders action(Action action) {
+        this.action = action;
+        return this;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public Boolean isLocked() {
+        return locked;
+    }
+
+    public Orders locked(Boolean locked) {
+        this.locked = locked;
+        return this;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
     public Game getGame() {
         return game;
     }
@@ -196,6 +232,8 @@ public class Orders implements Serializable {
             ", military='" + getMilitary() + "'" +
             ", wealth='" + getWealth() + "'" +
             ", favour='" + getFavour() + "'" +
+            ", action='" + getAction() + "'" +
+            ", locked='" + isLocked() + "'" +
             "}";
     }
 }

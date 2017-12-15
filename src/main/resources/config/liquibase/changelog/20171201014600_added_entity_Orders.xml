@@ -46,6 +46,14 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="action" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="jhi_locked" type="bit">
+                <constraints nullable="false" />
+            </column>
+
             <column name="game_id" type="bigint">
                 <constraints nullable="true" />
             </column>

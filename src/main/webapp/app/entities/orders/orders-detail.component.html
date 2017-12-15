@@ -28,6 +28,14 @@
         <dd>
             <span>{{orders.favour}}</span>
         </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.action">Action</span></dt>
+        <dd>
+            <span jhiTranslate="{{'highCouncilApp.Action.' + orders.action}}">{{orders.action}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.orders.locked">Locked</span></dt>
+        <dd>
+            <span>{{orders.locked}}</span>
+        </dd>
         <dt><span jhiTranslate="highCouncilApp.orders.game">Game</span></dt>
         <dd>
             <div *ngIf="orders.game">
