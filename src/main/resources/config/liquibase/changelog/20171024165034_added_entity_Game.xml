@@ -33,6 +33,10 @@
             <column name="turn" type="integer">
                 <constraints nullable="false" />
             </column>
+
+            <column name="first_player_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="kingdom_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>            <column name="deck_id" type="bigint">

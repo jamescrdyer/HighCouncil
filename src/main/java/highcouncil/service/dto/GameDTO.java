@@ -23,7 +23,10 @@ public class GameDTO implements Serializable {
     @Min(value = 1)
     private Integer turn;
 
+    private Long firstPlayerId;
+
     private KingdomDTO kingdom;
+
     private Long deckId;
 
     private Set<PlayerDTO> players = new HashSet<>();
@@ -58,6 +61,14 @@ public class GameDTO implements Serializable {
 
     public void setTurn(Integer turn) {
         this.turn = turn;
+    }
+
+    public Long getFirstPlayerId() {
+        return firstPlayerId;
+    }
+
+    public void setFirstPlayerId(Long firstPlayerId) {
+        this.firstPlayerId = firstPlayerId;
     }
 
 	public KingdomDTO getKingdom() {
