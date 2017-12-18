@@ -29,6 +29,10 @@ export class PlayerService {
         });
     }
 
+    setLock(gameId: number, locked: boolean): Observable<Response> {
+        return this.http.put(this.resourceUrl+'/gameId/'+locked, null);
+    }
+
     find(id: number): Observable<Player> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();

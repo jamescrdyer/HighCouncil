@@ -4,6 +4,7 @@ import highcouncil.domain.ActionResolution;
 import highcouncil.domain.Game;
 import highcouncil.domain.Orders;
 import highcouncil.domain.Player;
+import highcouncil.domain.StatHolder;
 import highcouncil.domain.enumeration.Action;
 import highcouncil.repository.ActionResolutionRepository;
 import highcouncil.repository.GameRepository;
@@ -11,8 +12,10 @@ import highcouncil.repository.OrdersRepository;
 import highcouncil.service.dto.GameDTO;
 import highcouncil.service.mapper.GameMapper;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,12 +120,14 @@ public class GameService {
 		}
 		List<Orders> allOrders = ordersRepository.findByGameAndTurn(game.getId(), game.getTurn());
 		if (allOrders.size() == game.getPlayers().size()) {
+			Set<Action> kingdomActionsApplied = new HashSet<Action>();
 			int wealth = allOrders.parallelStream().mapToInt(o -> o.getWealth()).sum();
 			int military = allOrders.parallelStream().mapToInt(o -> o.getMilitary()).sum();
 			int piety = allOrders.parallelStream().mapToInt(o -> o.getPiety()).sum();
 			int popularity = allOrders.parallelStream().mapToInt(o -> o.getPopularity()).sum();
 			int favour = allOrders.parallelStream().mapToInt(o -> o.getFavour()).sum();
 			for (Player p: game.getPlayers()) {
+				boolean isChancellor = p.getId().equals(game.getFirstPlayerId());
 				Optional<Orders> ordersFound = allOrders.stream().filter(o -> o.getPlayer().equals(p)).findFirst();
 				if (ordersFound.isPresent()) {
 					Action action = ordersFound.get().getAction();
@@ -147,12 +152,55 @@ public class GameService {
 						break;
 					}
 					ActionResolution resolution = actionResolutionRepository.findOneByTotalAndAction(total, action);
-					applyResolution(p, p.getId().equals(game.getFirstPlayerId()), resolution);
+					applyResolution(p, isChancellor, resolution);
+					if (isChancellor) { //chancellor penalties
+						if (wealth <= 0) {
+							p.setWealth(p.getWealth() - 1);
+						}
+						if (military <= 0) {
+							p.setMilitary(p.getMilitary() - 1);
+						}
+						if (piety <= 0) {
+							p.setPiety(p.getPiety() - 1);
+						}
+						if (popularity <= 0) {
+							p.setPopularity(p.getPopularity() - 1);
+						}
+						if (favour <= 0) {
+							p.setFavour(p.getFavour() - 1);
+						}
+					}
+					if (!kingdomActionsApplied.contains(action)) {
+						applyResolution(game.getKingdom(), resolution.getCodeKingdom());
+					}
+					addPenalties(p);
 				}
 			}
 		}
 	}
 
+	private void addPenalties(Player p) {
+		while (p.getWealth() < 0) {
+			p.setWealth(p.getWealth() + 1);
+			p.setPenalty(p.getPenalty() + 1);
+		}
+		while (p.getMilitary() < 0) {
+			p.setMilitary(p.getMilitary() + 1);
+			p.setPenalty(p.getPenalty() + 1);
+		}
+		while (p.getPiety() < 0) {
+			p.setPiety(p.getPiety() + 1);
+			p.setPenalty(p.getPenalty() + 1);
+		}
+		while (p.getPopularity() < 0) {
+			p.setPopularity(p.getPopularity() + 1);
+			p.setPenalty(p.getPenalty() + 1);
+		}
+		while (p.getFavour() < 0) {
+			p.setFavour(p.getFavour() + 1);
+			p.setPenalty(p.getPenalty() + 1);
+		}
+	}
 	private void applyResolution(Player p, boolean isChancellor, ActionResolution resolution) {
 		applyResolution(p, resolution.getCodeNormal());
 		if (isChancellor) {
@@ -160,7 +208,7 @@ public class GameService {
 		}
 	}
 
-	private void applyResolution(Player p, String code) {
-		codeResolver.resolveCode(code, p);
+	private void applyResolution(StatHolder target, String code) {
+		codeResolver.resolveCode(code, target);
 	}
 }

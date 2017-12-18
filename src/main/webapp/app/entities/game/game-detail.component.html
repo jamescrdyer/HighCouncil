@@ -44,6 +44,11 @@
 		<br/>
 		<div *ngIf="numberOfOrdersToSubmit > 0">
 		    <jhi-stat-display [stats]="ordersSubmitted" [name]="'Orders Submitted'"></jhi-stat-display>
+	    	<button class="btn d-inline" type="button" aria-pressed="false"
+	    		(click)="toggleLock()"
+		    	[ngClass]="{'btn-primary active': ordersLocked}"
+	    		jhiTranslate="highCouncilApp.game.lockOrders"
+	    	></button>
 		    <jhi-order-submit [name]="'Orders'" [numberToSubmit]="numberOfOrdersToSubmit" (submitted)="receiveOrders($event)"></jhi-stat-display>
 		</div>
 	</div>

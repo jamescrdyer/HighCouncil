@@ -63,6 +63,9 @@ public class PlayerResourceIntTest {
     private static final Boolean DEFAULT_PHASE_LOCKED = false;
     private static final Boolean UPDATED_PHASE_LOCKED = true;
 
+    private static final Integer DEFAULT_PENALTY = 0;
+    private static final Integer UPDATED_PENALTY = 1;
+
     @Autowired
     private PlayerRepository playerRepository;
 
@@ -110,7 +113,8 @@ public class PlayerResourceIntTest {
             .favour(DEFAULT_FAVOUR)
             .chancellor(DEFAULT_CHANCELLOR)
             .name(DEFAULT_NAME)
-            .phaseLocked(DEFAULT_PHASE_LOCKED);
+            .phaseLocked(DEFAULT_PHASE_LOCKED)
+            .penalty(DEFAULT_PENALTY);
         return player;
     }
 
@@ -143,6 +147,7 @@ public class PlayerResourceIntTest {
         assertThat(testPlayer.isChancellor()).isEqualTo(DEFAULT_CHANCELLOR);
         assertThat(testPlayer.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPlayer.isPhaseLocked()).isEqualTo(DEFAULT_PHASE_LOCKED);
+        assertThat(testPlayer.getPenalty()).isEqualTo(DEFAULT_PENALTY);
     }
 
     @Test
@@ -281,6 +286,25 @@ public class PlayerResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPenaltyIsRequired() throws Exception {
+        int databaseSizeBeforeTest = playerRepository.findAll().size();
+        // set the field null
+        player.setPenalty(null);
+
+        // Create the Player, which fails.
+        PlayerDTO playerDTO = playerMapper.toDto(player);
+
+        restPlayerMockMvc.perform(post("/api/players")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(playerDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Player> playerList = playerRepository.findAll();
+        assertThat(playerList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPlayers() throws Exception {
         // Initialize the database
         playerRepository.saveAndFlush(player);
@@ -297,7 +321,8 @@ public class PlayerResourceIntTest {
             .andExpect(jsonPath("$.[*].favour").value(hasItem(DEFAULT_FAVOUR)))
             .andExpect(jsonPath("$.[*].chancellor").value(hasItem(DEFAULT_CHANCELLOR.booleanValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].phaseLocked").value(hasItem(DEFAULT_PHASE_LOCKED.booleanValue())));
+            .andExpect(jsonPath("$.[*].phaseLocked").value(hasItem(DEFAULT_PHASE_LOCKED.booleanValue())))
+            .andExpect(jsonPath("$.[*].penalty").value(hasItem(DEFAULT_PENALTY)));
     }
 
     @Test
@@ -318,7 +343,8 @@ public class PlayerResourceIntTest {
             .andExpect(jsonPath("$.favour").value(DEFAULT_FAVOUR))
             .andExpect(jsonPath("$.chancellor").value(DEFAULT_CHANCELLOR.booleanValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.phaseLocked").value(DEFAULT_PHASE_LOCKED.booleanValue()));
+            .andExpect(jsonPath("$.phaseLocked").value(DEFAULT_PHASE_LOCKED.booleanValue()))
+            .andExpect(jsonPath("$.penalty").value(DEFAULT_PENALTY));
     }
 
     @Test
@@ -346,7 +372,8 @@ public class PlayerResourceIntTest {
             .favour(UPDATED_FAVOUR)
             .chancellor(UPDATED_CHANCELLOR)
             .name(UPDATED_NAME)
-            .phaseLocked(UPDATED_PHASE_LOCKED);
+            .phaseLocked(UPDATED_PHASE_LOCKED)
+            .penalty(UPDATED_PENALTY);
         PlayerDTO playerDTO = playerMapper.toDto(updatedPlayer);
 
         restPlayerMockMvc.perform(put("/api/players")
@@ -366,6 +393,7 @@ public class PlayerResourceIntTest {
         assertThat(testPlayer.isChancellor()).isEqualTo(UPDATED_CHANCELLOR);
         assertThat(testPlayer.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testPlayer.isPhaseLocked()).isEqualTo(UPDATED_PHASE_LOCKED);
+        assertThat(testPlayer.getPenalty()).isEqualTo(UPDATED_PENALTY);
     }
 
     @Test

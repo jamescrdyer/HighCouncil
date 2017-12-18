@@ -21,6 +21,10 @@
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.player.favourShort"> </span>
         	{{stats.favour}}
         </div>
+        <div *ngIf="stats.penalty > 0" class="col-2 penalty value">
+        	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.player.penaltyShort"> </span>
+        	{{stats.penalty}}
+        </div>
         <div *ngIf="stats.health!==undefined" class="col-2 health value">
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.kingdom.healthShort"> </span>
         	{{stats.health}}

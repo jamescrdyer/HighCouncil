@@ -11,6 +11,7 @@ import { Message } from './message.model';
 import { Player } from '../player/player.model';
 import { Orders } from '../orders/orders.model';
 import { OrdersService } from '../orders/orders.service';
+import { PlayerService } from '../player/player.service';
 
 @Component({
     selector: 'jhi-game-detail',
@@ -25,6 +26,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     private subscription: Subscription;
     private eventSubscriber: Subscription;
     private isScrollPending = false;
+    public ordersLocked = false;
     public currentUser: string;
     public ordersSubmitted: Orders = {
             piety: 0,
@@ -42,6 +44,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     constructor(
         private eventManager: JhiEventManager,
         private gameService: GameService,
+        private playerService: PlayerService,
         private ordersService: OrdersService,
         private principal: Principal,
         private discussionService: GameDiscussionService,
@@ -117,6 +120,11 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                 }
             });
         }
+    }
+
+    toggleLock() {
+        this.ordersLocked = !this.ordersLocked;
+        this.playerService.setLock(this.game.id, this.ordersLocked);
     }
 
     ngOnDestroy() {

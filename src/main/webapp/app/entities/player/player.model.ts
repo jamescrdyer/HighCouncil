@@ -11,6 +11,8 @@ export class Player implements BaseEntity {
         public chancellor?: boolean,
         public name?: string,
         public phaseLocked?: boolean,
+        public penalty?: number,
+        public userLogin?: string,
         public gameId?: number,
         public userId?: number,
         public hands?: BaseEntity[],

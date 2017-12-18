@@ -54,6 +54,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="penalty" type="integer">
+                <constraints nullable="false" />
+            </column>
+
             <column name="game_id" type="bigint">
                 <constraints nullable="true" />
             </column>

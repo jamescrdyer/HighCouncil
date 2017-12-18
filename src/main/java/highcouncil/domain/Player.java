@@ -40,6 +40,11 @@ public class Player extends StatHolder implements Serializable {
     @Column(name = "phase_locked", nullable = false)
     private Boolean phaseLocked;
 
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "penalty", nullable = false)
+    private Integer penalty = 0;
+
     @ManyToOne
     private Game game;
 
@@ -134,6 +139,19 @@ public class Player extends StatHolder implements Serializable {
         this.phaseLocked = phaseLocked;
     }
 
+    public Integer getPenalty() {
+        return penalty;
+    }
+
+    public Player penalty(Integer penalty) {
+        this.penalty = penalty;
+        return this;
+    }
+
+    public void setPenalty(Integer penalty) {
+        this.penalty = penalty;
+    }
+
     public Game getGame() {
         return game;
     }
@@ -216,6 +234,7 @@ public class Player extends StatHolder implements Serializable {
             ", chancellor='" + isChancellor() + "'" +
             ", name='" + getName() + "'" +
             ", phaseLocked='" + isPhaseLocked() + "'" +
+            ", penalty='" + getPenalty() + "'" +
             "}";
     }
 }

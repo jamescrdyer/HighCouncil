@@ -13,6 +13,8 @@ eg $input-color: red;
 
 $piety-forecolor:             black;
 $piety-backcolor:             white;
+$penalty-backcolor:             black;
+$penalty-forecolor:             white;
 $military-forecolor:             white;
 $military-backcolor:             #c61a00;
 $popularity-forecolor:             white;
@@ -51,6 +53,11 @@ $least-color:             #ed0707;
 .wealth {
     background: $wealth-backcolor;
     color: $wealth-forecolor;
+    font-weight: 800;
+}
+.penalty {
+    background: $penalty-backcolor;
+    color: $penalty-forecolor;
     font-weight: 800;
 }
 .intrigue {

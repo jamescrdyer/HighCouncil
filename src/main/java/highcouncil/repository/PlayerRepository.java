@@ -14,6 +14,8 @@ import java.util.List;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
+    @Query("select player from Player player where player.user.login = ?#{principal.username} and player.game.id = :id")
+    Player findByUserIsCurrentUserAndGame(@Param("id") Long id);
     @Query("select player from Player player where player.user.login = ?#{principal.username}")
     List<Player> findByUserIsCurrentUser();
     @Query("select distinct player from Player player left join fetch player.hands")

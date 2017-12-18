@@ -23,6 +23,7 @@
             "chancellor": "Chancellor",
             "name": "Name",
             "phaseLocked": "Phase Locked",
+            "penalty": "Penalty",
             "game": "Game",
             "user": "User",
             "hand": "Hand"

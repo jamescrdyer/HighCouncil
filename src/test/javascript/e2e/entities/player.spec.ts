@@ -65,6 +65,8 @@ describe('Player e2e test', () => {
                 expect(playerDialogPage.getPhaseLockedInput().isSelected()).toBeTruthy();
             }
         });
+        playerDialogPage.setPenaltyInput('5');
+        expect(playerDialogPage.getPenaltyInput()).toMatch('5');
         playerDialogPage.gameSelectLastOption();
         playerDialogPage.userSelectLastOption();
         // playerDialogPage.handSelectLastOption();
@@ -102,6 +104,7 @@ export class PlayerDialogPage {
     chancellorInput = element(by.css('input#field_chancellor'));
     nameInput = element(by.css('input#field_name'));
     phaseLockedInput = element(by.css('input#field_phaseLocked'));
+    penaltyInput = element(by.css('input#field_penalty'));
     gameSelect = element(by.css('select#field_game'));
     userSelect = element(by.css('select#field_user'));
     handSelect = element(by.css('select#field_hand'));
@@ -164,6 +167,14 @@ export class PlayerDialogPage {
     getPhaseLockedInput = function () {
         return this.phaseLockedInput;
     }
+    setPenaltyInput = function (penalty) {
+        this.penaltyInput.sendKeys(penalty);
+    }
+
+    getPenaltyInput = function () {
+        return this.penaltyInput.getAttribute('value');
+    }
+
     gameSelectLastOption = function () {
         this.gameSelect.all(by.tagName('option')).last().click();
     }

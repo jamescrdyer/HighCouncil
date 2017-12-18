@@ -64,6 +64,25 @@ public class PlayerResource {
     }
 
     /**
+     * PUT  /players/lock/gameId/setLocked : Set orders locked or not for the player
+     *
+     * @param id the player id to update
+     * @param setLocked whether the orders should be locked (true) or unlocked (false)
+     * @return the ResponseEntity with status 200 (OK) and with body the updated playerDTO,
+     * or with status 400 (Bad Request) if the playerDTO is not valid,
+     * or with status 500 (Internal Server Error) if the playerDTO couldn't be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PutMapping("/players/lock/{gameId}/{setLocked}")
+    @Timed
+    public ResponseEntity<Void> setLock(@PathVariable Long gameId, @PathVariable boolean setLocked) throws URISyntaxException {
+        log.debug("REST request to set order lock : {}", gameId);
+        Player player = playerRepository.findByUserIsCurrentUserAndGame(gameId);
+        player.setPhaseLocked(setLocked);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, player.getId().toString())).build();
+    }
+
+    /**
      * PUT  /players : Updates an existing player.
      *
      * @param playerDTO the playerDTO to update
