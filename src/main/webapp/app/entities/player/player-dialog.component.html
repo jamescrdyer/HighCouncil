@@ -131,6 +131,11 @@
                 </small>
             </div>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.player.score" for="field_score">Score</label>
+            <input type="number" class="form-control" name="score" id="field_score"
+                [(ngModel)]="player.score"  />
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="highCouncilApp.player.game" for="field_game">Game</label>

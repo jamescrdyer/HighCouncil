@@ -13,6 +13,7 @@ export class Player implements BaseEntity {
         public phaseLocked?: boolean,
         public penalty?: number,
         public userLogin?: string,
+        public score?: number,
         public gameId?: number,
         public userId?: number,
         public hands?: BaseEntity[],

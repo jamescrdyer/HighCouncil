@@ -45,6 +45,9 @@ public class Player extends StatHolder implements Serializable {
     @Column(name = "penalty", nullable = false)
     private Integer penalty = 0;
 
+    @Column(name = "score")
+    private Integer score;
+
     @ManyToOne
     private Game game;
 
@@ -152,6 +155,19 @@ public class Player extends StatHolder implements Serializable {
         this.penalty = penalty;
     }
 
+    public Integer getScore() {
+        return score;
+    }
+
+    public Player score(Integer score) {
+        this.score = score;
+        return this;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
     public Game getGame() {
         return game;
     }
@@ -202,6 +218,14 @@ public class Player extends StatHolder implements Serializable {
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
+    public void setValuesToZero() {
+    	this.piety = 0;
+    	this.wealth = 0;
+    	this.favour = 0;
+    	this.military = 0;
+    	this.popularity = 0;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -235,6 +259,7 @@ public class Player extends StatHolder implements Serializable {
             ", name='" + getName() + "'" +
             ", phaseLocked='" + isPhaseLocked() + "'" +
             ", penalty='" + getPenalty() + "'" +
+            ", score='" + getScore() + "'" +
             "}";
     }
 }

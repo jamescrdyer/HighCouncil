@@ -85,6 +85,10 @@
                 "min"
             ],
             "fieldValidateRulesMin": "0"
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20171024164600",

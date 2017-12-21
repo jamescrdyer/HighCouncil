@@ -41,6 +41,8 @@ public class PlayerDTO implements Serializable {
     @Min(value = 0)
     private Integer penalty;
 
+    private Integer score;
+
     private Long gameId;
 
     private Long userId;
@@ -129,6 +131,14 @@ public class PlayerDTO implements Serializable {
         this.penalty = penalty;
     }
 
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
     public Long getGameId() {
         return gameId;
     }
@@ -195,6 +205,7 @@ public class PlayerDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", phaseLocked='" + isPhaseLocked() + "'" +
             ", penalty='" + getPenalty() + "'" +
+            ", score='" + getScore() + "'" +
             "}";
     }
 }

@@ -58,6 +58,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="score" type="integer">
+                <constraints nullable="true" />
+            </column>
+
             <column name="game_id" type="bigint">
                 <constraints nullable="true" />
             </column>

@@ -26,6 +26,7 @@
             <th><span jhiTranslate="highCouncilApp.player.name">Name</span></th>
             <th><span jhiTranslate="highCouncilApp.player.phaseLocked">Phase Locked</span></th>
             <th><span jhiTranslate="highCouncilApp.player.penalty">Penalty</span></th>
+            <th><span jhiTranslate="highCouncilApp.player.score">Score</span></th>
             <th><span jhiTranslate="highCouncilApp.player.game">Game</span></th>
             <th><span jhiTranslate="highCouncilApp.player.user">User</span></th>
             <th><span jhiTranslate="highCouncilApp.player.hand">Hand</span></th>
@@ -44,6 +45,7 @@
                 <td>{{player.name}}</td>
                 <td>{{player.phaseLocked}}</td>
                 <td>{{player.penalty}}</td>
+                <td>{{player.score}}</td>
                 <td>
                     <div *ngIf="player.gameId">
                         <a [routerLink]="['../game', player.gameId  ]" >{{player.gameId}}</a>

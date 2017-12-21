@@ -43,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class GameService {
+	private static final int KINGDOM_0_BONUS = 6;
 
     private final Logger log = LoggerFactory.getLogger(GameService.class);
 
@@ -209,11 +210,138 @@ public class GameService {
 			}
 			game.setTurn(game.getTurn()+1);
 			setNextChancellor(game);
+			kingdom.setHealth(kingdom.getHealth() - 1);
+			checkGameEndAndScore(game);
 			gameRepository.save(game);
 			afterGameProcessed(game);
 		}
 	}
 
+	private void checkGameEndAndScore(Game game) {
+		Kingdom kingdom = game.getKingdom();
+		
+		Player playerMaxes = new Player();
+		Player playerCounts = new Player();
+		playerMaxes.setValuesToZero();
+		playerCounts.setValuesToZero();
+		int secondMostMilitary = 0;
+		
+		int pietyMin = Integer.MAX_VALUE;
+		int pietyMinCount = 1;
+		int popularityMin = Integer.MAX_VALUE;
+		int popularityMinCount = 1;
+		
+		boolean gameOver = false;
+		
+		for (Player p: game.getPlayers()) {
+			int score = 0;
+			score += p.getWealth();
+			score += p.getMilitary() * 2;
+			score += p.getPopularity()/2 + p.getPopularity()%2;
+			score -= p.getPenalty() * 3;
+			if (kingdom.getHealth() <= 0) {
+				score += p.getFavour();
+				gameOver = true;
+			}
+			p.setScore(score);
+			
+			//calculate maxes
+			if (playerMaxes.getPiety() < p.getPiety()) {
+				playerMaxes.setPiety(p.getPiety());
+				playerCounts.setPiety(1);
+			} else if (playerMaxes.getPiety().equals(p.getPiety())) {
+				playerCounts.setPiety(playerCounts.getPiety() + 1);
+			}
+			if (playerMaxes.getPopularity() < p.getPopularity()) {
+				playerMaxes.setPopularity(p.getPopularity());
+				playerCounts.setPopularity(1);
+			} else if (playerMaxes.getPopularity().equals(p.getPopularity())) {
+				playerCounts.setPopularity(playerCounts.getPopularity() + 1);
+			}
+
+			if (pietyMin > p.getPiety()) {
+				pietyMin = p.getPiety();
+				pietyMinCount = 1;
+			} else if (pietyMin == p.getPiety()) {
+				pietyMinCount++;
+			}
+			if (popularityMin > p.getPopularity()) {
+				popularityMin = p.getPopularity();
+				popularityMinCount = 1;
+			} else if (popularityMin == p.getPopularity()) {
+				popularityMinCount++;
+			}
+			
+			if (playerMaxes.getMilitary() < p.getMilitary()) {
+				playerMaxes.setMilitary(p.getMilitary());
+				playerCounts.setMilitary(1);
+			} else {
+				if (secondMostMilitary < p.getMilitary()) {
+					secondMostMilitary = p.getMilitary();
+				}
+				if (playerMaxes.getMilitary().equals(p.getMilitary())) {
+					playerCounts.setMilitary(playerCounts.getMilitary() + 1);
+				}
+			}
+			if (playerMaxes.getWealth() < p.getWealth()) {
+				playerMaxes.setWealth(p.getWealth());
+				playerCounts.setWealth(1);
+			} else if (playerMaxes.getWealth().equals(p.getWealth())) {
+				playerCounts.setWealth(playerCounts.getWealth() + 1);
+			}
+		}
+		for (Player p: game.getPlayers()) {
+			int score = p.getScore();
+			
+			if (playerMaxes.getPiety().equals(p.getPiety())) {
+				int bonus = 8;
+				if (kingdom.getPiety() <= 0) {
+					gameOver = true;
+					bonus += KINGDOM_0_BONUS;
+				}
+				bonus = bonus/playerCounts.getPiety();
+				score += bonus;
+			}
+			if (pietyMin == p.getPiety()) {
+				int penalty = 8/pietyMinCount;
+				score -= penalty;
+			}
+			if (playerMaxes.getPopularity().equals(p.getPopularity())) {
+				int bonus = 5;
+				if (kingdom.getPopularity() <= 0) {
+					gameOver = true;
+					bonus += KINGDOM_0_BONUS;
+				}
+				bonus = bonus/playerCounts.getPopularity();
+				score += bonus;
+			}
+			if (popularityMin == p.getPopularity()) {
+				int penalty = 3/popularityMinCount;
+				score -= penalty;
+			}
+			if (kingdom.getMilitary() <= 0) {
+				gameOver = true;
+				if (playerMaxes.getMilitary().equals(p.getMilitary())) {
+					int bonus = KINGDOM_0_BONUS;
+					bonus = bonus/playerCounts.getMilitary();
+					score += bonus;
+				}
+			}
+			if (kingdom.getWealth() <= 0) {
+				gameOver = true;
+				if (playerMaxes.getWealth().equals(p.getWealth())) {
+					int bonus = KINGDOM_0_BONUS;
+					bonus = bonus/playerCounts.getWealth();
+					score += bonus;
+				}
+			}
+			p.setScore(score);
+		}
+		if (gameOver) {
+			game.setPhase(Phase.Completed);
+		}
+	}
+	
 	private void setNextChancellor(Game game) {
 		List<Player> players = game.getPlayersList();
 		Player chancellorCompare = new Player();

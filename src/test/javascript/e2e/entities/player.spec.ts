@@ -67,6 +67,8 @@ describe('Player e2e test', () => {
         });
         playerDialogPage.setPenaltyInput('5');
         expect(playerDialogPage.getPenaltyInput()).toMatch('5');
+        playerDialogPage.setScoreInput('5');
+        expect(playerDialogPage.getScoreInput()).toMatch('5');
         playerDialogPage.gameSelectLastOption();
         playerDialogPage.userSelectLastOption();
         // playerDialogPage.handSelectLastOption();
@@ -105,6 +107,7 @@ export class PlayerDialogPage {
     nameInput = element(by.css('input#field_name'));
     phaseLockedInput = element(by.css('input#field_phaseLocked'));
     penaltyInput = element(by.css('input#field_penalty'));
+    scoreInput = element(by.css('input#field_score'));
     gameSelect = element(by.css('select#field_game'));
     userSelect = element(by.css('select#field_user'));
     handSelect = element(by.css('select#field_hand'));
@@ -173,6 +176,14 @@ export class PlayerDialogPage {
 
     getPenaltyInput = function () {
         return this.penaltyInput.getAttribute('value');
+    }
+
+    setScoreInput = function (score) {
+        this.scoreInput.sendKeys(score);
+    }
+
+    getScoreInput = function () {
+        return this.scoreInput.getAttribute('value');
     }
 
     gameSelectLastOption = function () {

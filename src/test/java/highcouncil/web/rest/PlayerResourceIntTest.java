@@ -66,6 +66,9 @@ public class PlayerResourceIntTest {
     private static final Integer DEFAULT_PENALTY = 0;
     private static final Integer UPDATED_PENALTY = 1;
 
+    private static final Integer DEFAULT_SCORE = 1;
+    private static final Integer UPDATED_SCORE = 2;
+
     @Autowired
     private PlayerRepository playerRepository;
 
@@ -114,7 +117,8 @@ public class PlayerResourceIntTest {
             .chancellor(DEFAULT_CHANCELLOR)
             .name(DEFAULT_NAME)
             .phaseLocked(DEFAULT_PHASE_LOCKED)
-            .penalty(DEFAULT_PENALTY);
+            .penalty(DEFAULT_PENALTY)
+            .score(DEFAULT_SCORE);
         return player;
     }
 
@@ -148,6 +152,7 @@ public class PlayerResourceIntTest {
         assertThat(testPlayer.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPlayer.isPhaseLocked()).isEqualTo(DEFAULT_PHASE_LOCKED);
         assertThat(testPlayer.getPenalty()).isEqualTo(DEFAULT_PENALTY);
+        assertThat(testPlayer.getScore()).isEqualTo(DEFAULT_SCORE);
     }
 
     @Test
@@ -322,7 +327,8 @@ public class PlayerResourceIntTest {
             .andExpect(jsonPath("$.[*].chancellor").value(hasItem(DEFAULT_CHANCELLOR.booleanValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].phaseLocked").value(hasItem(DEFAULT_PHASE_LOCKED.booleanValue())))
-            .andExpect(jsonPath("$.[*].penalty").value(hasItem(DEFAULT_PENALTY)));
+            .andExpect(jsonPath("$.[*].penalty").value(hasItem(DEFAULT_PENALTY)))
+            .andExpect(jsonPath("$.[*].score").value(hasItem(DEFAULT_SCORE)));
     }
 
     @Test
@@ -344,7 +350,8 @@ public class PlayerResourceIntTest {
             .andExpect(jsonPath("$.chancellor").value(DEFAULT_CHANCELLOR.booleanValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.phaseLocked").value(DEFAULT_PHASE_LOCKED.booleanValue()))
-            .andExpect(jsonPath("$.penalty").value(DEFAULT_PENALTY));
+            .andExpect(jsonPath("$.penalty").value(DEFAULT_PENALTY))
+            .andExpect(jsonPath("$.score").value(DEFAULT_SCORE));
     }
 
     @Test
@@ -373,7 +380,8 @@ public class PlayerResourceIntTest {
             .chancellor(UPDATED_CHANCELLOR)
             .name(UPDATED_NAME)
             .phaseLocked(UPDATED_PHASE_LOCKED)
-            .penalty(UPDATED_PENALTY);
+            .penalty(UPDATED_PENALTY)
+            .score(UPDATED_SCORE);
         PlayerDTO playerDTO = playerMapper.toDto(updatedPlayer);
 
         restPlayerMockMvc.perform(put("/api/players")
@@ -394,6 +402,7 @@ public class PlayerResourceIntTest {
         assertThat(testPlayer.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testPlayer.isPhaseLocked()).isEqualTo(UPDATED_PHASE_LOCKED);
         assertThat(testPlayer.getPenalty()).isEqualTo(UPDATED_PENALTY);
+        assertThat(testPlayer.getScore()).isEqualTo(UPDATED_SCORE);
     }
 
     @Test

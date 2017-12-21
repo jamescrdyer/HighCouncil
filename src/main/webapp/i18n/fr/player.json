@@ -24,6 +24,7 @@
             "name": "Name",
             "phaseLocked": "Phase Locked",
             "penalty": "Penalty",
+            "score": "Score",
             "game": "Game",
             "user": "User",
             "hand": "Hand"
