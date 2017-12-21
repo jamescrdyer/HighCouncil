@@ -21,7 +21,7 @@ import { PlayerService } from '../player/player.service';
 export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked {
     game: Game;
     @ViewChild('messageContainer') messageDiv;
-    
+
     private player: Player;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
@@ -33,7 +33,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
             popularity: 0,
             military: 0,
             wealth: 0,
-            favour: 0
+            favour: 7
         };
 
     public discussionDestinations = {};
@@ -58,7 +58,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
             this.messageDiv.nativeElement.scrollTop = this.messageDiv.nativeElement.scrollHeight;
         }
     }
-    
+
     ngOnInit() {
         this.discussionService.connect();
         this.principal.identity().then((account) => this.currentUser = account.login).then(() => {
@@ -66,8 +66,14 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                 const gameId = params['id'];
                 this.load(gameId);
                 this.discussionService.subscribe(gameId);
-                this.discussionService.receive().subscribe((discussion) => {
+                this.discussionService.receiveDiscussion().subscribe((discussion) => {
                     this.showDiscussion(discussion);
+                });
+                this.discussionService.receiveGameState().subscribe((updatedGame) => {
+                    this.game = updatedGame;
+                    this.ordersSubmitted = {};
+                    this.ordersLocked = false;
+                    this.sortPlayers();
                 });
             });
         });
@@ -96,6 +102,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     load(id) {
         this.gameService.find(id).subscribe((game) => {
             this.game = game;
+            this.sortPlayers();
             this.game.players.forEach((p: Player) => {
                 if (this.currentUser !== p.userLogin) {
                     this.discussionDestinations[p.userLogin] = true;
@@ -105,6 +112,19 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
             });
         });
     }
+
+    sortPlayers() {
+        this.game.players.sort(function(p1, p2) {
+            if (p1.id < p2.id) {
+                return -1;
+            }
+            if (p1.id > p2.id) {
+                return 1;
+            }
+            return 0;
+        });
+    }
+
     previousState() {
         window.history.back();
     }
@@ -123,8 +143,9 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
 
     toggleLock() {
-        this.ordersLocked = !this.ordersLocked;
-        this.playerService.setLock(this.game.id, this.ordersLocked);
+        this.playerService.setLock(this.game.id, !this.ordersLocked).subscribe((response) => {
+            this.ordersLocked = !this.ordersLocked;
+        });
     }
 
     ngOnDestroy() {
@@ -141,11 +162,21 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
 
     receiveOrders(newOrders: Orders) {
+        newOrders.action = this.ordersSubmitted.action;
+        newOrders.id = this.ordersSubmitted.id;
+        this.saveOrders(newOrders);
+    }
+
+    actionChange(newAction) {
+        this.ordersSubmitted.action = newAction;
+        this.saveOrders(this.ordersSubmitted);
+    }
+
+    private saveOrders(newOrders: Orders) {
+        newOrders.turn = this.game.turn;
         newOrders.game = { id: this.game.id };
         newOrders.player = { id: this.player.id };
-        newOrders.turn = this.game.turn;
         if (this.ordersSubmitted.id) {
-            newOrders.id = this.ordersSubmitted.id;
             this.ordersService.update(newOrders).subscribe((ordersResult) => this.ordersSubmitted = ordersResult);
         } else {
             this.ordersService.create(newOrders).subscribe((ordersResult) => this.ordersSubmitted = ordersResult);

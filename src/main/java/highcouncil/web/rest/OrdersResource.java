@@ -50,6 +50,13 @@ public class OrdersResource {
         if (orders.getId() != null) {
             throw new BadRequestAlertException("A new orders cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (orders.getGame().getId() == null ||  orders.getPlayer().getId() == null || orders.getTurn() == null) {
+            throw new BadRequestAlertException("A new orders must have a game, player and turn", ENTITY_NAME, "invalid");
+        }
+        Orders existing = ordersRepository.findOneByGamePlayerAndTurn(orders.getGame().getId(), orders.getPlayer().getId(), orders.getTurn());
+        if (existing != null) {
+        	orders.setId(existing.getId());
+        }
         Orders result = ordersRepository.save(orders);
         return ResponseEntity.created(new URI("/api/orders/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

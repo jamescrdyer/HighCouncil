@@ -2,25 +2,36 @@ package highcouncil.service;
 
 import highcouncil.domain.ActionResolution;
 import highcouncil.domain.Game;
+import highcouncil.domain.Kingdom;
 import highcouncil.domain.Orders;
 import highcouncil.domain.Player;
 import highcouncil.domain.StatHolder;
 import highcouncil.domain.enumeration.Action;
+import highcouncil.domain.enumeration.Phase;
 import highcouncil.repository.ActionResolutionRepository;
 import highcouncil.repository.GameRepository;
 import highcouncil.repository.OrdersRepository;
 import highcouncil.service.dto.GameDTO;
 import highcouncil.service.mapper.GameMapper;
+import highcouncil.web.websocket.dto.DiscussionDTO;
 
+import java.security.Principal;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,14 +55,17 @@ public class GameService {
     private final GameMapper gameMapper;
 
     private final CodeResolver codeResolver;
+
+    private final SimpMessagingTemplate messagingTemplate;
     
     public GameService(GameRepository gameRepository, OrdersRepository ordersRepository, ActionResolutionRepository actionResolutionRepository, 
-    		GameMapper gameMapper, CodeResolver codeResolver) {
+    		GameMapper gameMapper, CodeResolver codeResolver, SimpMessagingTemplate messagingTemplate) {
         this.gameRepository = gameRepository;
         this.ordersRepository = ordersRepository;
         this.actionResolutionRepository = actionResolutionRepository;
         this.gameMapper = gameMapper;
         this.codeResolver = codeResolver;
+        this.messagingTemplate = messagingTemplate;
     }
 
     /**
@@ -109,24 +123,36 @@ public class GameService {
         games.forEach(g -> {
         	processGame(g);
         });
+        games = gameRepository.findAllForming();
+        games.forEach(g -> {
+        	startGame(g);
+        });
     }
 	
+	private void startGame(Game game) {
+		if (game.getPlayers().size() == 3 || game.getPlayers().size() == 4) {
+			game.setPhase(Phase.Orders);
+			game.setFirstPlayerId(game.getPlayers().stream().findFirst().get().getId());
+		}
+	}
 
 	private void processGame(Game game) {
-		for (Player p: game.getPlayers()) {
+		List<Player> players = game.getPlayersList();
+		for (Player p: players) {
 			if (!p.isPhaseLocked()) {
 				return;
 			}
 		}
 		List<Orders> allOrders = ordersRepository.findByGameAndTurn(game.getId(), game.getTurn());
-		if (allOrders.size() == game.getPlayers().size()) {
+		if (allOrders.size() == players.size()) {
 			Set<Action> kingdomActionsApplied = new HashSet<Action>();
+			Kingdom kingdom = game.getKingdom();
 			int wealth = allOrders.parallelStream().mapToInt(o -> o.getWealth()).sum();
 			int military = allOrders.parallelStream().mapToInt(o -> o.getMilitary()).sum();
 			int piety = allOrders.parallelStream().mapToInt(o -> o.getPiety()).sum();
 			int popularity = allOrders.parallelStream().mapToInt(o -> o.getPopularity()).sum();
 			int favour = allOrders.parallelStream().mapToInt(o -> o.getFavour()).sum();
-			for (Player p: game.getPlayers()) {
+			for (Player p: players) {
 				boolean isChancellor = p.getId().equals(game.getFirstPlayerId());
 				Optional<Orders> ordersFound = allOrders.stream().filter(o -> o.getPlayer().equals(p)).findFirst();
 				if (ordersFound.isPresent()) {
@@ -156,29 +182,55 @@ public class GameService {
 					if (isChancellor) { //chancellor penalties
 						if (wealth <= 0) {
 							p.setWealth(p.getWealth() - 1);
+							kingdom.setWealth(kingdom.getWealth() - 1);
 						}
 						if (military <= 0) {
 							p.setMilitary(p.getMilitary() - 1);
+							kingdom.setMilitary(kingdom.getMilitary() - 1);
 						}
 						if (piety <= 0) {
 							p.setPiety(p.getPiety() - 1);
+							kingdom.setPiety(kingdom.getPiety() - 1);
 						}
 						if (popularity <= 0) {
 							p.setPopularity(p.getPopularity() - 1);
+							kingdom.setPopularity(kingdom.getPopularity() - 1);
 						}
 						if (favour <= 0) {
 							p.setFavour(p.getFavour() - 1);
 						}
 					}
 					if (!kingdomActionsApplied.contains(action)) {
-						applyResolution(game.getKingdom(), resolution.getCodeKingdom());
+						applyResolution(kingdom, resolution.getCodeKingdom());
 					}
 					addPenalties(p);
 				}
+				p.setPhaseLocked(false);
 			}
+			game.setTurn(game.getTurn()+1);
+			setNextChancellor(game);
+			gameRepository.save(game);
+			afterGameProcessed(game);
 		}
 	}
 
+	private void setNextChancellor(Game game) {
+		List<Player> players = game.getPlayersList();
+		Player chancellorCompare = new Player();
+		chancellorCompare.setId(game.getFirstPlayerId());
+		int chancellorIndex = (players.indexOf(chancellorCompare) + 1) % players.size();
+		Player nextChancellor = players.get(chancellorIndex);
+		game.setFirstPlayerId(nextChancellor.getId());
+	}
+	public void afterGameProcessed(Game game) {
+		this.messagingTemplate.convertAndSend("/topic/gamestate/"+game.getId(), gameMapper.toDto(game));
+	}
+    
+	@MessageMapping("/topic/gamestate/{gameId}")
+    public GameDTO gameState(StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+		return null;
+    }
+	
 	private void addPenalties(Player p) {
 		while (p.getWealth() < 0) {
 			p.setWealth(p.getWealth() + 1);

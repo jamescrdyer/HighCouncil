@@ -48,15 +48,6 @@ describe('Orders e2e test', () => {
         ordersDialogPage.setFavourInput('5');
         expect(ordersDialogPage.getFavourInput()).toMatch('5');
         ordersDialogPage.actionSelectLastOption();
-        ordersDialogPage.getLockedInput().isSelected().then(function (selected) {
-            if (selected) {
-                ordersDialogPage.getLockedInput().click();
-                expect(ordersDialogPage.getLockedInput().isSelected()).toBeFalsy();
-            } else {
-                ordersDialogPage.getLockedInput().click();
-                expect(ordersDialogPage.getLockedInput().isSelected()).toBeTruthy();
-            }
-        });
         ordersDialogPage.gameSelectLastOption();
         ordersDialogPage.playerSelectLastOption();
         ordersDialogPage.save();
@@ -92,7 +83,6 @@ export class OrdersDialogPage {
     wealthInput = element(by.css('input#field_wealth'));
     favourInput = element(by.css('input#field_favour'));
     actionSelect = element(by.css('select#field_action'));
-    lockedInput = element(by.css('input#field_locked'));
     gameSelect = element(by.css('select#field_game'));
     playerSelect = element(by.css('select#field_player'));
 
@@ -158,9 +148,6 @@ export class OrdersDialogPage {
 
     actionSelectLastOption = function () {
         this.actionSelect.all(by.tagName('option')).last().click();
-    }
-    getLockedInput = function () {
-        return this.lockedInput;
     }
     gameSelectLastOption = function () {
         this.gameSelect.all(by.tagName('option')).last().click();

@@ -18,10 +18,8 @@ export class Orders implements BaseEntity {
         public wealth?: number,
         public favour?: number,
         public action?: Action,
-        public locked?: boolean,
         public game?: BaseEntity,
         public player?: BaseEntity,
     ) {
-        this.locked = false;
     }
 }

@@ -52,10 +52,6 @@ public class Orders implements Serializable {
     @Column(name = "action")
     private Action action;
 
-    @NotNull
-    @Column(name = "jhi_locked", nullable = false)
-    private Boolean locked;
-
     @ManyToOne
     private Game game;
 
@@ -162,19 +158,6 @@ public class Orders implements Serializable {
         this.action = action;
     }
 
-    public Boolean isLocked() {
-        return locked;
-    }
-
-    public Orders locked(Boolean locked) {
-        this.locked = locked;
-        return this;
-    }
-
-    public void setLocked(Boolean locked) {
-        this.locked = locked;
-    }
-
     public Game getGame() {
         return game;
     }
@@ -233,7 +216,6 @@ public class Orders implements Serializable {
             ", wealth='" + getWealth() + "'" +
             ", favour='" + getFavour() + "'" +
             ", action='" + getAction() + "'" +
-            ", locked='" + isLocked() + "'" +
             "}";
     }
 }

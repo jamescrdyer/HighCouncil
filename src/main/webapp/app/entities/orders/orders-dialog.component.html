@@ -112,17 +112,6 @@
                 <option value="Wealth">{{'highCouncilApp.Action.Wealth' | translate}}</option>
             </select>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="highCouncilApp.orders.locked" for="field_locked">Locked</label>
-            <input type="checkbox" class="form-control" name="locked" id="field_locked"
-                [(ngModel)]="orders.locked"  />
-            <div [hidden]="!(editForm.controls.locked?.dirty && editForm.controls.locked?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.locked?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="highCouncilApp.orders.game" for="field_game">Game</label>

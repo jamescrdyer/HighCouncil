@@ -79,6 +79,7 @@ public class PlayerResource {
         log.debug("REST request to set order lock : {}", gameId);
         Player player = playerRepository.findByUserIsCurrentUserAndGame(gameId);
         player.setPhaseLocked(setLocked);
+        playerRepository.save(player);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, player.getId().toString())).build();
     }
 

@@ -14,14 +14,16 @@ import * as Stomp from 'webstomp-client';
 @Injectable()
 export class GameDiscussionService {
     stompClient = null;
-    subscriber = null;
+    subscriberDiscussion = null;
+    subscriberGameState = null;
     gameId: number;
     connection: Promise<any>;
     connectedPromise: any;
     listener: Observable<any>;
+    stateListener: Observable<any>;
     listenerObserver: Observer<any>;
+    stateObserver: Observer<any>;
     alreadyConnectedOnce = false;
-    private subscription: Subscription;
 
     constructor(
         private router: Router,
@@ -31,6 +33,7 @@ export class GameDiscussionService {
     ) {
         this.connection = this.createConnection();
         this.listener = this.createListener();
+        this.stateListener = this.createStateListener();
     }
 
     connect() {
@@ -58,19 +61,20 @@ export class GameDiscussionService {
     }
 
     disconnect() {
+        this.unsubscribe();
         if (this.stompClient !== null) {
             this.stompClient.disconnect();
             this.stompClient = null;
         }
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-            this.subscription = null;
-        }
         this.alreadyConnectedOnce = false;
     }
 
-    receive() {
+    receiveDiscussion() {
         return this.listener;
+    }
+
+    receiveGameState() {
+        return this.stateListener;
     }
 
     sendMessage(recipient: string, message: Message) {
@@ -89,22 +93,35 @@ export class GameDiscussionService {
     subscribe(gameId: number) {
         this.gameId = gameId;
         this.connection.then(() => {
-            this.subscriber = this.stompClient.subscribe('/user/topic/discussion/' + gameId, (data) => {
+            this.subscriberDiscussion = this.stompClient.subscribe('/user/topic/discussion/' + gameId, (data) => {
                 this.listenerObserver.next(JSON.parse(data.body));
+            });
+            this.subscriberGameState = this.stompClient.subscribe('/topic/gamestate/' + gameId, (data) => {
+                this.stateObserver.next(JSON.parse(data.body));
             });
         });
     }
 
     unsubscribe() {
-        if (this.subscriber !== null) {
-            this.subscriber.unsubscribe();
+        if (this.subscriberDiscussion !== null) {
+            this.subscriberDiscussion.unsubscribe();
+        }
+        if (this.subscriberGameState !== null) {
+            this.subscriberGameState.unsubscribe();
         }
         this.listener = this.createListener();
+        this.stateListener = this.createStateListener();
     }
 
     private createListener(): Observable<any> {
         return new Observable((observer) => {
             this.listenerObserver = observer;
+        });
+    }
+
+    private createStateListener(): Observable<any> {
+        return new Observable((observer) => {
+            this.stateObserver = observer;
         });
     }
 

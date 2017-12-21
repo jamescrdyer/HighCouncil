@@ -19,6 +19,6 @@ import org.springframework.data.repository.query.Param;
 @SuppressWarnings("unused")
 @Repository
 public interface ActionResolutionRepository extends JpaRepository<ActionResolution, Long> {
-    @Query("select ar from ActionResolution ar where ar.orderResolution.minimum >= :orderAmount and ar.orderResolution.maximum <= :orderAmount and ar.action = :action")
+    @Query("select ar from ActionResolution ar where ar.orderResolution.minimum <= :orderAmount and ar.orderResolution.maximum >= :orderAmount and ar.action = :action")
 	ActionResolution findOneByTotalAndAction(@Param("orderAmount") int orderAmount, @Param("action") Action action);
 }

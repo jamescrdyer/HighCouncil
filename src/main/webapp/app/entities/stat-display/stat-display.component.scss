@@ -1,3 +1,10 @@
+$chancellor-backcolor: #B288ff;
+
+.chancellor {
+	background-color: $chancellor-backcolor;
+    border-radius:5px;
+}
+
 .value {
     border-radius:5px;
     border-style: solid;

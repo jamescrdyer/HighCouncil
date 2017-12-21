@@ -14,6 +14,9 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
-    @Query("select game from Game game where game.phase != 'Complete'")
+    @Query("select game from Game game where game.phase != 'Completed'")
 	List<Game> findAllNotComplete();
+
+    @Query("select game from Game game where game.phase = 'Forming'")
+	List<Game> findAllForming();
 }

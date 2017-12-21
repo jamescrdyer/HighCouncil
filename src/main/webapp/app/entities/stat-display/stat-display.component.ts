@@ -12,6 +12,7 @@ export class StatDisplayComponent implements OnInit {
     @Input() stats: StatContainer;
     @Input() mostStats: StatContainer;
     @Input() leastStats: StatContainer;
+    @Input() isChancellor = false;
 
     constructor(
     ) {

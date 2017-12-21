@@ -30,7 +30,7 @@ export class PlayerService {
     }
 
     setLock(gameId: number, locked: boolean): Observable<Response> {
-        return this.http.put(this.resourceUrl+'/gameId/'+locked, null);
+        return this.http.put(this.resourceUrl + '/lock/' + gameId + '/' + locked, null);
     }
 
     find(id: number): Observable<Player> {

@@ -16,6 +16,7 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
             .simpDestMatchers("/user/topic/discussion/*").hasAuthority(AuthoritiesConstants.USER)
             .simpDestMatchers("/user/*/topic/discussion/*").hasAuthority(AuthoritiesConstants.USER)
             .simpDestMatchers("/topic/tracker").hasAuthority(AuthoritiesConstants.USER)
+            .simpDestMatchers("/topic/gamestate/*").hasAuthority(AuthoritiesConstants.USER)
             .simpDestMatchers("/topic/activity").hasAuthority(AuthoritiesConstants.USER)
             // matches any destination that starts with /topic/
             // (i.e. cannot send messages directly to /topic/)

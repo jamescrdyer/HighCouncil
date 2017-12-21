@@ -8,7 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.Objects;
 
 import highcouncil.domain.enumeration.Phase;
@@ -118,6 +120,11 @@ public class Game implements Serializable {
 
     public Set<Player> getPlayers() {
         return players;
+    }
+
+    @JsonIgnore
+    public List<Player> getPlayersList() {
+        return players.stream().sorted((p1,p2) -> p1.getId().compareTo(p2.getId())).collect(Collectors.toList());
     }
 
     public Game players(Set<Player> players) {
