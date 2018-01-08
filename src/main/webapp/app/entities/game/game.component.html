@@ -20,7 +20,6 @@
             <th jhiSortBy="timeLimitSeconds"><span jhiTranslate="highCouncilApp.game.timeLimitSeconds">Time Limit Seconds</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="phase"><span jhiTranslate="highCouncilApp.game.phase">Phase</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="turn"><span jhiTranslate="highCouncilApp.game.turn">Turn</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="firstPlayerId"><span jhiTranslate="highCouncilApp.game.firstPlayerId">First Player Id</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="kingdomId"><span jhiTranslate="highCouncilApp.game.kingdom">Kingdom</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="deckId"><span jhiTranslate="highCouncilApp.game.deck">Deck</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -32,7 +31,6 @@
                 <td>{{game.timeLimitSeconds}}</td>
                 <td jhiTranslate="{{'highCouncilApp.Phase.' + game.phase}}">{{game.phase}}</td>
                 <td>{{game.turn}}</td>
-                <td>{{game.firstPlayerId}}</td>
                 <td>
                     <div *ngIf="game.kingdomId">
                         <a [routerLink]="['../kingdom', game.kingdomId  ]" >{{game.kingdomId}}</a>

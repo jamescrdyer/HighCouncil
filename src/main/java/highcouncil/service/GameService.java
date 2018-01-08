@@ -133,7 +133,7 @@ public class GameService {
 	private void startGame(Game game) {
 		if (game.getPlayers().size() == 3 || game.getPlayers().size() == 4) {
 			game.setPhase(Phase.Orders);
-			game.setFirstPlayerId(game.getPlayers().stream().findFirst().get().getId());
+			game.getPlayers().stream().findFirst().get().setChancellor(true);
 		}
 	}
 
@@ -154,7 +154,7 @@ public class GameService {
 			int popularity = allOrders.parallelStream().mapToInt(o -> o.getPopularity()).sum();
 			int favour = allOrders.parallelStream().mapToInt(o -> o.getFavour()).sum();
 			for (Player p: players) {
-				boolean isChancellor = p.getId().equals(game.getFirstPlayerId());
+				boolean isChancellor = p.isChancellor();
 				Optional<Orders> ordersFound = allOrders.stream().filter(o -> o.getPlayer().equals(p)).findFirst();
 				if (ordersFound.isPresent()) {
 					Action action = ordersFound.get().getAction();
@@ -212,8 +212,8 @@ public class GameService {
 			setNextChancellor(game);
 			kingdom.setHealth(kingdom.getHealth() - 1);
 			checkGameEndAndScore(game);
-			gameRepository.save(game);
-			afterGameProcessed(game);
+			Game result = gameRepository.save(game);
+			afterGameProcessed(result);
 		}
 	}
 
@@ -344,11 +344,19 @@ public class GameService {
 	
 	private void setNextChancellor(Game game) {
 		List<Player> players = game.getPlayersList();
-		Player chancellorCompare = new Player();
-		chancellorCompare.setId(game.getFirstPlayerId());
-		int chancellorIndex = (players.indexOf(chancellorCompare) + 1) % players.size();
-		Player nextChancellor = players.get(chancellorIndex);
-		game.setFirstPlayerId(nextChancellor.getId());
+		boolean lastWasChancellor = false;
+		for (Player p: players) {
+			if (p.isChancellor())
+				lastWasChancellor = true;
+			if (lastWasChancellor) {
+				p.setChancellor(true);
+				lastWasChancellor = false;
+				break;
+			}
+		}
+		if (lastWasChancellor) {
+			players.get(0).setChancellor(true);
+		}
 	}
 	public void afterGameProcessed(Game game) {
 		this.messagingTemplate.convertAndSend("/topic/gamestate/"+game.getId(), gameMapper.toDto(game));

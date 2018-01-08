@@ -4,7 +4,7 @@
 	    <h1><span jhiTranslate="highCouncilApp.game.players"></span></h1>
 		<hr>
 	    <div *ngFor="let player of game.players; trackBy: id; last as isLast">
-		    <jhi-stat-display [stats]="player" [name]="player.userLogin" [isChancellor]="player.id == game.firstPlayerId"></jhi-stat-display>
+		    <jhi-stat-display [stats]="player" [name]="player.userLogin" [score]="player.score" [isChancellor]="player.isChancellor"></jhi-stat-display>
 		    <hr *ngIf="!isLast">
 	    </div>
 	</div>
@@ -45,7 +45,9 @@
 		<div *ngIf="numberOfOrdersToSubmit > 0">
 		    <jhi-stat-display [stats]="ordersSubmitted" [name]="'Orders Submitted'"></jhi-stat-display>
             <label class="form-control-label" jhiTranslate="highCouncilApp.orders.action" for="field_action">Action</label>
-            <select #action class="form-control" name="action" [(ngModel)]="ordersSubmitted.action" id="field_action" (change)="actionChange(action.value)">
+            <select #action class="form-control" name="action" [(ngModel)]="ordersSubmitted.action" id="field_action" (change)="actionChange(action.value)"
+            	[disabled]="game.phase != 'Orders'"
+            >
                 <option value="Piety">{{'highCouncilApp.Action.Piety' | translate}}</option>
                 <option value="Popularity">{{'highCouncilApp.Action.Popularity' | translate}}</option>
                 <option value="Indulge">{{'highCouncilApp.Action.Indulge' | translate}}</option>
@@ -55,7 +57,9 @@
 	    	<button class="btn d-inline" type="button" aria-pressed="false"
 	    		(click)="toggleLock()"
 		    	[ngClass]="{'btn-primary active': ordersLocked}"
-		    	[disabled]="!ordersSubmitted.action || (ordersSubmitted.wealth + ordersSubmitted.piety + ordersSubmitted.popularity + ordersSubmitted.military + ordersSubmitted.favour != numberOfOrdersToSubmit)"
+		    	[disabled]="!ordersSubmitted.action 
+		    		|| (ordersSubmitted.wealth + ordersSubmitted.piety + ordersSubmitted.popularity + ordersSubmitted.military + ordersSubmitted.favour != numberOfOrdersToSubmit)
+		    		|| game.phase != 'Orders'"
 	    		jhiTranslate="highCouncilApp.game.lockOrders"
 	    	></button>
 		    <jhi-order-submit [name]="'Orders'" [numberToSubmit]="numberOfOrdersToSubmit" (submitted)="receiveOrders($event)"></jhi-stat-display>

@@ -42,10 +42,6 @@
                 "min"
             ],
             "fieldValidateRulesMin": "1"
-        },
-        {
-            "fieldName": "firstPlayerId",
-            "fieldType": "Long"
         }
     ],
     "changelogDate": "20171024165034",

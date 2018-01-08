@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager } from 'ng-jhipster';
 import { Principal } from '../../shared/auth/principal.service';
 
-import { Game } from './game.model';
+import { Game, Phase } from './game.model';
 import { GameService } from './game.service';
 import { GameDiscussionService } from './game-discussion.service';
 import { Message } from './message.model';
@@ -162,9 +162,11 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
 
     receiveOrders(newOrders: Orders) {
-        newOrders.action = this.ordersSubmitted.action;
-        newOrders.id = this.ordersSubmitted.id;
-        this.saveOrders(newOrders);
+        if (this.game.phase && this.game.phase.valueOf() === 'Orders') {
+            newOrders.action = this.ordersSubmitted.action;
+            newOrders.id = this.ordersSubmitted.id;
+            this.saveOrders(newOrders);
+        }
     }
 
     actionChange(newAction) {

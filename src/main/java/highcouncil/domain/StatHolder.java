@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
 public abstract class StatHolder {
+    @NotNull
     @Column(name = "piety")
 	protected Integer piety;
 

@@ -40,8 +40,6 @@ describe('Game e2e test', () => {
         gameDialogPage.phaseSelectLastOption();
         gameDialogPage.setTurnInput('5');
         expect(gameDialogPage.getTurnInput()).toMatch('5');
-        gameDialogPage.setFirstPlayerIdInput('5');
-        expect(gameDialogPage.getFirstPlayerIdInput()).toMatch('5');
         gameDialogPage.kingdomSelectLastOption();
         gameDialogPage.deckSelectLastOption();
         gameDialogPage.save();
@@ -73,7 +71,6 @@ export class GameDialogPage {
     timeLimitSecondsInput = element(by.css('input#field_timeLimitSeconds'));
     phaseSelect = element(by.css('select#field_phase'));
     turnInput = element(by.css('input#field_turn'));
-    firstPlayerIdInput = element(by.css('input#field_firstPlayerId'));
     kingdomSelect = element(by.css('select#field_kingdom'));
     deckSelect = element(by.css('select#field_deck'));
 
@@ -106,14 +103,6 @@ export class GameDialogPage {
 
     getTurnInput = function () {
         return this.turnInput.getAttribute('value');
-    }
-
-    setFirstPlayerIdInput = function (firstPlayerId) {
-        this.firstPlayerIdInput.sendKeys(firstPlayerId);
-    }
-
-    getFirstPlayerIdInput = function () {
-        return this.firstPlayerIdInput.getAttribute('value');
     }
 
     kingdomSelectLastOption = function () {

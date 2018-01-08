@@ -11,8 +11,9 @@ import java.util.Objects;
  * A DTO for the Player entity.
  */
 public class PlayerDTO implements Serializable {
+	private static final long serialVersionUID = -3658394165251613137L;
 
-    private Long id;
+	private Long id;
 
     private Integer piety;
 

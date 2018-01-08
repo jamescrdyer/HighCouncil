@@ -29,7 +29,7 @@ public class Player extends StatHolder implements Serializable {
     private Integer favour;
 
     @Column(name = "chancellor")
-    private Boolean chancellor;
+    private Boolean chancellor = false;
 
     @NotNull
     @Size(min = 2, max = 100)
@@ -38,7 +38,7 @@ public class Player extends StatHolder implements Serializable {
 
     @NotNull
     @Column(name = "phase_locked", nullable = false)
-    private Boolean phaseLocked;
+    private Boolean phaseLocked = false;
 
     @NotNull
     @Min(value = 0)

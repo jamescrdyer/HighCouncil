@@ -41,9 +41,6 @@ public class Game implements Serializable {
     @Column(name = "turn", nullable = false)
     private Integer turn;
 
-    @Column(name = "first_player_id")
-    private Long firstPlayerId;
-
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -103,19 +100,6 @@ public class Game implements Serializable {
 
     public void setTurn(Integer turn) {
         this.turn = turn;
-    }
-
-    public Long getFirstPlayerId() {
-        return firstPlayerId;
-    }
-
-    public Game firstPlayerId(Long firstPlayerId) {
-        this.firstPlayerId = firstPlayerId;
-        return this;
-    }
-
-    public void setFirstPlayerId(Long firstPlayerId) {
-        this.firstPlayerId = firstPlayerId;
     }
 
     public Set<Player> getPlayers() {
@@ -202,7 +186,6 @@ public class Game implements Serializable {
             ", timeLimitSeconds='" + getTimeLimitSeconds() + "'" +
             ", phase='" + getPhase() + "'" +
             ", turn='" + getTurn() + "'" +
-            ", firstPlayerId='" + getFirstPlayerId() + "'" +
             "}";
     }
 }

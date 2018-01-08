@@ -12,8 +12,9 @@ import highcouncil.domain.enumeration.Phase;
  * A DTO for the Game entity.
  */
 public class GameDTO implements Serializable {
+	private static final long serialVersionUID = 1832581910303922802L;
 
-    private Long id;
+	private Long id;
 
     private Integer timeLimitSeconds;
 
@@ -22,8 +23,6 @@ public class GameDTO implements Serializable {
     @NotNull
     @Min(value = 1)
     private Integer turn;
-
-    private Long firstPlayerId;
 
     private KingdomDTO kingdom;
 
@@ -61,14 +60,6 @@ public class GameDTO implements Serializable {
 
     public void setTurn(Integer turn) {
         this.turn = turn;
-    }
-
-    public Long getFirstPlayerId() {
-        return firstPlayerId;
-    }
-
-    public void setFirstPlayerId(Long firstPlayerId) {
-        this.firstPlayerId = firstPlayerId;
     }
 
 	public KingdomDTO getKingdom() {

@@ -18,7 +18,6 @@
             "timeLimitSeconds": "Time Limit Seconds",
             "phase": "Phase",
             "turn": "Turn",
-            "firstPlayerId": "First Player",
             "lockOrders": "Final",
             "player": "Player",
             "playerFilter": "Recipients: ",

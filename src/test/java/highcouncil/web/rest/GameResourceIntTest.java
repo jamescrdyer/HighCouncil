@@ -3,6 +3,7 @@ package highcouncil.web.rest;
 import highcouncil.HighCouncilApp;
 
 import highcouncil.domain.Game;
+import highcouncil.domain.Player;
 import highcouncil.repository.GameRepository;
 import highcouncil.service.GameService;
 import highcouncil.service.dto.GameDTO;
@@ -44,14 +45,11 @@ public class GameResourceIntTest {
     private static final Integer DEFAULT_TIME_LIMIT_SECONDS = 1;
     private static final Integer UPDATED_TIME_LIMIT_SECONDS = 2;
 
-    private static final Phase DEFAULT_PHASE = Phase.Discussion;
+    private static final Phase DEFAULT_PHASE = Phase.Forming;
     private static final Phase UPDATED_PHASE = Phase.Orders;
 
     private static final Integer DEFAULT_TURN = 1;
     private static final Integer UPDATED_TURN = 2;
-
-    private static final Long DEFAULT_FIRST_PLAYER_ID = 1L;
-    private static final Long UPDATED_FIRST_PLAYER_ID = 2L;
 
     @Autowired
     private GameRepository gameRepository;
@@ -98,8 +96,7 @@ public class GameResourceIntTest {
         Game game = new Game()
             .timeLimitSeconds(DEFAULT_TIME_LIMIT_SECONDS)
             .phase(DEFAULT_PHASE)
-            .turn(DEFAULT_TURN)
-            .firstPlayerId(DEFAULT_FIRST_PLAYER_ID);
+            .turn(DEFAULT_TURN);
         return game;
     }
 
@@ -127,7 +124,6 @@ public class GameResourceIntTest {
         assertThat(testGame.getTimeLimitSeconds()).isEqualTo(DEFAULT_TIME_LIMIT_SECONDS);
         assertThat(testGame.getPhase()).isEqualTo(DEFAULT_PHASE);
         assertThat(testGame.getTurn()).isEqualTo(DEFAULT_TURN);
-        assertThat(testGame.getFirstPlayerId()).isEqualTo(DEFAULT_FIRST_PLAYER_ID);
     }
 
     @Test
@@ -182,14 +178,21 @@ public class GameResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(game.getId().intValue())))
             .andExpect(jsonPath("$.[*].timeLimitSeconds").value(hasItem(DEFAULT_TIME_LIMIT_SECONDS)))
             .andExpect(jsonPath("$.[*].phase").value(hasItem(DEFAULT_PHASE.toString())))
-            .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)))
-            .andExpect(jsonPath("$.[*].firstPlayerId").value(hasItem(DEFAULT_FIRST_PLAYER_ID.intValue())));
+            .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)));
     }
 
     @Test
     @Transactional
     public void getGame() throws Exception {
         // Initialize the database
+    	Player p = new Player();
+    	p.setValuesToZero();
+    	p.setGame(game);
+    	p.setScore(10);
+    	p.setFavour(3);
+    	p.setName("Shitlips");
+    	p.setPenalty(4);
+    	game.getPlayers().add(p);
         gameRepository.saveAndFlush(game);
 
         // Get the game
@@ -200,7 +203,8 @@ public class GameResourceIntTest {
             .andExpect(jsonPath("$.timeLimitSeconds").value(DEFAULT_TIME_LIMIT_SECONDS))
             .andExpect(jsonPath("$.phase").value(DEFAULT_PHASE.toString()))
             .andExpect(jsonPath("$.turn").value(DEFAULT_TURN))
-            .andExpect(jsonPath("$.firstPlayerId").value(DEFAULT_FIRST_PLAYER_ID.intValue()));
+            .andExpect(jsonPath("$.players[0].score").value(10))
+            .andExpect(jsonPath("$.players[0].penalty").value(4));
     }
 
     @Test
@@ -223,8 +227,7 @@ public class GameResourceIntTest {
         updatedGame
             .timeLimitSeconds(UPDATED_TIME_LIMIT_SECONDS)
             .phase(UPDATED_PHASE)
-            .turn(UPDATED_TURN)
-            .firstPlayerId(UPDATED_FIRST_PLAYER_ID);
+            .turn(UPDATED_TURN);
         GameDTO gameDTO = gameMapper.toDto(updatedGame);
 
         restGameMockMvc.perform(put("/api/games")
@@ -239,7 +242,6 @@ public class GameResourceIntTest {
         assertThat(testGame.getTimeLimitSeconds()).isEqualTo(UPDATED_TIME_LIMIT_SECONDS);
         assertThat(testGame.getPhase()).isEqualTo(UPDATED_PHASE);
         assertThat(testGame.getTurn()).isEqualTo(UPDATED_TURN);
-        assertThat(testGame.getFirstPlayerId()).isEqualTo(UPDATED_FIRST_PLAYER_ID);
     }
 
     @Test

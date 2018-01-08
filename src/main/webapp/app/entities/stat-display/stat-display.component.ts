@@ -9,6 +9,7 @@ import { StatContainer } from './stat-container.model';
 })
 export class StatDisplayComponent implements OnInit {
     @Input() name: string;
+    @Input() score: number;
     @Input() stats: StatContainer;
     @Input() mostStats: StatContainer;
     @Input() leastStats: StatContainer;

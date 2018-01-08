@@ -110,4 +110,7 @@ jhipster:
 # http://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
+cron:
+  gameProcessor: "0 0 0/60 * * ?"
+  
 application:
