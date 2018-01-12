@@ -12,7 +12,7 @@ import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
     templateUrl: './kingdom.component.html'
 })
 export class KingdomComponent implements OnInit, OnDestroy {
-kingdoms: Kingdom[];
+    kingdoms: Kingdom[];
     currentAccount: any;
     eventSubscriber: Subscription;
 

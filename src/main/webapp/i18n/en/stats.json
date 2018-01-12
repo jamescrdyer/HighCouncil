@@ -1,0 +1,12 @@
+{
+    "highCouncilApp": {
+        "stats" : {
+            "piety": "Piety",
+            "popularity": "Popularity",
+            "military": "Military",
+            "wealth": "Wealth",
+            "favour": "Favour",
+            "penalty": "Penalty"
+        }
+    }
+}

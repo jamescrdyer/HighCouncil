@@ -2,10 +2,10 @@
     "highCouncilApp": {
         "Phase" : {
             "null": "",
-            "Discussion": "Discussion",
+            "Discussion": "Forming",
             "Orders": "Orders",
-            "Resolution": "Resolution",
-            "Intrigue": "Intrigue"
+            "Intrigue": "Intrigue",
+            "Resolution": "Completed"
         }
     }
 }

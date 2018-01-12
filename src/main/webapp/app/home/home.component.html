@@ -7,10 +7,37 @@
         <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
 
         <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span *ngIf="account" jhiTranslate="home.logged.message"
-                    translateValues="{username: '{{account.login}}'}"> You are logged in as user "{{account.login}}". </span>
-            <!--  TODO: Add join games list -->
+            <div *ngSwitchCase="true">
+                <div *ngIf="account" class="alert alert-success" jhiTranslate="home.logged.message"
+                    translateValues="{username: '{{account.login}}'}"> You are logged in as user "{{account.login}}".</div>
+			    <div class="table-responsive">
+			        <table class="table table-striped">
+			            <thead>
+				            <tr>
+					            <th><span jhiTranslate="highCouncilApp.game.players">Players</span></th>
+					            <th></th>
+				            </tr>
+			            </thead>
+			            <tbody>
+				            <tr *ngFor="let game of formingGames; trackBy: trackId">
+				                <td>
+							    	<span *ngFor="let player of game.players; trackBy: id; last as isLast">
+							    		{{player.userLogin}}<span *ngIf="!isLast">, </span>
+							    	</span>
+								</td>
+				                <td class="text-right">
+				                    <div class="btn-group flex-btn-group-container">
+				                        <button type="submit" (click)="join(game)" [disabled]="isSaving || isAlreadyPlaying(game)"
+				                                class="btn btn-info btn-sm">
+				                            <span class="fa fa-plus"></span>
+				                            <span class="d-none d-md-inline" jhiTranslate="highCouncilApp.game.join">Join</span>
+				                        </button>
+				                    </div>
+				                </td>
+				            </tr>
+			            </tbody>
+			        </table>
+			    </div>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">

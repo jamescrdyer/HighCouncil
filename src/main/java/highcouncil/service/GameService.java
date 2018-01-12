@@ -6,11 +6,14 @@ import highcouncil.domain.Kingdom;
 import highcouncil.domain.Orders;
 import highcouncil.domain.Player;
 import highcouncil.domain.StatHolder;
+import highcouncil.domain.User;
 import highcouncil.domain.enumeration.Action;
 import highcouncil.domain.enumeration.Phase;
 import highcouncil.repository.ActionResolutionRepository;
 import highcouncil.repository.GameRepository;
 import highcouncil.repository.OrdersRepository;
+import highcouncil.repository.PlayerRepository;
+import highcouncil.repository.UserRepository;
 import highcouncil.service.dto.GameDTO;
 import highcouncil.service.mapper.GameMapper;
 import highcouncil.web.websocket.dto.DiscussionDTO;
@@ -36,7 +39,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  * Service Implementation for managing Game.
  */
@@ -45,101 +47,145 @@ import org.springframework.transaction.annotation.Transactional;
 public class GameService {
 	private static final int KINGDOM_0_BONUS = 6;
 
-    private final Logger log = LoggerFactory.getLogger(GameService.class);
+	private final Logger log = LoggerFactory.getLogger(GameService.class);
 
-    private final GameRepository gameRepository;
+	private final UserService userService;
 
-    private final OrdersRepository ordersRepository;
+	private final GameRepository gameRepository;
 
-    private final ActionResolutionRepository actionResolutionRepository;
+	private final PlayerRepository playerRepository;
 
-    private final GameMapper gameMapper;
+	private final OrdersRepository ordersRepository;
 
-    private final CodeResolver codeResolver;
+	private final ActionResolutionRepository actionResolutionRepository;
 
-    private final SimpMessagingTemplate messagingTemplate;
-    
-    public GameService(GameRepository gameRepository, OrdersRepository ordersRepository, ActionResolutionRepository actionResolutionRepository, 
-    		GameMapper gameMapper, CodeResolver codeResolver, SimpMessagingTemplate messagingTemplate) {
-        this.gameRepository = gameRepository;
-        this.ordersRepository = ordersRepository;
-        this.actionResolutionRepository = actionResolutionRepository;
-        this.gameMapper = gameMapper;
-        this.codeResolver = codeResolver;
-        this.messagingTemplate = messagingTemplate;
-    }
+	private final GameMapper gameMapper;
 
-    /**
-     * Save a game.
-     *
-     * @param gameDTO the entity to save
-     * @return the persisted entity
-     */
-    public GameDTO save(GameDTO gameDTO) {
-        log.debug("Request to save Game : {}", gameDTO);
-        Game game = gameMapper.toEntity(gameDTO);
-        game = gameRepository.save(game);
-        return gameMapper.toDto(game);
-    }
+	private final CodeResolver codeResolver;
 
-    /**
-     *  Get all the games.
-     *
-     *  @param pageable the pagination information
-     *  @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<GameDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all Games");
-        return gameRepository.findAll(pageable)
-            .map(gameMapper::toDto);
-    }
+	private final SimpMessagingTemplate messagingTemplate;
 
-    /**
-     *  Get one game by id.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
-     */
-    @Transactional(readOnly = true)
-    public GameDTO findOne(Long id) {
-        log.debug("Request to get Game : {}", id);
-        Game game = gameRepository.findOne(id);
-        return gameMapper.toDto(game);
-    }
+	public GameService(GameRepository gameRepo, OrdersRepository ordersRepo, PlayerRepository playerRepo,
+			UserService userService, ActionResolutionRepository actionResolutionRepo, GameMapper gameMapper,
+			CodeResolver codeResolver, SimpMessagingTemplate messagingTemplate) {
+		this.gameRepository = gameRepo;
+		this.userService = userService;
+		this.ordersRepository = ordersRepo;
+		this.actionResolutionRepository = actionResolutionRepo;
+		this.gameMapper = gameMapper;
+		this.codeResolver = codeResolver;
+		this.messagingTemplate = messagingTemplate;
+		this.playerRepository = playerRepo;
+	}
 
-    /**
-     *  Delete the game by id.
-     *
-     *  @param id the id of the entity
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete Game : {}", id);
-        gameRepository.delete(id);
-    }
-    
+	/**
+	 * Save a game.
+	 *
+	 * @param gameDTO
+	 *            the entity to save
+	 * @return the persisted entity
+	 */
+	public GameDTO save(GameDTO gameDTO) {
+		log.debug("Request to save Game : {}", gameDTO);
+		Game game = gameMapper.toEntity(gameDTO);
+		if (game.getId() == null) {
+			initKingdom(game);
+		}
+		game = gameRepository.save(game);
+		return gameMapper.toDto(game);
+	}
+
+	private void initKingdom(Game game) {
+		Kingdom k = new Kingdom();
+		k.setHealth(10);
+		k.setMilitary(4);
+		k.setPiety(4);
+		k.setPopularity(4);
+		k.setWealth(4);
+		k.setGame(game);
+		game.setKingdom(k);
+	}
+
+	/**
+	 * Get all the games.
+	 *
+	 * @param pageable
+	 *            the pagination information
+	 * @return the list of entities
+	 */
+	@Transactional(readOnly = true)
+	public Page<GameDTO> findAll(Pageable pageable) {
+		log.debug("Request to get all Games");
+		return gameRepository.findAll(pageable).map(gameMapper::toDto);
+	}
+
+	/**
+	 * Get all the games.
+	 *
+	 * @param pageable
+	 *            the pagination information
+	 * @return the list of entities
+	 */
+	@Transactional(readOnly = true)
+	public Page<GameDTO> findForming(Pageable pageable) {
+		log.debug("Request to get forming Games");
+		return gameRepository.findAllForming(pageable).map(gameMapper::toDto);
+	}
+
+	/**
+	 * Get one game by id.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 * @return the entity
+	 */
+	@Transactional(readOnly = true)
+	public GameDTO findOne(Long id) {
+		log.debug("Request to get Game : {}", id);
+		Game game = gameRepository.findOne(id);
+		return gameMapper.toDto(game);
+	}
+
+	/**
+	 * Delete the game by id.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 */
+	public void delete(Long id) {
+		log.debug("Request to delete Game : {}", id);
+		gameRepository.delete(id);
+	}
+
 	@Scheduled(cron = "${cron.gameProcessor}")
-    public void processGames() {
-        List<Game> games = gameRepository.findAllNotComplete();
-        games.forEach(g -> {
-        	processGame(g);
-        });
-        games = gameRepository.findAllForming();
-        games.forEach(g -> {
-        	startGame(g);
-        });
-    }
-	
-	private void startGame(Game game) {
+	public void processGames() {
+		List<Game> games = gameRepository.findAllNotComplete();
+		if (games != null) {
+			games.forEach(g -> {
+				processGame(g);
+			});
+		}
+		games = gameRepository.findAllForming();
+		if (games != null) {
+			games.forEach(g -> {
+				startGame(g);
+			});
+		}
+	}
+
+	private Game startGame(Game game) {
 		if (game.getPlayers().size() == 3 || game.getPlayers().size() == 4) {
 			game.setPhase(Phase.Orders);
+			game.setTurn(1);
 			game.getPlayers().stream().findFirst().get().setChancellor(true);
+			return gameRepository.save(game);
 		}
+		return game;
 	}
 
 	private void processGame(Game game) {
 		List<Player> players = game.getPlayersList();
-		for (Player p: players) {
+		for (Player p : players) {
 			if (!p.isPhaseLocked()) {
 				return;
 			}
@@ -153,7 +199,7 @@ public class GameService {
 			int piety = allOrders.parallelStream().mapToInt(o -> o.getPiety()).sum();
 			int popularity = allOrders.parallelStream().mapToInt(o -> o.getPopularity()).sum();
 			int favour = allOrders.parallelStream().mapToInt(o -> o.getFavour()).sum();
-			for (Player p: players) {
+			for (Player p : players) {
 				boolean isChancellor = p.isChancellor();
 				Optional<Orders> ordersFound = allOrders.stream().filter(o -> o.getPlayer().equals(p)).findFirst();
 				if (ordersFound.isPresent()) {
@@ -180,7 +226,7 @@ public class GameService {
 					}
 					ActionResolution resolution = actionResolutionRepository.findOneByTotalAndAction(total, action);
 					applyResolution(p, isChancellor, resolution);
-					if (isChancellor) { //chancellor penalties
+					if (isChancellor) { // chancellor penalties
 						if (wealth <= 0) {
 							p.setWealth(p.getWealth() - 1);
 							kingdom.setWealth(kingdom.getWealth() - 1);
@@ -208,7 +254,8 @@ public class GameService {
 				}
 				p.setPhaseLocked(false);
 			}
-			game.setTurn(game.getTurn()+1);
+			game.setTurn(game.getTurn() + 1);
+			//TODO: set expected orders for each player
 			setNextChancellor(game);
 			kingdom.setHealth(kingdom.getHealth() - 1);
 			checkGameEndAndScore(game);
@@ -219,33 +266,33 @@ public class GameService {
 
 	private void checkGameEndAndScore(Game game) {
 		Kingdom kingdom = game.getKingdom();
-		
+
 		Player playerMaxes = new Player();
 		Player playerCounts = new Player();
 		playerMaxes.setValuesToZero();
 		playerCounts.setValuesToZero();
 		int secondMostMilitary = 0;
-		
+
 		int pietyMin = Integer.MAX_VALUE;
 		int pietyMinCount = 1;
 		int popularityMin = Integer.MAX_VALUE;
 		int popularityMinCount = 1;
-		
+
 		boolean gameOver = false;
-		
-		for (Player p: game.getPlayers()) {
+
+		for (Player p : game.getPlayers()) {
 			int score = 0;
 			score += p.getWealth();
 			score += p.getMilitary() * 2;
-			score += p.getPopularity()/2 + p.getPopularity()%2;
+			score += p.getPopularity() / 2 + p.getPopularity() % 2;
 			score -= p.getPenalty() * 3;
 			if (kingdom.getHealth() <= 0) {
 				score += p.getFavour();
 				gameOver = true;
 			}
 			p.setScore(score);
-			
-			//calculate maxes
+
+			// calculate maxes
 			if (playerMaxes.getPiety() < p.getPiety()) {
 				playerMaxes.setPiety(p.getPiety());
 				playerCounts.setPiety(1);
@@ -271,7 +318,7 @@ public class GameService {
 			} else if (popularityMin == p.getPopularity()) {
 				popularityMinCount++;
 			}
-			
+
 			if (playerMaxes.getMilitary() < p.getMilitary()) {
 				playerMaxes.setMilitary(p.getMilitary());
 				playerCounts.setMilitary(1);
@@ -290,20 +337,20 @@ public class GameService {
 				playerCounts.setWealth(playerCounts.getWealth() + 1);
 			}
 		}
-		for (Player p: game.getPlayers()) {
+		for (Player p : game.getPlayers()) {
 			int score = p.getScore();
-			
+
 			if (playerMaxes.getPiety().equals(p.getPiety())) {
 				int bonus = 8;
 				if (kingdom.getPiety() <= 0) {
 					gameOver = true;
 					bonus += KINGDOM_0_BONUS;
 				}
-				bonus = bonus/playerCounts.getPiety();
+				bonus = bonus / playerCounts.getPiety();
 				score += bonus;
 			}
 			if (pietyMin == p.getPiety()) {
-				int penalty = 8/pietyMinCount;
+				int penalty = 8 / pietyMinCount;
 				score -= penalty;
 			}
 			if (playerMaxes.getPopularity().equals(p.getPopularity())) {
@@ -312,18 +359,18 @@ public class GameService {
 					gameOver = true;
 					bonus += KINGDOM_0_BONUS;
 				}
-				bonus = bonus/playerCounts.getPopularity();
+				bonus = bonus / playerCounts.getPopularity();
 				score += bonus;
 			}
 			if (popularityMin == p.getPopularity()) {
-				int penalty = 3/popularityMinCount;
+				int penalty = 3 / popularityMinCount;
 				score -= penalty;
 			}
 			if (kingdom.getMilitary() <= 0) {
 				gameOver = true;
 				if (playerMaxes.getMilitary().equals(p.getMilitary())) {
 					int bonus = KINGDOM_0_BONUS;
-					bonus = bonus/playerCounts.getMilitary();
+					bonus = bonus / playerCounts.getMilitary();
 					score += bonus;
 				}
 			}
@@ -331,7 +378,7 @@ public class GameService {
 				gameOver = true;
 				if (playerMaxes.getWealth().equals(p.getWealth())) {
 					int bonus = KINGDOM_0_BONUS;
-					bonus = bonus/playerCounts.getWealth();
+					bonus = bonus / playerCounts.getWealth();
 					score += bonus;
 				}
 			}
@@ -341,11 +388,11 @@ public class GameService {
 			game.setPhase(Phase.Completed);
 		}
 	}
-	
+
 	private void setNextChancellor(Game game) {
 		List<Player> players = game.getPlayersList();
 		boolean lastWasChancellor = false;
-		for (Player p: players) {
+		for (Player p : players) {
 			if (p.isChancellor())
 				lastWasChancellor = true;
 			if (lastWasChancellor) {
@@ -358,15 +405,16 @@ public class GameService {
 			players.get(0).setChancellor(true);
 		}
 	}
+
 	public void afterGameProcessed(Game game) {
-		this.messagingTemplate.convertAndSend("/topic/gamestate/"+game.getId(), gameMapper.toDto(game));
+		this.messagingTemplate.convertAndSend("/topic/gamestate/" + game.getId(), gameMapper.toDto(game));
 	}
-    
+
 	@MessageMapping("/topic/gamestate/{gameId}")
-    public GameDTO gameState(StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+	public GameDTO gameState(StompHeaderAccessor stompHeaderAccessor, Principal principal) {
 		return null;
-    }
-	
+	}
+
 	private void addPenalties(Player p) {
 		while (p.getWealth() < 0) {
 			p.setWealth(p.getWealth() + 1);
@@ -389,6 +437,7 @@ public class GameService {
 			p.setPenalty(p.getPenalty() + 1);
 		}
 	}
+
 	private void applyResolution(Player p, boolean isChancellor, ActionResolution resolution) {
 		applyResolution(p, resolution.getCodeNormal());
 		if (isChancellor) {
@@ -398,5 +447,35 @@ public class GameService {
 
 	private void applyResolution(StatHolder target, String code) {
 		codeResolver.resolveCode(code, target);
+	}
+
+	public GameDTO join(Long id) {
+		Game game = gameRepository.findOne(id);
+		if (game == null || game.getPhase() != Phase.Forming) {
+			return null;
+		}
+		Player p = new Player();
+		User u = userService.getUserWithAuthorities();
+		p.setUser(u);
+		p.setName(u.getLogin());
+		game.getPlayers().add(p);
+		p.setGame(game);
+		initPlayer(p);
+		playerRepository.save(p);
+		Game result = gameRepository.save(game);
+		result = startGame(result);
+		return gameMapper.toDto(game);
+	}
+
+	private void initPlayer(Player p) {
+		p.setPiety(2);
+		p.setWealth(3);
+		p.setPopularity(2);
+		p.setMilitary(2);
+		p.setFavour(3);
+		p.setPenalty(0);
+		p.setChancellor(false);
+		p.setScore(0);
+		p.setPhaseLocked(false);
 	}
 }

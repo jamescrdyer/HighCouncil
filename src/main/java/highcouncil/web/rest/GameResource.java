@@ -84,6 +84,35 @@ public class GameResource {
     }
 
     /**
+     * GET  /games/forming : get all forming games.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of games in body
+     */
+    @GetMapping("/games/forming")
+    @Timed
+    public ResponseEntity<List<GameDTO>> getFormingGames(@ApiParam Pageable pageable) {
+        log.debug("REST request to get a page of forming games");
+        Page<GameDTO> page = gameService.findForming(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/games");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * PUT  /games/join/:id : add the currently logged in user to the game.
+     *
+     * @param the id of the game to join
+     * @return the ResponseEntity with status 200 (OK) and the list of games in body
+     */
+    @PutMapping("/games/join/{id}")
+    @Timed
+    public ResponseEntity<GameDTO> joinGame(@PathVariable Long id) {
+        log.debug("REST request to get a page of forming games");
+        GameDTO game = gameService.join(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(game));
+    }
+
+    /**
      * GET  /games : get all the games.
      *
      * @param pageable the pagination information

@@ -29,6 +29,13 @@ export class GameService {
         });
     }
 
+    join(game: Game): Observable<Game> {
+        return this.http.put(this.resourceUrl+'/join/'+game.id, null).map((res: Response) => {
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
+        });
+    }
+
     find(id: number): Observable<Game> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
@@ -37,13 +44,21 @@ export class GameService {
     }
 
     query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
+        return this.queryUrl(this.resourceUrl, req);
+    }
+
+    getForming(req?: any): Observable<ResponseWrapper> {
+        return this.queryUrl(this.resourceUrl+'/forming', req);
     }
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    private queryUrl(url: string, req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(url, options)
+            .map((res: Response) => this.convertResponse(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {
