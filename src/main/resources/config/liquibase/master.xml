@@ -13,6 +13,7 @@
     <include file="config/liquibase/changelog/20171025154649_added_entity_Kingdom.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024165034_added_entity_Game.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171201014600_added_entity_Orders.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180115171058_added_entity_ExpectedOrderNumber.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20171024200012_added_entity_constraints_ActionResolution.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171024164600_added_entity_constraints_Player.xml" relativeToChangelogFile="false"/>
@@ -21,4 +22,5 @@
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="config/liquibase/changelog/20171215014600_add_order_resolutions.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171215014601_add_action_resolutions.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180115171059_add_expected_order_numbers.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

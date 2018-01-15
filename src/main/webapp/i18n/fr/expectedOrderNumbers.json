@@ -1,0 +1,23 @@
+{
+    "highCouncilApp": {
+        "expectedOrderNumbers" : {
+            "home": {
+                "title": "ExpectedOrderNumbers",
+                "createLabel": "Créer un nouveau Expected Order Numbers",
+                "createOrEditLabel": "Créer ou éditer un Expected Order Numbers"
+            },
+            "created": "Un nouveau Expected Order Numbers a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Expected Order Numbers avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Expected Order Numbers avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Expected Order Numbers {{ id }} ?"
+            },
+            "detail": {
+                "title": "Expected Order Numbers"
+            },
+            "numberOfPlayers": "Number Of Players",
+            "playerNumber": "Player Number",
+            "ordersExpected": "Orders Expected"
+        }
+    }
+}

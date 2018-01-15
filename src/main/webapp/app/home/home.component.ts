@@ -50,7 +50,9 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
-        this.loadAll();
+        if (this.isAuthenticated()) {
+            this.loadAll();
+        }
     }
 
     join(game: Game) {
@@ -98,6 +100,7 @@ export class HomeComponent implements OnInit {
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
                 this.account = account;
+                this.loadAll();
             });
         });
     }

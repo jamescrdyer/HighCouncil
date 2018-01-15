@@ -1,0 +1,33 @@
+
+<div *ngIf="expectedOrderNumbers">
+    <h2><span jhiTranslate="highCouncilApp.expectedOrderNumbers.detail.title">Expected Order Numbers</span> {{expectedOrderNumbers.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="highCouncilApp.expectedOrderNumbers.numberOfPlayers">Number Of Players</span></dt>
+        <dd>
+            <span>{{expectedOrderNumbers.numberOfPlayers}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.expectedOrderNumbers.playerNumber">Player Number</span></dt>
+        <dd>
+            <span>{{expectedOrderNumbers.playerNumber}}</span>
+        </dd>
+        <dt><span jhiTranslate="highCouncilApp.expectedOrderNumbers.ordersExpected">Orders Expected</span></dt>
+        <dd>
+            <span>{{expectedOrderNumbers.ordersExpected}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'expected-order-numbers/'+ expectedOrderNumbers.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

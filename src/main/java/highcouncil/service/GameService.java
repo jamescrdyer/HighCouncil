@@ -1,6 +1,7 @@
 package highcouncil.service;
 
 import highcouncil.domain.ActionResolution;
+import highcouncil.domain.ExpectedOrderNumber;
 import highcouncil.domain.Game;
 import highcouncil.domain.Kingdom;
 import highcouncil.domain.Orders;
@@ -10,6 +11,7 @@ import highcouncil.domain.User;
 import highcouncil.domain.enumeration.Action;
 import highcouncil.domain.enumeration.Phase;
 import highcouncil.repository.ActionResolutionRepository;
+import highcouncil.repository.ExpectedOrderNumberRepository;
 import highcouncil.repository.GameRepository;
 import highcouncil.repository.OrdersRepository;
 import highcouncil.repository.PlayerRepository;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +60,8 @@ public class GameService {
 
 	private final OrdersRepository ordersRepository;
 
+	private final ExpectedOrderNumberRepository expectedOrdersRepository;
+
 	private final ActionResolutionRepository actionResolutionRepository;
 
 	private final GameMapper gameMapper;
@@ -66,11 +71,13 @@ public class GameService {
 	private final SimpMessagingTemplate messagingTemplate;
 
 	public GameService(GameRepository gameRepo, OrdersRepository ordersRepo, PlayerRepository playerRepo,
-			UserService userService, ActionResolutionRepository actionResolutionRepo, GameMapper gameMapper,
-			CodeResolver codeResolver, SimpMessagingTemplate messagingTemplate) {
+			UserService userService, ActionResolutionRepository actionResolutionRepo, ExpectedOrderNumberRepository expectedOrdersRepo, 
+			GameMapper gameMapper, CodeResolver codeResolver, SimpMessagingTemplate messagingTemplate) 
+	{
 		this.gameRepository = gameRepo;
 		this.userService = userService;
 		this.ordersRepository = ordersRepo;
+		this.expectedOrdersRepository = expectedOrdersRepo;
 		this.actionResolutionRepository = actionResolutionRepo;
 		this.gameMapper = gameMapper;
 		this.codeResolver = codeResolver;
@@ -178,7 +185,10 @@ public class GameService {
 			game.setPhase(Phase.Orders);
 			game.setTurn(1);
 			game.getPlayers().stream().findFirst().get().setChancellor(true);
-			return gameRepository.save(game);
+			setExpectedOrders(game);
+			Game result = gameRepository.save(game);
+			afterGameProcessed(result);
+			return result;
 		}
 		return game;
 	}
@@ -255,7 +265,6 @@ public class GameService {
 				p.setPhaseLocked(false);
 			}
 			game.setTurn(game.getTurn() + 1);
-			//TODO: set expected orders for each player
 			setNextChancellor(game);
 			kingdom.setHealth(kingdom.getHealth() - 1);
 			checkGameEndAndScore(game);
@@ -393,8 +402,10 @@ public class GameService {
 		List<Player> players = game.getPlayersList();
 		boolean lastWasChancellor = false;
 		for (Player p : players) {
-			if (p.isChancellor())
+			if (p.isChancellor()) {
 				lastWasChancellor = true;
+				p.setChancellor(false);
+			}
 			if (lastWasChancellor) {
 				p.setChancellor(true);
 				lastWasChancellor = false;
@@ -404,6 +415,24 @@ public class GameService {
 		if (lastWasChancellor) {
 			players.get(0).setChancellor(true);
 		}
+		setExpectedOrders(game);
+	}
+	
+	private void setExpectedOrders(Game game) {
+		List<Player> players = game.getPlayersList();
+		List<ExpectedOrderNumber> expectedOrders = expectedOrdersRepository.findByPlayerNumber(players.size());
+		expectedOrders.sort((o1,o2) -> o1.getPlayerNumber().compareTo(o2.getPlayerNumber()));
+		for (int i = 0; i<players.size(); i++) {
+			Player chancellor = players.get(i);
+			if (chancellor.isChancellor()) {
+				int chancellorIndex = i;
+				for (int j = 0; j<players.size(); j++) {
+					players.get(chancellorIndex+j).setOrdersExpected(expectedOrders.get(j).getOrdersExpected());
+				}
+				break;
+			}
+		}
+		playerRepository.save(players);
 	}
 
 	public void afterGameProcessed(Game game) {

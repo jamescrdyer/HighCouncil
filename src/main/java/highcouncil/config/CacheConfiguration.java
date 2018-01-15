@@ -56,6 +56,7 @@ public class CacheConfiguration {
             cm.createCache(highcouncil.domain.OrderResolution.class.getName(), jcacheConfiguration);
             cm.createCache(highcouncil.domain.ActionResolution.class.getName(), jcacheConfiguration);
             cm.createCache(highcouncil.domain.Orders.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.ExpectedOrderNumber.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

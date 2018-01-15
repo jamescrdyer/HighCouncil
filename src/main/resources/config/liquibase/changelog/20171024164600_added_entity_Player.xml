@@ -58,6 +58,9 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="orders_expected" type="integer">
+            </column>
+            
             <column name="score" type="integer">
                 <constraints nullable="true" />
             </column>

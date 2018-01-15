@@ -15,6 +15,7 @@
                 "orderResolution": "Order Resolution",
                 "actionResolution": "Action Resolution",
                 "orders": "Orders",
+                "expectedOrderNumbers": "Expected Order Numbers",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

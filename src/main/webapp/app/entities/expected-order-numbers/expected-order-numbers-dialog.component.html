@@ -1,0 +1,74 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myExpectedOrderNumbersLabel" jhiTranslate="highCouncilApp.expectedOrderNumbers.home.createOrEditLabel">Create or edit a Expected Order Numbers</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!expectedOrderNumbers.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="expectedOrderNumbers.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.expectedOrderNumbers.numberOfPlayers" for="field_numberOfPlayers">Number Of Players</label>
+            <input type="number" class="form-control" name="numberOfPlayers" id="field_numberOfPlayers"
+                [(ngModel)]="expectedOrderNumbers.numberOfPlayers" required min="3" />
+            <div [hidden]="!(editForm.controls.numberOfPlayers?.dirty && editForm.controls.numberOfPlayers?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.numberOfPlayers?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.numberOfPlayers?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 3 }">
+                    This field should be at least 3.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.numberOfPlayers?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.expectedOrderNumbers.playerNumber" for="field_playerNumber">Player Number</label>
+            <input type="number" class="form-control" name="playerNumber" id="field_playerNumber"
+                [(ngModel)]="expectedOrderNumbers.playerNumber" required />
+            <div [hidden]="!(editForm.controls.playerNumber?.dirty && editForm.controls.playerNumber?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.playerNumber?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.playerNumber?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.expectedOrderNumbers.ordersExpected" for="field_ordersExpected">Orders Expected</label>
+            <input type="number" class="form-control" name="ordersExpected" id="field_ordersExpected"
+                [(ngModel)]="expectedOrderNumbers.ordersExpected" required />
+            <div [hidden]="!(editForm.controls.ordersExpected?.dirty && editForm.controls.ordersExpected?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ordersExpected?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ordersExpected?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

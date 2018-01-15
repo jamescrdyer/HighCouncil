@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="add_expected_orders" author="jdyer">
+        <sql>insert into expected_order_number (number_of_players, player_number, orders_expected) values (3,1,7)</sql>
+        <sql>insert into expected_order_number (number_of_players, player_number, orders_expected) values (3,2,5)</sql>
+        <sql>insert into expected_order_number (number_of_players, player_number, orders_expected) values (3,3,3)</sql>
+        <sql>insert into expected_order_number (number_of_players, player_number, orders_expected) values (4,1,6)</sql>
+        <sql>insert into expected_order_number (number_of_players, player_number, orders_expected) values (4,2,4)</sql>
+        <sql>insert into expected_order_number (number_of_players, player_number, orders_expected) values (4,3,3)</sql>
+        <sql>insert into expected_order_number (number_of_players, player_number, orders_expected) values (4,4,2)</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "numberOfPlayers",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": "3"
+        },
+        {
+            "fieldName": "playerNumber",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "ordersExpected",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180115171058",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "expected_order_numbers",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

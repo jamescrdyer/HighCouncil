@@ -24,6 +24,9 @@ public class Player extends StatHolder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "orders_expected")
+    private Integer ordersExpected;
+
     @NotNull
     @Column(name = "favour", nullable = false)
     private Integer favour;
@@ -90,6 +93,14 @@ public class Player extends StatHolder implements Serializable {
         return this;
     }
 
+    public Integer getOrdersExpected() {
+        return ordersExpected;
+    }
+
+    public void setOrdersExpected(Integer ordersExpected) {
+        this.ordersExpected = ordersExpected;
+    }
+    
     public Integer getFavour() {
         return favour;
     }
@@ -258,6 +269,7 @@ public class Player extends StatHolder implements Serializable {
             ", chancellor='" + isChancellor() + "'" +
             ", name='" + getName() + "'" +
             ", phaseLocked='" + isPhaseLocked() + "'" +
+            ", ordersExpected='" + getOrdersExpected() + "'" +
             ", penalty='" + getPenalty() + "'" +
             ", score='" + getScore() + "'" +
             "}";
