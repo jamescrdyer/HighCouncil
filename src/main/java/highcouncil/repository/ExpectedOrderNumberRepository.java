@@ -21,6 +21,6 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface ExpectedOrderNumberRepository extends JpaRepository<ExpectedOrderNumber, Long> {
 
-    @Query("select orderNumber from ExpectedOrderNumber orderNumber where orderNumber.playerNumber = :playerNumber")
-	List<ExpectedOrderNumber> findByPlayerNumber(@Param("playerNumber") Integer playerNumber);
+    @Query("select orderNumber from ExpectedOrderNumber orderNumber where orderNumber.numberOfPlayers = :numberOfPlayers")
+	List<ExpectedOrderNumber> findByNumberOfPlayers(@Param("numberOfPlayers") Integer numberOfPlayers);
 }

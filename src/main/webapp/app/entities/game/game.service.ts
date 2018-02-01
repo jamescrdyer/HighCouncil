@@ -30,7 +30,7 @@ export class GameService {
     }
 
     join(game: Game): Observable<Game> {
-        return this.http.put(this.resourceUrl+'/join/'+game.id, null).map((res: Response) => {
+        return this.http.put(this.resourceUrl + '/join/' + game.id, null).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });

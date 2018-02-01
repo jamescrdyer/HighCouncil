@@ -103,26 +103,30 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
         this.gameService.find(id).subscribe((game) => {
             this.game = game;
             this.sortPlayers();
-            this.game.players.forEach((p: Player) => {
-                if (this.currentUser !== p.userLogin) {
-                    this.discussionDestinations[p.userLogin] = true;
-                } else {
-                    this.player = p;
-                }
-            });
+            if (this.game && this.game.players) {
+                this.game.players.forEach((p: Player) => {
+                    if (this.currentUser !== p.userLogin) {
+                        this.discussionDestinations[p.userLogin] = true;
+                    } else {
+                        this.player = p;
+                    }
+                });
+            }
         });
     }
 
     sortPlayers() {
-        this.game.players.sort(function(p1, p2) {
-            if (p1.id < p2.id) {
-                return -1;
-            }
-            if (p1.id > p2.id) {
-                return 1;
-            }
-            return 0;
-        });
+        if (this.game && this.game.players) {
+            this.game.players.sort(function(p1, p2) {
+                if (p1.id < p2.id) {
+                    return -1;
+                }
+                if (p1.id > p2.id) {
+                    return 1;
+                }
+                return 0;
+            });
+        }
     }
 
     previousState() {
@@ -149,7 +153,9 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
         this.eventManager.destroy(this.eventSubscriber);
         this.discussionService.unsubscribe();
     }

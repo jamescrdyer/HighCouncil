@@ -6,4 +6,5 @@ export interface StatContainer {
     wealth?: number;
     health?: number;
     favour?: number;
+    penalty?: number;
 };

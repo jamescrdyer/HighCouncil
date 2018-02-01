@@ -420,14 +420,15 @@ public class GameService {
 	
 	private void setExpectedOrders(Game game) {
 		List<Player> players = game.getPlayersList();
-		List<ExpectedOrderNumber> expectedOrders = expectedOrdersRepository.findByPlayerNumber(players.size());
+		List<ExpectedOrderNumber> expectedOrders = expectedOrdersRepository.findByNumberOfPlayers(players.size());
 		expectedOrders.sort((o1,o2) -> o1.getPlayerNumber().compareTo(o2.getPlayerNumber()));
 		for (int i = 0; i<players.size(); i++) {
 			Player chancellor = players.get(i);
 			if (chancellor.isChancellor()) {
 				int chancellorIndex = i;
-				for (int j = 0; j<players.size(); j++) {
-					players.get(chancellorIndex+j).setOrdersExpected(expectedOrders.get(j).getOrdersExpected());
+				for (int j = 0; j<expectedOrders.size(); j++) {
+					ExpectedOrderNumber ordersExpected = expectedOrders.get(j);
+					players.get((chancellorIndex+j) % players.size()).setOrdersExpected(ordersExpected.getOrdersExpected());
 				}
 				break;
 			}

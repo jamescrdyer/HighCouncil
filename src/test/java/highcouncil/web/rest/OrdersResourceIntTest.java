@@ -1,9 +1,12 @@
 package highcouncil.web.rest;
 
 import highcouncil.HighCouncilApp;
-
+import highcouncil.domain.Game;
 import highcouncil.domain.Orders;
+import highcouncil.domain.Player;
+import highcouncil.repository.GameRepository;
 import highcouncil.repository.OrdersRepository;
+import highcouncil.repository.PlayerRepository;
 import highcouncil.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -60,6 +63,12 @@ public class OrdersResourceIntTest {
     private static final Action UPDATED_ACTION = Action.Popularity;
 
     @Autowired
+    private GameRepository gameRepository;
+    
+    @Autowired
+    private PlayerRepository playerRepository;
+    
+    @Autowired
     private OrdersRepository ordersRepository;
 
     @Autowired
@@ -114,6 +123,9 @@ public class OrdersResourceIntTest {
     @Test
     @Transactional
     public void createOrders() throws Exception {
+    	setupGame();
+    	setupPlayer();
+    	
         int databaseSizeBeforeCreate = ordersRepository.findAll().size();
 
         // Create the Orders
@@ -134,6 +146,18 @@ public class OrdersResourceIntTest {
         assertThat(testOrders.getFavour()).isEqualTo(DEFAULT_FAVOUR);
         assertThat(testOrders.getAction()).isEqualTo(DEFAULT_ACTION);
     }
+
+	private void setupGame() {
+    	Game game = GameResourceIntTest.createEntity(em);
+    	game = gameRepository.save(game);
+    	orders.setGame(game);
+	}
+
+	private void setupPlayer() {
+		Player player = PlayerResourceIntTest.createEntity(em);
+    	player = playerRepository.save(player);
+    	orders.setPlayer(player);
+	}
 
     @Test
     @Transactional
@@ -350,6 +374,8 @@ public class OrdersResourceIntTest {
     @Transactional
     public void updateNonExistingOrders() throws Exception {
         int databaseSizeBeforeUpdate = ordersRepository.findAll().size();
+        setupGame();
+    	setupPlayer();
 
         // Create the Orders
 

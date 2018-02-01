@@ -36,6 +36,15 @@
     "languages": [
       "en",
       "fr"
-    ]
+    ],
+    "aws": {
+      "applicationName": "high-council",
+      "environmentName": "high-council-env",
+      "bucketName": "high-council",
+      "instanceType": "t2.micro",
+      "awsRegion": "us-east-1",
+      "dbName": "HighCouncil",
+      "dbInstanceClass": "db.t2.micro"
+    }
   }
 }
