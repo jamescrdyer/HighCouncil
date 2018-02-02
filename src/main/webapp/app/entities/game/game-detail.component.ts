@@ -77,6 +77,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                 });
             });
         });
+        // TODO: Load action resolutions and show in hover over action selection buttons
         this.registerChangeInGames();
     }
 

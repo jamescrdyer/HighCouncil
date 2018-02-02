@@ -44,16 +44,26 @@
 		<br/>
 		<div *ngIf="numberOfOrdersToSubmit > 0">
 		    <jhi-stat-display [stats]="ordersSubmitted" [name]="'Orders Submitted'"></jhi-stat-display>
-            <label class="form-control-label" jhiTranslate="highCouncilApp.orders.action" for="field_action">Action</label>
-            <select #action class="form-control" name="action" [(ngModel)]="ordersSubmitted.action" id="field_action" (change)="actionChange(action.value)"
-            	[disabled]="game.phase != 'Orders'"
-            >
-                <option value="Piety">{{'highCouncilApp.Action.Piety' | translate}}</option>
-                <option value="Popularity">{{'highCouncilApp.Action.Popularity' | translate}}</option>
-                <option value="Indulge">{{'highCouncilApp.Action.Indulge' | translate}}</option>
-                <option value="Military">{{'highCouncilApp.Action.Military' | translate}}</option>
-                <option value="Wealth">{{'highCouncilApp.Action.Wealth' | translate}}</option>
-            </select>
+		    <div>
+	            <label class="form-control-label" jhiTranslate="highCouncilApp.orders.action" for="field_action">Action</label>
+		    </div>
+		    <div style="height: 30px" class="row justify-content-center" *ngIf="game.phase === 'Orders'">
+		        <button class="col-2 piety value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Piety" 
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Piety'}" (click)="actionChange('Piety')">
+		        </button>
+		        <button class="col-2 popularity value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Popularity" 
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Popularity'}" (click)="actionChange('Popularity')">
+		        </button>
+		        <button class="col-2 military value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Military" 
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Military'}" (click)="actionChange('Military')">
+		        </button>
+		        <button class="col-2 wealth value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Wealth" 
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Wealth'}" (click)="actionChange('Wealth')">
+		        </button>
+		        <button class="col-2 favour value first d-none d-lg-inline" jhiTranslate="highCouncilApp.player.favourShort" 
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Indulge'}" (click)="actionChange('Indulge')">
+		        </button>
+		    </div>
 	    	<button class="btn d-inline" type="button" aria-pressed="false"
 	    		(click)="toggleLock()"
 		    	[ngClass]="{'btn-primary active': ordersLocked}"

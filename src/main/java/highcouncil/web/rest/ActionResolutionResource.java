@@ -4,12 +4,14 @@ import com.codahale.metrics.annotation.Timed;
 import highcouncil.domain.ActionResolution;
 
 import highcouncil.repository.ActionResolutionRepository;
+import highcouncil.security.AuthoritiesConstants;
 import highcouncil.web.rest.errors.BadRequestAlertException;
 import highcouncil.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -44,6 +46,7 @@ public class ActionResolutionResource {
      */
     @PostMapping("/action-resolutions")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<ActionResolution> createActionResolution(@RequestBody ActionResolution actionResolution) throws URISyntaxException {
         log.debug("REST request to save ActionResolution : {}", actionResolution);
         if (actionResolution.getId() != null) {
@@ -66,6 +69,7 @@ public class ActionResolutionResource {
      */
     @PutMapping("/action-resolutions")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<ActionResolution> updateActionResolution(@RequestBody ActionResolution actionResolution) throws URISyntaxException {
         log.debug("REST request to update ActionResolution : {}", actionResolution);
         if (actionResolution.getId() == null) {
@@ -111,6 +115,7 @@ public class ActionResolutionResource {
      */
     @DeleteMapping("/action-resolutions/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteActionResolution(@PathVariable Long id) {
         log.debug("REST request to delete ActionResolution : {}", id);
         actionResolutionRepository.delete(id);
