@@ -1,10 +1,33 @@
+<ng-template #actionResolutionsHover let-action="hoverAction">
+	<div class="resolutions">
+		<h4><span jhiTranslate="{{'highCouncilApp.Action.' + hoverAction}}"></span> <span jhiTranslate="highCouncilApp.game.resolutions"></span></h4>
+		<table class="table-striped">
+			<thead>
+				<tr>
+					<th jhiTranslate="highCouncilApp.orderResolution.range" style="padding-right: 3px"></th>
+					<th jhiTranslate="highCouncilApp.actionResolution.codeNormal"></th>
+					<th jhiTranslate="highCouncilApp.actionResolution.codeChancellor"></th>
+					<th jhiTranslate="highCouncilApp.actionResolution.codeKingdom"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let actionRes of actionResolutions | actionresolutionbyactionfilter:hoverAction">
+					<td>{{actionRes.orderResolution.minimum}}-{{actionRes.orderResolution.maximum}}</td>
+					<td><jhi-parsed-text-display [text]="actionRes.codeNormal"></jhi-parsed-text-display></td>
+					<td><jhi-parsed-text-display [text]="actionRes.codeChancellor"></jhi-parsed-text-display></td>
+					<td class="last"><jhi-parsed-text-display [text]="actionRes.codeKingdom"></jhi-parsed-text-display></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</ng-template>
 
 <div *ngIf="game" class="row">
 	<div class="col-md-4" *ngIf="game.players">
 	    <h1><span jhiTranslate="highCouncilApp.game.players"></span></h1>
 		<hr>
 	    <div *ngFor="let player of game.players; trackBy: id; last as isLast">
-		    <jhi-stat-display [stats]="player" [name]="player.userLogin" [score]="player.score" [isChancellor]="player.isChancellor"></jhi-stat-display>
+		    <jhi-stat-display [stats]="player" [name]="player.userLogin" [score]="player.score" [isChancellor]="player.chancellor"></jhi-stat-display>
 		    <hr *ngIf="!isLast">
 	    </div>
 	</div>
@@ -49,19 +72,34 @@
 		    </div>
 		    <div style="height: 30px" class="row justify-content-center" *ngIf="game.phase === 'Orders'">
 		        <button class="col-2 piety value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Piety" 
-		        	[ngClass]="{'selected': ordersSubmitted.action === 'Piety'}" (click)="actionChange('Piety')">
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Piety'}" (click)="actionChange('Piety')"
+		        	(mouseenter)="setHover('Piety')"
+		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
+		        >
 		        </button>
 		        <button class="col-2 popularity value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Popularity" 
-		        	[ngClass]="{'selected': ordersSubmitted.action === 'Popularity'}" (click)="actionChange('Popularity')">
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Popularity'}" (click)="actionChange('Popularity')"
+		        	(mouseenter)="setHover('Popularity')"
+		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
+		        >
 		        </button>
 		        <button class="col-2 military value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Military" 
-		        	[ngClass]="{'selected': ordersSubmitted.action === 'Military'}" (click)="actionChange('Military')">
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Military'}" (click)="actionChange('Military')"
+		        	(mouseenter)="setHover('Military')"
+		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
+		        >
 		        </button>
 		        <button class="col-2 wealth value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Wealth" 
-		        	[ngClass]="{'selected': ordersSubmitted.action === 'Wealth'}" (click)="actionChange('Wealth')">
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Wealth'}" (click)="actionChange('Wealth')"
+		        	(mouseenter)="setHover('Wealth')"
+		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
+		        >
 		        </button>
 		        <button class="col-2 favour value first d-none d-lg-inline" jhiTranslate="highCouncilApp.player.favourShort" 
-		        	[ngClass]="{'selected': ordersSubmitted.action === 'Indulge'}" (click)="actionChange('Indulge')">
+		        	[ngClass]="{'selected': ordersSubmitted.action === 'Favour'}" (click)="actionChange('Favour')"
+		        	(mouseenter)="setHover('Favour')"
+		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
+		        >
 		        </button>
 		    </div>
 	    	<button class="btn d-inline" type="button" aria-pressed="false"

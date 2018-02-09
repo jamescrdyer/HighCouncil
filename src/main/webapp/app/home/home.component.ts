@@ -104,11 +104,11 @@ export class HomeComponent implements OnInit {
             });
         });
     }
-    
+
     isAlreadyPlaying(game) {
         for (let i = 0; i < game.players.length; i++) {
             const p = game.players[i];
-            if (p.userLogin == this.account.login) {
+            if (p.userLogin === this.account.login) {
                 return true;
             }
         }

@@ -4,14 +4,14 @@
         	"short": {
 	            "Piety": "Pty",
 	            "Popularity": "Pop",
-	            "Indulge": "Idg",
+	            "Favour": "Fvr",
 	            "Military": "Mlt",
 	            "Wealth": "Wth"
         	},
             "null": "",
             "Piety": "Piety",
             "Popularity": "Popularity",
-            "Indulge": "Indulge",
+            "Favour": "Favour",
             "Military": "Military",
             "Wealth": "Wealth"
         }

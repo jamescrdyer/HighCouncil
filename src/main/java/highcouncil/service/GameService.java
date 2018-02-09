@@ -216,7 +216,7 @@ public class GameService {
 					Action action = ordersFound.get().getAction();
 					int total = 0;
 					switch (action) {
-					case Indulge:
+					case Favour:
 						total = favour;
 						break;
 					case Military:

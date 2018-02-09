@@ -87,4 +87,7 @@
         							values ('Piety', 1, 'Piety 1 Wealth -1 Military -1', null, 'Piety 1 Military -1')
         </sql>
     </changeSet>
+    <changeSet id="change Indulge to Favour" author="jdyer">
+        <sql>update action_resolution set action = 'Favour' where action = 'Indulge'</sql>
+    </changeSet>
 </databaseChangeLog>

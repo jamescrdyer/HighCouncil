@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HighCouncilSharedModule } from '../../shared';
 import { HighCouncilStatDisplayModule } from '../stat-display';
@@ -14,6 +15,7 @@ import {
     GamePopupComponent,
     GameDeletePopupComponent,
     GameDeleteDialogComponent,
+    ActionResolutionByActionFilter,
     gameRoute,
     gamePopupRoute,
 } from './';
@@ -28,6 +30,7 @@ const ENTITY_STATES = [
         HighCouncilSharedModule,
         HighCouncilStatDisplayModule,
         HighCouncilOrderSubmitModule,
+        NgbModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
@@ -37,6 +40,7 @@ const ENTITY_STATES = [
         GameDeleteDialogComponent,
         GamePopupComponent,
         GameDeletePopupComponent,
+        ActionResolutionByActionFilter,
     ],
     entryComponents: [
         GameComponent,

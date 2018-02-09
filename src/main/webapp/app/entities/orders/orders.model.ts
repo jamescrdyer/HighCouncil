@@ -2,10 +2,10 @@ import { BaseEntity } from './../../shared';
 
 export const enum Action {
     'Piety',
-    ' Popularity',
-    ' Indulge',
-    ' Military',
-    ' Wealth'
+    'Popularity',
+    'Favour',
+    'Military',
+    'Wealth'
 }
 
 export class Orders implements BaseEntity {

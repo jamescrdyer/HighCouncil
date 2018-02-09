@@ -48,7 +48,7 @@ export class GameService {
     }
 
     getForming(req?: any): Observable<ResponseWrapper> {
-        return this.queryUrl(this.resourceUrl+'/forming', req);
+        return this.queryUrl(this.resourceUrl + '/forming', req);
     }
 
     delete(id: number): Observable<Response> {

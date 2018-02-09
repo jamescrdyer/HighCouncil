@@ -7,3 +7,4 @@ export * from './game-delete-dialog.component';
 export * from './game-detail.component';
 export * from './game.component';
 export * from './game.route';
+export * from './action-resolution-by-action-filter.pipe';

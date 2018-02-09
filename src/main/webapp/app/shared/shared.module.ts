@@ -18,6 +18,7 @@ import {
     JhiSocialComponent,
     SocialService,
 } from './';
+import { JhiParsedTextDisplayComponent } from './parsed-text-display/parsed-text-display.component';
 
 @NgModule({
     imports: [
@@ -27,6 +28,7 @@ import {
     declarations: [
         JhiSocialComponent,
         JhiLoginModalComponent,
+        JhiParsedTextDisplayComponent,
         HasAnyAuthorityDirective
     ],
     providers: [
@@ -48,6 +50,7 @@ import {
         JhiSocialComponent,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
+        JhiParsedTextDisplayComponent,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

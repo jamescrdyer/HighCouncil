@@ -16,9 +16,9 @@
                 "title": "Action Resolution"
             },
             "action": "Action",
-            "codeNormal": "Code Normal",
-            "codeChancellor": "Code Chancellor",
-            "codeKingdom": "Code Kingdom",
+            "codeNormal": "Everyone",
+            "codeChancellor": "Chancellor",
+            "codeKingdom": "Kingdom",
             "orderResolution": "Order Resolution"
         }
     }

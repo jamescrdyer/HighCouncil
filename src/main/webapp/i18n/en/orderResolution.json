@@ -15,6 +15,7 @@
             "detail": {
                 "title": "Order Resolution"
             },
+            "range": "Range",
             "minimum": "Minimum",
             "maximum": "Maximum"
         }

@@ -3,16 +3,18 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
+import { JhiDateUtils, JhiDataUtils, JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { HighCouncilTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
 import { MockPrincipal } from '../../../helpers/mock-principal.service';
+import { MockAlertService } from '../../../helpers/mock-alert.service';
 import { Principal } from '../../../../../../main/webapp/app/shared/auth/principal.service';
 import { GameDetailComponent } from '../../../../../../main/webapp/app/entities/game/game-detail.component';
 import { GameService } from '../../../../../../main/webapp/app/entities/game/game.service';
 import { GameDiscussionService } from '../../../../../../main/webapp/app/entities/game/game-discussion.service';
 import { PlayerService } from '../../../../../../main/webapp/app/entities/player/player.service';
 import { OrdersService } from '../../../../../../main/webapp/app/entities/orders/orders.service';
+import { ActionResolutionService } from '../../../../../../main/webapp/app/entities/action-resolution/action-resolution.service';
 import { Game } from '../../../../../../main/webapp/app/entities/game/game.model';
 
 describe('Component Tests', () => {
@@ -41,12 +43,17 @@ describe('Component Tests', () => {
                             connect() {},
                             subscribe() {},
                             unsubscribe() {},
-                            receiveDiscussion() { return Observable.of(['first','second'])},
+                            receiveDiscussion() { return Observable.of(['first', 'second'])},
                             receiveGameState() { return Observable.of([])},
                             sendMessage() {}
                         }
                     },
                     PlayerService,
+                    ActionResolutionService,
+                    {
+                        provide: JhiAlertService,
+                        useValue: new MockAlertService()
+                    },
                     OrdersService,
                     {
                         provide: Principal,

@@ -3,6 +3,7 @@ import './vendor.ts';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HighCouncilSharedModule, UserRouteAccessService } from './shared';
 import { HighCouncilHomeModule } from './home/home.module';
@@ -31,6 +32,7 @@ import {
         BrowserModule,
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        NgbModule.forRoot(),
         HighCouncilSharedModule,
         HighCouncilHomeModule,
         HighCouncilAdminModule,

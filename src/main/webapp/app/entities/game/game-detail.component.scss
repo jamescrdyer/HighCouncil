@@ -27,3 +27,16 @@
     	border-color: #999999;
     }
 }
+
+.resolutions {
+	td {
+	    border-width: 1px;
+	    border-style: none;
+	    border-right-style: solid;
+    	border-color: #999999;
+	    
+	    &.last {
+	    	border-right-style: none;
+	    }
+	}
+}

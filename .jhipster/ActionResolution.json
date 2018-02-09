@@ -12,7 +12,7 @@
         {
             "fieldName": "action",
             "fieldType": "Action",
-            "fieldValues": "Piety,Popularity,Indulge,Military,Wealth"
+            "fieldValues": "Piety,Popularity,Favour,Military,Wealth"
         },
         {
             "fieldName": "codeNormal",

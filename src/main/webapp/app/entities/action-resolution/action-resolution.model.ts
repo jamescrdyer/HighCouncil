@@ -3,7 +3,7 @@ import { BaseEntity } from './../../shared';
 export const enum Action {
     'Piety',
     'Popularity',
-    'Indulge',
+    'Favour',
     'Military',
     'Wealth'
 }

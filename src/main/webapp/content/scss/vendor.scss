@@ -30,32 +30,32 @@ $health-backcolor:            #ad6800;
 $most-color:             	  #28bc00;
 $least-color:             	  #ed0707;
 
-.piety {
+.piety, .Piety {
     background: $piety-backcolor;
     color: $piety-forecolor;
     font-weight: 800;
 }
-.military {
+.military, .Military {
     background: $military-backcolor;
     color: $military-forecolor;
     font-weight: 800;
 }
-.popularity {
+.popularity, .Popularity {
     background: $popularity-backcolor;
     color: $popularity-forecolor;
     font-weight: 800;
 }
-.favour {
+.favour, .Favour {
     background: $favour-backcolor;
     color: $favour-forecolor;
     font-weight: 800;
 }
-.wealth {
+.wealth, .Wealth {
     background: $wealth-backcolor;
     color: $wealth-forecolor;
     font-weight: 800;
 }
-.penalty {
+.penalty, .Penalty {
     background: $penalty-backcolor;
     color: $penalty-forecolor;
     font-weight: 800;

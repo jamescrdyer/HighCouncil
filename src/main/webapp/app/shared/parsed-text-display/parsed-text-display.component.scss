@@ -1,0 +1,11 @@
+.parsedText {
+	text-align: center;
+	span.Military, span.Piety, span.Wealth, span.Favour, span.Popularity {
+		padding-left: 3px;
+		padding-right: 3px;
+		border-radius: 12px;
+		border-width: 1px;
+    	border-style: solid;
+		border-color: #999999;
+	}
+}

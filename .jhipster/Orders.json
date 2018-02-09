@@ -60,7 +60,7 @@
         {
             "fieldName": "action",
             "fieldType": "Action",
-            "fieldValues": "Piety, Popularity, Indulge, Military, Wealth"
+            "fieldValues": "Piety, Popularity, Favour, Military, Wealth"
         }
     ],
     "changelogDate": "20171201014600",

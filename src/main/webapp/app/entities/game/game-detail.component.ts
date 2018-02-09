@@ -1,17 +1,20 @@
 import { Component, ViewChild, AfterViewChecked, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager } from 'ng-jhipster';
-import { Principal } from '../../shared/auth/principal.service';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { Principal, ResponseWrapper } from '../../shared';
 
 import { Game, Phase } from './game.model';
 import { GameService } from './game.service';
+import { ActionResolutionByActionFilter } from './action-resolution-by-action-filter.pipe';
 import { GameDiscussionService } from './game-discussion.service';
 import { Message } from './message.model';
 import { Player } from '../player/player.model';
 import { Orders } from '../orders/orders.model';
 import { OrdersService } from '../orders/orders.service';
 import { PlayerService } from '../player/player.service';
+import { ActionResolutionService, ActionResolution, Action } from '../action-resolution';
 
 @Component({
     selector: 'jhi-game-detail',
@@ -28,6 +31,8 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     private isScrollPending = false;
     public ordersLocked = false;
     public currentUser: string;
+    public actionResolutions: ActionResolution[] = [];
+    public hoverAction: Action;
     public ordersSubmitted: Orders = {
             piety: 0,
             popularity: 0,
@@ -46,7 +51,9 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
         private gameService: GameService,
         private playerService: PlayerService,
         private ordersService: OrdersService,
+        private actionResolutionService: ActionResolutionService,
         private principal: Principal,
+        private jhiAlertService: JhiAlertService,
         private discussionService: GameDiscussionService,
         private route: ActivatedRoute
     ) {
@@ -77,8 +84,29 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                 });
             });
         });
-        // TODO: Load action resolutions and show in hover over action selection buttons
         this.registerChangeInGames();
+        this.loadActionResolutions();
+    }
+
+    private loadActionResolutions() {
+        if (!this.actionResolutions || this.actionResolutions.length === 0) {
+            this.actionResolutionService.query({
+                page: 0,
+                size: 100
+            }).subscribe(
+                (res: ResponseWrapper) => {
+                    this.actionResolutions = [];
+                    for (let i = 0; i < res.json.length; i++) {
+                        this.actionResolutions.push(res.json[i]);
+                    }
+                },
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+        }
+    }
+
+    private onError(error) {
+        this.jhiAlertService.error(error.message, null, null);
     }
 
     showDiscussion(discussion: Message) {
@@ -179,6 +207,12 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     actionChange(newAction) {
         this.ordersSubmitted.action = newAction;
         this.saveOrders(this.ordersSubmitted);
+    }
+
+    setHover(action: Action, sender: any) {
+        if (action !== this.hoverAction) {
+          this.hoverAction = action;
+        }
     }
 
     private saveOrders(newOrders: Orders) {
