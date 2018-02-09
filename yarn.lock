@@ -3114,14 +3114,6 @@ fs-extra@^0.26.4:
     path-is-absolute "^1.0.0"
     rimraf "^2.2.8"
 
-fs-extra@^1.0.0:
-  version "1.0.0"
-  resolved "http://artemis:9081/repository/npm-all/fs-extra/-/fs-extra-1.0.0.tgz#cd3ce5f7e7cb6145883fcae3191e9877f8587950"
-  dependencies:
-    graceful-fs "^4.1.2"
-    jsonfile "^2.1.0"
-    klaw "^1.0.0"
-
 fs-extra@^4.0.0:
   version "4.0.2"
   resolved "http://artemis:9081/repository/npm-all/fs-extra/-/fs-extra-4.0.2.tgz#f91704c53d1b461f893452b0c307d9997647ab6b"
@@ -3601,13 +3593,6 @@ hash.js@^1.0.0, hash.js@^1.0.3:
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.0"
-
-hasha@^2.2.0:
-  version "2.2.0"
-  resolved "http://artemis:9081/repository/npm-all/hasha/-/hasha-2.2.0.tgz#78d7cbfc1e6d66303fe79837365984517b2f6ee1"
-  dependencies:
-    is-stream "^1.0.1"
-    pinkie-promise "^2.0.0"
 
 hat@0.0.3:
   version "0.0.3"
@@ -4282,7 +4267,7 @@ is-scoped@^1.0.0:
   dependencies:
     scoped-regex "^1.0.0"
 
-is-stream@^1.0.0, is-stream@^1.0.1, is-stream@^1.1.0:
+is-stream@^1.0.0, is-stream@^1.1.0:
   version "1.1.0"
   resolved "http://artemis:9081/repository/npm-all/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
 
@@ -4591,13 +4576,6 @@ karma-notify-reporter@1.0.1:
   dependencies:
     node-notifier "^4.5.0"
 
-karma-phantomjs-launcher@^1.0.4:
-  version "1.0.4"
-  resolved "http://artemis:9081/repository/npm-all/karma-phantomjs-launcher/-/karma-phantomjs-launcher-1.0.4.tgz#d23ca34801bda9863ad318e3bb4bd4062b13acd2"
-  dependencies:
-    lodash "^4.0.1"
-    phantomjs-prebuilt "^2.1.7"
-
 karma-phantomjs2-launcher@^0.5.0:
   version "0.5.0"
   resolved "http://artemis:9081/repository/npm-all/karma-phantomjs2-launcher/-/karma-phantomjs2-launcher-0.5.0.tgz#5ff8c8f22d0df8e672828ca8790862abc0269345"
@@ -4673,10 +4651,6 @@ kew@0.4.0:
 kew@0.5.0:
   version "0.5.0"
   resolved "http://artemis:9081/repository/npm-all/kew/-/kew-0.5.0.tgz#ece11cb5d8d01a81f8ce804c8d0bba06e6b25ca2"
-
-kew@^0.7.0:
-  version "0.7.0"
-  resolved "http://artemis:9081/repository/npm-all/kew/-/kew-0.7.0.tgz#79d93d2d33363d6fdd2970b335d9141ad591d79b"
 
 kind-of@^2.0.1:
   version "2.0.1"
@@ -5054,7 +5028,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "http://artemis:9081/repository/npm-all/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@4.17.4, lodash@^4, lodash@^4.0.0, lodash@^4.0.1, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.5.0, lodash@^4.5.1, lodash@~4.17.4:
+lodash@4.17.4, lodash@^4, lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.5.0, lodash@^4.5.1, lodash@~4.17.4:
   version "4.17.4"
   resolved "http://artemis:9081/repository/npm-all/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -6156,20 +6130,6 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "http://artemis:9081/repository/npm-all/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
 
-phantomjs-prebuilt@^2.1.7:
-  version "2.1.16"
-  resolved "http://artemis:9081/repository/npm-all/phantomjs-prebuilt/-/phantomjs-prebuilt-2.1.16.tgz#efd212a4a3966d3647684ea8ba788549be2aefef"
-  dependencies:
-    es6-promise "^4.0.3"
-    extract-zip "^1.6.5"
-    fs-extra "^1.0.0"
-    hasha "^2.2.0"
-    kew "^0.7.0"
-    progress "^1.1.8"
-    request "^2.81.0"
-    request-progress "^2.0.1"
-    which "^1.2.10"
-
 phantomjs2-ext@^0.2.1:
   version "0.2.2"
   resolved "http://artemis:9081/repository/npm-all/phantomjs2-ext/-/phantomjs2-ext-0.2.2.tgz#bfca0791e60f9e265555cb6befa3f0dcf55abe2c"
@@ -6227,6 +6187,10 @@ pkg-dir@^2.0.0:
 pluralize@7.0.0:
   version "7.0.0"
   resolved "http://artemis:9081/repository/npm-all/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
+
+popper.js@^1.12.9:
+  version "1.12.9"
+  resolved "http://artemis:9081/repository/npm-all/popper.js/-/popper.js-1.12.9.tgz#0dfbc2dff96c451bb332edcfcfaaf566d331d5b3"
 
 portfinder@^1.0.9, portfinder@~1.0.12:
   version "1.0.13"
@@ -6581,7 +6545,7 @@ process@^0.11.0:
   version "0.11.10"
   resolved "http://artemis:9081/repository/npm-all/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
-progress@1.1.8, progress@^1.1.8:
+progress@1.1.8:
   version "1.1.8"
   resolved "http://artemis:9081/repository/npm-all/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
 
@@ -7055,13 +7019,7 @@ request-progress@0.3.1:
   dependencies:
     throttleit "~0.0.2"
 
-request-progress@^2.0.1:
-  version "2.0.1"
-  resolved "http://artemis:9081/repository/npm-all/request-progress/-/request-progress-2.0.1.tgz#5d36bb57961c673aa5b788dbc8141fdf23b44e08"
-  dependencies:
-    throttleit "^1.0.0"
-
-request@2, request@^2.74.0, request@^2.78.0, request@^2.79.0, request@^2.81.0:
+request@2, request@^2.74.0, request@^2.78.0, request@^2.79.0:
   version "2.83.0"
   resolved "http://artemis:9081/repository/npm-all/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
   dependencies:
@@ -8149,10 +8107,6 @@ tfunk@^3.0.1:
     chalk "^1.1.1"
     object-path "^0.9.0"
 
-throttleit@^1.0.0:
-  version "1.0.0"
-  resolved "http://artemis:9081/repository/npm-all/throttleit/-/throttleit-1.0.0.tgz#9e785836daf46743145a5984b6268d828528ac6c"
-
 throttleit@~0.0.2:
   version "0.0.2"
   resolved "http://artemis:9081/repository/npm-all/throttleit/-/throttleit-0.0.2.tgz#cfedf88e60c00dd9697b61fdd2a8343a9b680eaf"
@@ -8956,7 +8910,7 @@ which-module@^2.0.0:
   version "2.0.0"
   resolved "http://artemis:9081/repository/npm-all/which-module/-/which-module-2.0.0.tgz#d9ef07dce77b9902b8a3a8fa4b31c3e3f7e6e87a"
 
-which@1, which@^1.0.5, which@^1.1.1, which@^1.2.1, which@^1.2.10, which@^1.2.9:
+which@1, which@^1.0.5, which@^1.1.1, which@^1.2.1, which@^1.2.9:
   version "1.2.14"
   resolved "http://artemis:9081/repository/npm-all/which/-/which-1.2.14.tgz#9a87c4378f03e827cecaf1acdf56c736c01c14e5"
   dependencies:

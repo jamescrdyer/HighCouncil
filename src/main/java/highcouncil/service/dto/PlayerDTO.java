@@ -29,6 +29,8 @@ public class PlayerDTO implements Serializable {
     @NotNull
     private Integer favour;
 
+    private Integer ordersExpected;
+
     private Boolean chancellor;
 
     @NotNull
@@ -132,6 +134,14 @@ public class PlayerDTO implements Serializable {
         this.penalty = penalty;
     }
 
+	public Integer getOrdersExpected() {
+		return ordersExpected;
+	}
+
+	public void setOrdersExpected(Integer ordersExpected) {
+		this.ordersExpected = ordersExpected;
+	}
+	
     public Integer getScore() {
         return score;
     }
@@ -206,6 +216,7 @@ public class PlayerDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", phaseLocked='" + isPhaseLocked() + "'" +
             ", penalty='" + getPenalty() + "'" +
+            ", ordersExpected='" + getOrdersExpected() + "'" +
             ", score='" + getScore() + "'" +
             "}";
     }
