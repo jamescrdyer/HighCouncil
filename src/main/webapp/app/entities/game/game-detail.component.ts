@@ -43,7 +43,6 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     public discussionDestinations = {};
     public recipientSelected = true;
-    public numberOfOrdersToSubmit = 7;
     public messages: Message[] = [];
 
     constructor(
