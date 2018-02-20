@@ -73,6 +73,10 @@ public class Kingdom extends StatHolder implements Serializable {
         this.health = health;
     }
 
+    public void modifyHealth(int healthChange) {
+        this.health += healthChange;
+    }
+
     public Game getGame() {
         return game;
     }

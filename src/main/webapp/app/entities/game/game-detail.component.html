@@ -106,7 +106,7 @@
 	    		(click)="toggleLock()"
 		    	[ngClass]="{'btn-primary active': ordersLocked}"
 		    	[disabled]="!ordersSubmitted.action 
-		    		|| (ordersSubmitted.wealth + ordersSubmitted.piety + ordersSubmitted.popularity + ordersSubmitted.military + ordersSubmitted.favour != player.ordersExpectedToSubmit)
+		    		|| (ordersSubmitted.wealth + ordersSubmitted.piety + ordersSubmitted.popularity + ordersSubmitted.military + ordersSubmitted.favour != player.ordersExpected)
 		    		|| game.phase != 'Orders'"
 	    		jhiTranslate="highCouncilApp.game.lockOrders"
 	    	></button>

@@ -16,6 +16,8 @@
                 "actionResolution": "Action Resolution",
                 "orders": "Orders",
                 "expectedOrderNumbers": "Expected Order Numbers",
+                "turnResult": "Turn Result",
+                "playerTurnResult": "Player Turn Result",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

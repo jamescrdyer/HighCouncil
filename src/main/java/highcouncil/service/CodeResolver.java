@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import highcouncil.domain.Kingdom;
 import highcouncil.domain.Player;
+import highcouncil.domain.PlayerTurnResult;
 import highcouncil.domain.StatHolder;
 
 @Service
@@ -12,25 +13,48 @@ public class CodeResolver {
 	enum Category { WEALTH, PIETY, FAVOUR, POPULARITY, HEALTH, MILITARY}
 	
 	public void resolveCode(String code, StatHolder target) {
+		resolveCode(code, target, null);
+	}
+	public void resolveCode(String code, StatHolder target, PlayerTurnResult playerResult) {
 		if (code == null || StringUtils.isBlank(code)) return;
 		String[] tokens = code.split("\\s+");
 		for (int i = 0; i<tokens.length; i++) {
 			String token = tokens[i];
 			if (token.compareToIgnoreCase(Category.WEALTH.name()) == 0) {
-				target.setWealth(target.getWealth()+getAdjustment(tokens[++i]));
+				int adjustment = getAdjustment(tokens[++i]);
+				target.modifyWealth(adjustment);
+				if (playerResult != null) {
+					playerResult.modifyWealth(adjustment);
+				}
 			}
 			if (token.compareToIgnoreCase(Category.MILITARY.name()) == 0) {
-				target.setMilitary(target.getMilitary()+getAdjustment(tokens[++i]));
+				int adjustment = getAdjustment(tokens[++i]);
+				target.modifyMilitary(adjustment);
+				if (playerResult != null) {
+					playerResult.modifyMilitary(adjustment);
+				}
 			}
 			if (token.compareToIgnoreCase(Category.PIETY.name()) == 0) {
-				target.setPiety(target.getPiety()+getAdjustment(tokens[++i]));
+				int adjustment = getAdjustment(tokens[++i]);
+				target.modifyPiety(adjustment);
+				if (playerResult != null) {
+					playerResult.modifyPiety(adjustment);
+				}
 			}
 			if (token.compareToIgnoreCase(Category.POPULARITY.name()) == 0) {
-				target.setPopularity(target.getPopularity()+getAdjustment(tokens[++i]));
+				int adjustment = getAdjustment(tokens[++i]);
+				target.modifyPopularity(adjustment);
+				if (playerResult != null) {
+					playerResult.modifyPopularity(adjustment);
+				}
 			}
 			if (token.compareToIgnoreCase(Category.FAVOUR.name()) == 0) {
 				Player player = (Player)target;
-				player.setFavour(player.getFavour()+getAdjustment(tokens[++i]));
+				int adjustment = getAdjustment(tokens[++i]);
+				player.modifyFavour(adjustment);
+				if (playerResult != null) {
+					playerResult.modifyFavour(adjustment);
+				}
 			}
 			if (token.compareToIgnoreCase(Category.HEALTH.name()) == 0) {
 				Kingdom kingdom = (Kingdom)target;

@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;</button>
+</div>
+<div *ngIf="turnResult" class="modal-body">
+	<span jhiTranslate="highCouncilApp.turnResult.ordersReceived"></span>
+	<jhi-parsed-text-display [text]="turnResult.summary"></jhi-parsed-text-display>
+	<div *ngFor="let ptr of turnResult.playerTurnResults; trackBy: id">
+		<span *ngIf="ptr.playerId;else kingdom">{{ptr.playerLogin}} <span ngClass="ptr.action" jhiTranslate="{{'highCouncilApp.Action.short.' + ptr.action}}"></span></span>
+		<ng-template #kingdom><span jhiTranslate="highCouncilApp.game.kingdom"></span></ng-template>
+		<jhi-parsed-text-display [text]="ptr.summary"></jhi-parsed-text-display>
+	</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+        <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+    </button>
+</div>

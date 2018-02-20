@@ -6,7 +6,9 @@ import highcouncil.domain.Game;
 import highcouncil.domain.Kingdom;
 import highcouncil.domain.Orders;
 import highcouncil.domain.Player;
+import highcouncil.domain.PlayerTurnResult;
 import highcouncil.domain.StatHolder;
+import highcouncil.domain.TurnResult;
 import highcouncil.domain.User;
 import highcouncil.domain.enumeration.Action;
 import highcouncil.domain.enumeration.Phase;
@@ -15,9 +17,11 @@ import highcouncil.repository.ExpectedOrderNumberRepository;
 import highcouncil.repository.GameRepository;
 import highcouncil.repository.OrdersRepository;
 import highcouncil.repository.PlayerRepository;
+import highcouncil.repository.TurnResultRepository;
 import highcouncil.repository.UserRepository;
 import highcouncil.service.dto.GameDTO;
 import highcouncil.service.mapper.GameMapper;
+import highcouncil.service.mapper.TurnResultMapper;
 import highcouncil.web.websocket.dto.DiscussionDTO;
 
 import java.security.Principal;
@@ -56,6 +60,8 @@ public class GameService {
 
 	private final GameRepository gameRepository;
 
+	private final TurnResultRepository turnResultRepository;
+
 	private final PlayerRepository playerRepository;
 
 	private final OrdersRepository ordersRepository;
@@ -66,13 +72,16 @@ public class GameService {
 
 	private final GameMapper gameMapper;
 
+	private final TurnResultMapper turnResultMapper;
+
 	private final CodeResolver codeResolver;
 
 	private final SimpMessagingTemplate messagingTemplate;
 
 	public GameService(GameRepository gameRepo, OrdersRepository ordersRepo, PlayerRepository playerRepo,
 			UserService userService, ActionResolutionRepository actionResolutionRepo, ExpectedOrderNumberRepository expectedOrdersRepo, 
-			GameMapper gameMapper, CodeResolver codeResolver, SimpMessagingTemplate messagingTemplate) 
+			TurnResultRepository turnResultRepo,
+			GameMapper gameMapper, TurnResultMapper turnResultMapper, CodeResolver codeResolver, SimpMessagingTemplate messagingTemplate) 
 	{
 		this.gameRepository = gameRepo;
 		this.userService = userService;
@@ -83,6 +92,8 @@ public class GameService {
 		this.codeResolver = codeResolver;
 		this.messagingTemplate = messagingTemplate;
 		this.playerRepository = playerRepo;
+		this.turnResultRepository = turnResultRepo;
+		this.turnResultMapper = turnResultMapper;
 	}
 
 	/**
@@ -187,7 +198,7 @@ public class GameService {
 			game.getPlayers().stream().findFirst().get().setChancellor(true);
 			setExpectedOrders(game);
 			Game result = gameRepository.save(game);
-			afterGameProcessed(result);
+			afterGameProcessed(result, null);
 			return result;
 		}
 		return game;
@@ -209,8 +220,22 @@ public class GameService {
 			int piety = allOrders.parallelStream().mapToInt(o -> o.getPiety()).sum();
 			int popularity = allOrders.parallelStream().mapToInt(o -> o.getPopularity()).sum();
 			int favour = allOrders.parallelStream().mapToInt(o -> o.getFavour()).sum();
+			TurnResult turnResult = new TurnResult();
+			turnResult.setTurn(game.getTurn());
+			turnResult.setGame(game);
+			turnResult.setPiety(piety);
+			turnResult.setPopularity(popularity);
+			turnResult.setMilitary(military);
+			turnResult.setWealth(wealth);
+			turnResult.setFavour(favour);
+			PlayerTurnResult kingdomResult = new PlayerTurnResult();
+			kingdomResult.setGame(game);
+			kingdomResult.setTurn(game.getTurn());
+			turnResult.addPlayerTurnResult(kingdomResult);
+			
 			for (Player p : players) {
 				boolean isChancellor = p.isChancellor();
+				
 				Optional<Orders> ordersFound = allOrders.stream().filter(o -> o.getPlayer().equals(p)).findFirst();
 				if (ordersFound.isPresent()) {
 					Action action = ordersFound.get().getAction();
@@ -235,30 +260,43 @@ public class GameService {
 						break;
 					}
 					ActionResolution resolution = actionResolutionRepository.findOneByTotalAndAction(total, action);
-					applyResolution(p, isChancellor, resolution);
+					PlayerTurnResult playerResult = applyPlayerResolution(p, isChancellor, resolution);
+					playerResult.setAction(action);
+					playerResult.setGame(game);
+					playerResult.setTurn(game.getTurn());
+					turnResult.addPlayerTurnResult(playerResult);
 					if (isChancellor) { // chancellor penalties
 						if (wealth <= 0) {
-							p.setWealth(p.getWealth() - 1);
-							kingdom.setWealth(kingdom.getWealth() - 1);
+							p.modifyWealth(-1);
+							kingdom.modifyWealth(-1);
+							playerResult.modifyWealth(-1);
+							kingdomResult.modifyWealth(-1);
 						}
 						if (military <= 0) {
-							p.setMilitary(p.getMilitary() - 1);
-							kingdom.setMilitary(kingdom.getMilitary() - 1);
+							p.modifyMilitary(-1);
+							kingdom.modifyMilitary(-1);
+							playerResult.modifyMilitary(-1);
+							kingdomResult.modifyMilitary(-1);
 						}
 						if (piety <= 0) {
-							p.setPiety(p.getPiety() - 1);
-							kingdom.setPiety(kingdom.getPiety() - 1);
+							p.modifyPiety(-1);
+							kingdom.modifyPiety(-1);
+							playerResult.modifyPiety(-1);
+							kingdomResult.modifyPiety(-1);
 						}
 						if (popularity <= 0) {
-							p.setPopularity(p.getPopularity() - 1);
-							kingdom.setPopularity(kingdom.getPopularity() - 1);
+							p.modifyPopularity(-1);
+							kingdom.modifyPopularity(-1);
+							playerResult.modifyPopularity(-1);
+							kingdomResult.modifyPopularity(-1);
 						}
 						if (favour <= 0) {
-							p.setFavour(p.getFavour() - 1);
+							p.modifyFavour(-1);
+							playerResult.modifyFavour(-1);
 						}
 					}
 					if (!kingdomActionsApplied.contains(action)) {
-						applyResolution(kingdom, resolution.getCodeKingdom());
+						applyKingdomResolution(kingdom, resolution.getCodeKingdom(), kingdomResult);
 					}
 					addPenalties(p);
 				}
@@ -269,7 +307,8 @@ public class GameService {
 			kingdom.setHealth(kingdom.getHealth() - 1);
 			checkGameEndAndScore(game);
 			Game result = gameRepository.save(game);
-			afterGameProcessed(result);
+			turnResultRepository.save(turnResult);
+			afterGameProcessed(result, turnResult);
 		}
 	}
 
@@ -436,8 +475,10 @@ public class GameService {
 		playerRepository.save(players);
 	}
 
-	public void afterGameProcessed(Game game) {
-		this.messagingTemplate.convertAndSend("/topic/gamestate/" + game.getId(), gameMapper.toDto(game));
+	public void afterGameProcessed(Game game, TurnResult result) {
+		GameDTO gameDto = gameMapper.toDto(game);
+		gameDto.setTurnResult(turnResultMapper.turnResultToTurnResultDTO(result));
+		this.messagingTemplate.convertAndSend("/topic/gamestate/" + game.getId(), gameDto);
 	}
 
 	@MessageMapping("/topic/gamestate/{gameId}")
@@ -468,15 +509,18 @@ public class GameService {
 		}
 	}
 
-	private void applyResolution(Player p, boolean isChancellor, ActionResolution resolution) {
-		applyResolution(p, resolution.getCodeNormal());
+	private PlayerTurnResult applyPlayerResolution(Player p, boolean isChancellor, ActionResolution resolution) {
+		PlayerTurnResult playerResult = new PlayerTurnResult();
+		playerResult.setPlayer(p);
+		codeResolver.resolveCode(resolution.getCodeNormal(), p, playerResult);
 		if (isChancellor) {
-			applyResolution(p, resolution.getCodeChancellor());
+			codeResolver.resolveCode(resolution.getCodeChancellor(), p, playerResult);
 		}
+		return playerResult;
 	}
 
-	private void applyResolution(StatHolder target, String code) {
-		codeResolver.resolveCode(code, target);
+	private void applyKingdomResolution(StatHolder target, String code, PlayerTurnResult kingdomResult) {
+		codeResolver.resolveCode(code, target, kingdomResult);
 	}
 
 	public GameDTO join(Long id) {

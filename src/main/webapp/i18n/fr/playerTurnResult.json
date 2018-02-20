@@ -1,0 +1,31 @@
+{
+    "highCouncilApp": {
+        "playerTurnResult" : {
+            "home": {
+                "title": "PlayerTurnResults",
+                "createLabel": "Créer un nouveau Player Turn Result",
+                "createOrEditLabel": "Créer ou éditer un Player Turn Result"
+            },
+            "created": "Un nouveau Player Turn Result a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Player Turn Result avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Player Turn Result avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Player Turn Result {{ id }} ?"
+            },
+            "detail": {
+                "title": "Player Turn Result"
+            },
+            "piety": "Piety",
+            "popularity": "Popularity",
+            "military": "Military",
+            "wealth": "Wealth",
+            "favour": "Favour",
+            "penalty": "Penalty",
+            "turn": "Turn",
+            "action": "Action",
+            "game": "Game",
+            "player": "Player",
+            "turnResult": "Turn Result"
+        }
+    }
+}

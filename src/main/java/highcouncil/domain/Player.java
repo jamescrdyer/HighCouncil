@@ -114,6 +114,10 @@ public class Player extends StatHolder implements Serializable {
         this.favour = favour;
     }
 
+    public void modifyFavour(int favourChange) {
+        this.favour += favourChange;
+    }
+    
     public Boolean isChancellor() {
         return chancellor;
     }

@@ -11,6 +11,7 @@ import { ActionResolutionByActionFilter } from './action-resolution-by-action-fi
 import { GameDiscussionService } from './game-discussion.service';
 import { Message } from './message.model';
 import { Player } from '../player/player.model';
+import { TurnResultPopupService } from '../turn-result/turn-result-popup.service';
 import { Orders } from '../orders/orders.model';
 import { OrdersService } from '../orders/orders.service';
 import { PlayerService } from '../player/player.service';
@@ -54,6 +55,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
         private principal: Principal,
         private jhiAlertService: JhiAlertService,
         private discussionService: GameDiscussionService,
+        private turnResultPopupService: TurnResultPopupService,
         private route: ActivatedRoute
     ) {
     }
@@ -80,6 +82,9 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                     this.ordersSubmitted = {};
                     this.ordersLocked = false;
                     this.sortPlayers();
+                    if (updatedGame.turnResult) {
+                        this.turnResultPopupService.show(updatedGame.turnResult);
+                    }
                 });
             });
         });

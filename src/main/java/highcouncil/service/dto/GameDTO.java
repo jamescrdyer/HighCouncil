@@ -25,6 +25,8 @@ public class GameDTO implements Serializable {
     private Integer turn;
 
     private KingdomDTO kingdom;
+    
+    private TurnResultDTO turnResult;
 
     private Long deckId;
 
@@ -68,6 +70,14 @@ public class GameDTO implements Serializable {
 
 	public void setKingdom(KingdomDTO kingdom) {
 		this.kingdom = kingdom;
+	}
+
+	public TurnResultDTO getTurnResult() {
+		return turnResult;
+	}
+
+	public void setTurnResult(TurnResultDTO turnResult) {
+		this.turnResult = turnResult;
 	}
 
     public Long getDeckId() {

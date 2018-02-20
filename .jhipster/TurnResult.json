@@ -1,0 +1,49 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "game",
+            "otherEntityName": "game",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "playerTurnResult",
+            "otherEntityName": "playerTurnResult",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "turnResult"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "piety",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "popularity",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "military",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "wealth",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "favour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "turn",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20180213164400",
+    "dto": "mapstruct",
+    "service": "no",
+    "entityTableName": "turn_result",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

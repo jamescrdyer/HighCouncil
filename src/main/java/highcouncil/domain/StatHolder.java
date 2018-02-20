@@ -8,19 +8,19 @@ import javax.validation.constraints.NotNull;
 public abstract class StatHolder {
     @NotNull
     @Column(name = "piety")
-	protected Integer piety;
+	protected int piety = 0;
 
     @NotNull
     @Column(name = "popularity", nullable = false)
-    protected Integer popularity;
+    protected int popularity = 0;
 
     @NotNull
     @Column(name = "military", nullable = false)
-	protected Integer military;
+	protected int military = 0;
 
     @NotNull
     @Column(name = "wealth", nullable = false)
-    protected Integer wealth;
+    protected int wealth = 0;
 
     public Integer getPiety() {
         return piety;
@@ -28,6 +28,10 @@ public abstract class StatHolder {
 
     public void setPiety(Integer piety) {
         this.piety = piety;
+    }
+
+    public void modifyPiety(int pietyChange) {
+        this.piety = piety + pietyChange;
     }
 
     public Integer getPopularity() {
@@ -38,6 +42,10 @@ public abstract class StatHolder {
         this.popularity = popularity;
     }
 
+    public void modifyPopularity(int popularityChange) {
+        this.popularity = popularity + popularityChange;
+    }
+    
     public Integer getMilitary() {
         return military;
     }
@@ -46,6 +54,10 @@ public abstract class StatHolder {
         this.military = military;
     }
 
+    public void modifyMilitary(int militaryChange) {
+        this.military = military + militaryChange;
+    }
+    
     public Integer getWealth() {
         return wealth;
     }
@@ -54,4 +66,7 @@ public abstract class StatHolder {
         this.wealth = wealth;
     }
 
+    public void modifyWealth(int wealthChange) {
+        this.wealth = wealth + wealthChange;
+    }
 }

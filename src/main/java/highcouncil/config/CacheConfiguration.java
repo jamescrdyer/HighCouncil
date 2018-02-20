@@ -57,6 +57,9 @@ public class CacheConfiguration {
             cm.createCache(highcouncil.domain.ActionResolution.class.getName(), jcacheConfiguration);
             cm.createCache(highcouncil.domain.Orders.class.getName(), jcacheConfiguration);
             cm.createCache(highcouncil.domain.ExpectedOrderNumber.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.TurnResult.class.getName(), jcacheConfiguration);
+            cm.createCache(highcouncil.domain.TurnResult.class.getName() + ".playerTurnResults", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.PlayerTurnResult.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
