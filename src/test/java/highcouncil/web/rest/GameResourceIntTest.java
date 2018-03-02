@@ -109,6 +109,8 @@ public class GameResourceIntTest {
     @Transactional
     public void createGame() throws Exception {
         int databaseSizeBeforeCreate = gameRepository.findAll().size();
+        game.setTurn(5); //create game sets 1
+        game.setPhase(Phase.Completed); //create sets to Forming
 
         // Create the Game
         GameDTO gameDTO = gameMapper.toDto(game);
@@ -122,8 +124,8 @@ public class GameResourceIntTest {
         assertThat(gameList).hasSize(databaseSizeBeforeCreate + 1);
         Game testGame = gameList.get(gameList.size() - 1);
         assertThat(testGame.getTimeLimitSeconds()).isEqualTo(DEFAULT_TIME_LIMIT_SECONDS);
-        assertThat(testGame.getPhase()).isEqualTo(DEFAULT_PHASE);
-        assertThat(testGame.getTurn()).isEqualTo(DEFAULT_TURN);
+        assertThat(testGame.getPhase()).isEqualTo(Phase.Forming);
+        assertThat(testGame.getTurn()).isEqualTo(1);
     }
 
     @Test

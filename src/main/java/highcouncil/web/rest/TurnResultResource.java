@@ -54,6 +54,23 @@ public class TurnResultResource {
         }
 
     /**
+     * GET  /turn-results/:gameId/:turn : get the turnResult for the gameId and turn.
+     *
+     * @param gameId the id of the game linked to the turnResultDTO to retrieve
+     * @param turn the turn linked to the turnResultDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the turnResultDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/turn-results/{gameId}/{turn}")
+    @Timed
+    public ResponseEntity<TurnResultDTO> getTurnResultByGameAndTurn(@PathVariable Long gameId, @PathVariable int turn) {
+        log.debug("REST request to get TurnResult for gameId "+gameId+" and turn "+turn);
+        TurnResult turnResult = turnResultRepository.findOneByGameIdAndTurn(gameId, turn);
+        log.debug("Turn result has player count = "+turnResult.getPlayerTurnResults().size());
+        TurnResultDTO turnResultDTO = turnResultMapper.turnResultToTurnResultDTO(turnResult);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(turnResultDTO));
+    }
+
+    /**
      * GET  /turn-results/:id : get the "id" turnResult.
      *
      * @param id the id of the turnResultDTO to retrieve

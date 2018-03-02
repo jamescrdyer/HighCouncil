@@ -13,6 +13,7 @@ export class Game implements BaseEntity {
         public timeLimitSeconds?: number,
         public phase?: Phase,
         public turn?: number,
+        public randomOrderNumber?: number,
         public players?: BaseEntity[],
         public turnResult?: BaseEntity,
         public kingdomId?: number,

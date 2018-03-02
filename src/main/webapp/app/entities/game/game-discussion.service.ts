@@ -79,7 +79,7 @@ export class GameDiscussionService {
 
     sendMessage(recipient: string, message: Message) {
         message.gameId = this.gameId;
-        this.principal.identity().then((account) => message.fromUser = account.login).then(() => {
+        this.principal.identity().then((account) => message.fromUser = account.displayName).then(() => {
             if (this.stompClient !== null && this.stompClient.connected) {
                 this.stompClient.send(
                     '/user/' + recipient + '/topic/discussion/' + this.gameId, // destination

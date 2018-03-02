@@ -13,6 +13,7 @@ import { GameDetailComponent } from '../../../../../../main/webapp/app/entities/
 import { GameService } from '../../../../../../main/webapp/app/entities/game/game.service';
 import { GameDiscussionService } from '../../../../../../main/webapp/app/entities/game/game-discussion.service';
 import { PlayerService } from '../../../../../../main/webapp/app/entities/player/player.service';
+import { TurnResultPopupService } from '../../../../../../main/webapp/app/entities/turn-result/turn-result-popup.service';
 import { OrdersService } from '../../../../../../main/webapp/app/entities/orders/orders.service';
 import { ActionResolutionService } from '../../../../../../main/webapp/app/entities/action-resolution/action-resolution.service';
 import { Game } from '../../../../../../main/webapp/app/entities/game/game.model';
@@ -49,6 +50,12 @@ describe('Component Tests', () => {
                         }
                     },
                     PlayerService,
+                    {
+                        provide: TurnResultPopupService,
+                        useValue: {
+                            show() {}
+                        }
+                    },
                     ActionResolutionService,
                     {
                         provide: JhiAlertService,

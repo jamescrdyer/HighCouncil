@@ -28,6 +28,9 @@ public class UserDTO {
     @Size(max = 50)
     private String firstName;
 
+    @Size(max = 10)
+    private String displayName;
+
     @Size(max = 50)
     private String lastName;
 
@@ -58,14 +61,14 @@ public class UserDTO {
     }
 
     public UserDTO(User user) {
-        this(user.getId(), user.getLogin(), user.getFirstName(), user.getLastName(),
+        this(user.getId(), user.getLogin(), user.getFirstName(), user.getLastName(), user.getDisplayName(),
             user.getEmail(), user.getActivated(), user.getImageUrl(), user.getLangKey(),
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
-    public UserDTO(Long id, String login, String firstName, String lastName,
+    public UserDTO(Long id, String login, String firstName, String lastName, String displayName,
         String email, boolean activated, String imageUrl, String langKey,
         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
         Set<String> authorities) {
@@ -73,6 +76,7 @@ public class UserDTO {
         this.id = id;
         this.login = login;
         this.firstName = firstName;
+        this.displayName = displayName;
         this.lastName = lastName;
         this.email = email;
         this.activated = activated;
@@ -100,6 +104,14 @@ public class UserDTO {
     public void setLogin(String login) {
         this.login = login;
     }
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
     public String getFirstName() {
         return firstName;
@@ -153,6 +165,7 @@ public class UserDTO {
     public String toString() {
         return "UserDTO{" +
             "login='" + login + '\'' +
+            ", displayName='" + displayName + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +

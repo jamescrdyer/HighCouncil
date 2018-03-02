@@ -44,7 +44,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     public discussionDestinations = {};
     public recipientSelected = true;
-    public messages: Message[] = [];
+    public messages: any[] = [];
 
     constructor(
         private eventManager: JhiEventManager,
@@ -78,18 +78,34 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                     this.showDiscussion(discussion);
                 });
                 this.discussionService.receiveGameState().subscribe((updatedGame) => {
-                    this.game = updatedGame;
-                    this.ordersSubmitted = {};
-                    this.ordersLocked = false;
-                    this.sortPlayers();
-                    if (updatedGame.turnResult) {
-                        this.turnResultPopupService.show(updatedGame.turnResult);
-                    }
+                    this.updateGame(updatedGame);
                 });
             });
         });
         this.registerChangeInGames();
         this.loadActionResolutions();
+    }
+
+    private updateGame(updatedGame: Game) {
+        this.game = updatedGame;
+        this.ordersSubmitted = {};
+        this.ordersLocked = false;
+        this.sortPlayers();
+        this.updatedExpectedOrders();
+        if (updatedGame.turnResult) {
+            this.turnResultPopupService.show(updatedGame.turnResult);
+            this.messages.push(updatedGame.turnResult);
+        }
+    }
+
+    private updatedExpectedOrders() {
+        const result = this.game.players.filter((p) => p.id === this.player.id);
+        if (result && result.length === 1) {
+            const updatedPlayer = (result[0] as Player);
+            if (updatedPlayer) {
+                this.player.ordersExpected = updatedPlayer.ordersExpected;
+            }
+        }
     }
 
     private loadActionResolutions() {
@@ -123,13 +139,25 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     sendMessage(message: string) {
         const toUsers = [];
         const discussion = new Message(toUsers, message);
+        const logins = [];
         Object.keys(this.discussionDestinations).forEach((key, index) => {
             if (this.discussionDestinations[key]) {
-                toUsers.push(key);
+                toUsers.push(this.getDisplayNameByLogin(key));
+                logins.push(key);
             }
         });
-        toUsers.forEach((user) => this.discussionService.sendMessage(user, discussion));
+        logins.forEach((user) => this.discussionService.sendMessage(user, discussion));
         this.messages.push(discussion);
+    }
+
+    private getDisplayNameByLogin(login: String): String {
+        let displayName;
+        this.game.players.forEach((p: Player) => {
+            if (login === p.userLogin) {
+                displayName = p.displayName;
+            }
+        });
+        return displayName;
     }
 
     load(id) {

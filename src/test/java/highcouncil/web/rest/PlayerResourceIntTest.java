@@ -4,6 +4,7 @@ import highcouncil.HighCouncilApp;
 
 import highcouncil.domain.Player;
 import highcouncil.repository.PlayerRepository;
+import highcouncil.service.GameService;
 import highcouncil.service.dto.PlayerDTO;
 import highcouncil.service.mapper.PlayerMapper;
 import highcouncil.web.rest.errors.ExceptionTranslator;
@@ -76,6 +77,9 @@ public class PlayerResourceIntTest {
     private PlayerMapper playerMapper;
 
     @Autowired
+    private GameService gameService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -94,7 +98,7 @@ public class PlayerResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PlayerResource playerResource = new PlayerResource(playerRepository, playerMapper);
+        final PlayerResource playerResource = new PlayerResource(playerRepository, playerMapper, gameService);
         this.restPlayerMockMvc = MockMvcBuilders.standaloneSetup(playerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -173,63 +177,6 @@ public class PlayerResourceIntTest {
         // Validate the Player in the database
         List<Player> playerList = playerRepository.findAll();
         assertThat(playerList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    public void checkPopularityIsRequired() throws Exception {
-        int databaseSizeBeforeTest = playerRepository.findAll().size();
-        // set the field null
-        player.setPopularity(null);
-
-        // Create the Player, which fails.
-        PlayerDTO playerDTO = playerMapper.toDto(player);
-
-        restPlayerMockMvc.perform(post("/api/players")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(playerDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Player> playerList = playerRepository.findAll();
-        assertThat(playerList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkMilitaryIsRequired() throws Exception {
-        int databaseSizeBeforeTest = playerRepository.findAll().size();
-        // set the field null
-        player.setMilitary(null);
-
-        // Create the Player, which fails.
-        PlayerDTO playerDTO = playerMapper.toDto(player);
-
-        restPlayerMockMvc.perform(post("/api/players")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(playerDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Player> playerList = playerRepository.findAll();
-        assertThat(playerList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkWealthIsRequired() throws Exception {
-        int databaseSizeBeforeTest = playerRepository.findAll().size();
-        // set the field null
-        player.setWealth(null);
-
-        // Create the Player, which fails.
-        PlayerDTO playerDTO = playerMapper.toDto(player);
-
-        restPlayerMockMvc.perform(post("/api/players")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(playerDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Player> playerList = playerRepository.findAll();
-        assertThat(playerList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test

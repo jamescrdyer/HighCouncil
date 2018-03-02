@@ -18,6 +18,7 @@
             "timeLimitSeconds": "Time Limit Seconds",
             "phase": "Phase",
             "turn": "Turn",
+            "randomOrderNumber": "Number of Random Orders",
             "lockOrders": "Final",
             "player": "Player",
             "playerFilter": "Recipients: ",

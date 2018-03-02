@@ -29,7 +29,7 @@ public class Player extends StatHolder implements Serializable {
 
     @NotNull
     @Column(name = "favour", nullable = false)
-    private Integer favour;
+    private Integer favour = 0;
 
     @Column(name = "chancellor")
     private Boolean chancellor = false;

@@ -4,6 +4,8 @@
         "form": {
             "firstname": "First Name",
             "firstname.placeholder": "Your first name",
+            "displayname": "Display Name",
+            "displayname.placeholder": "Your display name",
             "lastname": "Last Name",
             "lastname.placeholder": "Your last name",
             "language": "Language",
@@ -20,6 +22,11 @@
                     "required": "Your first name is required.",
                     "minlength": "Your first name is required to be at least 1 character",
                     "maxlength": "Your first name cannot be longer than 50 characters"
+                },
+                "displayname": {
+                    "required": "Your display name is required.",
+                    "minlength": "Your display name is required to be at least 1 character",
+                    "maxlength": "Your display name cannot be longer than 10 characters"
                 },
                 "lastname": {
                     "required": "Your last name is required.",

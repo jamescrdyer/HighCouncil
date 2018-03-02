@@ -36,6 +36,13 @@ export class TurnResultService {
         });
     }
 
+    findByGameAndTurn(gameId: number, turn: number): Observable<TurnResult> {
+        return this.http.get(`${this.resourceUrl}/${gameId}/${turn}`).map((res: Response) => {
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
+        });
+    }
+
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)

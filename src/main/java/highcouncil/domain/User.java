@@ -46,6 +46,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "password_hash",length = 60)
     private String password;
 
+    @Size(max = 10)
+    @Column(name = "display_name", length = 10)
+    private String displayName;
+
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
@@ -135,6 +139,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.lastName = lastName;
     }
 
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
     public String getEmail() {
         return email;
     }
@@ -221,6 +233,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public String toString() {
         return "User{" +
             "login='" + login + '\'' +
+            ", displayName='" + displayName + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +

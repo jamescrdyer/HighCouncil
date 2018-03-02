@@ -155,9 +155,10 @@ public class UserService {
      * @param langKey language key
      * @param imageUrl image URL of user
      */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+    public void updateUser(String firstName, String lastName, String displayName, String email, String langKey, String imageUrl) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
             user.setFirstName(firstName);
+            user.setDisplayName(displayName);
             user.setLastName(lastName);
             user.setEmail(email);
             user.setLangKey(langKey);

@@ -185,6 +185,14 @@ public class Orders implements Serializable {
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
+    public void setZeroes() {
+        piety = 0;
+        popularity = 0;
+        military = 0;
+        wealth = 0;
+        favour = 0;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {

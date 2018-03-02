@@ -23,25 +23,17 @@ export class TurnResultPopupService {
         return this.ngbModalRef;
     }
 
-    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+    open(component: Component, gameId?: number, turn?: number): Promise<NgbModalRef> {
         return new Promise<NgbModalRef>((resolve, reject) => {
             const isOpen = this.ngbModalRef !== null;
             if (isOpen) {
                 resolve(this.ngbModalRef);
             }
 
-            if (id) {
-                this.turnResultService.find(id).subscribe((turnResult) => {
-                    this.ngbModalRef = this.turnResultModalRef(component, turnResult);
-                    resolve(this.ngbModalRef);
-                });
-            } else {
-                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
-                setTimeout(() => {
-                    this.ngbModalRef = this.turnResultModalRef(component, new TurnResult());
-                    resolve(this.ngbModalRef);
-                }, 0);
-            }
+            this.turnResultService.findByGameAndTurn(gameId, turn).subscribe((turnResult) => {
+                this.ngbModalRef = this.turnResultModalRef(component, turnResult);
+                resolve(this.ngbModalRef);
+            });
         });
     }
 

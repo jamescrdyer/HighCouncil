@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,6 +54,8 @@ public class UserResourceIntTest {
 
     private static final String DEFAULT_LOGIN = "johndoe";
     private static final String UPDATED_LOGIN = "jhipster";
+
+    private static final String DEFAULT_DISPLAYNAME = "jdog";
 
     private static final String DEFAULT_PASSWORD = "passjohndoe";
     private static final String UPDATED_PASSWORD = "passjhipster";
@@ -151,6 +152,7 @@ public class UserResourceIntTest {
             DEFAULT_PASSWORD,
             DEFAULT_FIRSTNAME,
             DEFAULT_LASTNAME,
+            DEFAULT_DISPLAYNAME,
             DEFAULT_EMAIL,
             true,
             DEFAULT_IMAGEURL,
@@ -191,6 +193,7 @@ public class UserResourceIntTest {
             DEFAULT_PASSWORD,
             DEFAULT_FIRSTNAME,
             DEFAULT_LASTNAME,
+            DEFAULT_DISPLAYNAME,
             DEFAULT_EMAIL,
             true,
             DEFAULT_IMAGEURL,
@@ -227,6 +230,7 @@ public class UserResourceIntTest {
             DEFAULT_PASSWORD,
             DEFAULT_FIRSTNAME,
             DEFAULT_LASTNAME,
+            DEFAULT_DISPLAYNAME,
             "anothermail@localhost",
             true,
             DEFAULT_IMAGEURL,
@@ -263,6 +267,7 @@ public class UserResourceIntTest {
             DEFAULT_PASSWORD,
             DEFAULT_FIRSTNAME,
             DEFAULT_LASTNAME,
+            DEFAULT_DISPLAYNAME,
             DEFAULT_EMAIL, // this email should already be used
             true,
             DEFAULT_IMAGEURL,
@@ -346,6 +351,7 @@ public class UserResourceIntTest {
             UPDATED_PASSWORD,
             UPDATED_FIRSTNAME,
             UPDATED_LASTNAME,
+            DEFAULT_DISPLAYNAME,
             UPDATED_EMAIL,
             updatedUser.getActivated(),
             UPDATED_IMAGEURL,
@@ -390,6 +396,7 @@ public class UserResourceIntTest {
             UPDATED_PASSWORD,
             UPDATED_FIRSTNAME,
             UPDATED_LASTNAME,
+            DEFAULT_DISPLAYNAME,
             UPDATED_EMAIL,
             updatedUser.getActivated(),
             UPDATED_IMAGEURL,
@@ -445,6 +452,7 @@ public class UserResourceIntTest {
             updatedUser.getPassword(),
             updatedUser.getFirstName(),
             updatedUser.getLastName(),
+            updatedUser.getDisplayName(),
             "jhipster@localhost",  // this email should already be used by anotherUser
             updatedUser.getActivated(),
             updatedUser.getImageUrl(),
@@ -489,6 +497,7 @@ public class UserResourceIntTest {
             updatedUser.getPassword(),
             updatedUser.getFirstName(),
             updatedUser.getLastName(),
+            updatedUser.getDisplayName(),
             updatedUser.getEmail(),
             updatedUser.getActivated(),
             updatedUser.getImageUrl(),
@@ -562,6 +571,7 @@ public class UserResourceIntTest {
             DEFAULT_LOGIN,
             DEFAULT_FIRSTNAME,
             DEFAULT_LASTNAME,
+            DEFAULT_DISPLAYNAME,
             DEFAULT_EMAIL,
             true,
             DEFAULT_IMAGEURL,

@@ -43,5 +43,10 @@
         </createTable>
         
     </changeSet>
+    <changeSet id="add random order field" author="jdyer">
+        <addColumn tableName="game">
+            <column name="random_order_number" type="integer" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

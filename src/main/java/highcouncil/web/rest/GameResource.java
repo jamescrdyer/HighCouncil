@@ -1,6 +1,8 @@
 package highcouncil.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+
+import highcouncil.domain.enumeration.Phase;
 import highcouncil.service.GameService;
 import highcouncil.web.rest.errors.BadRequestAlertException;
 import highcouncil.web.rest.util.HeaderUtil;
@@ -55,6 +57,8 @@ public class GameResource {
         if (gameDTO.getId() != null) {
             throw new BadRequestAlertException("A new game cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        gameDTO.setPhase(Phase.Forming);
+        gameDTO.setTurn(1);
         GameDTO result = gameService.save(gameDTO);
         return ResponseEntity.created(new URI("/api/games/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

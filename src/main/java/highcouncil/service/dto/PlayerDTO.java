@@ -52,6 +52,8 @@ public class PlayerDTO implements Serializable {
 
     private String userLogin;
 
+    private String displayName;
+
     private Set<CardDTO> hands = new HashSet<>();
 
     public Long getId() {
@@ -165,6 +167,17 @@ public class PlayerDTO implements Serializable {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+	public String getDisplayName() {
+		if (displayName == null) {
+	        return userLogin;
+		}
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
     public String getUserLogin() {
         return userLogin;

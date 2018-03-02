@@ -30,10 +30,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -163,6 +161,7 @@ public class AccountResourceIntTest {
             "password",             // password
             "Joe",                  // firstName
             "Shmoe",                // lastName
+            "Joe",					// displayName
             "joe@example.com",      // email
             true,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -192,6 +191,7 @@ public class AccountResourceIntTest {
             "password",             // password
             "Funky",                // firstName
             "One",                  // lastName
+            "funk",					// displayName
             "funky@example.com",    // email
             true,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -221,6 +221,7 @@ public class AccountResourceIntTest {
             "password",         // password
             "Bob",              // firstName
             "Green",            // lastName
+            "BG",				// displayName
             "invalid",          // email <-- invalid
             true,               // activated
             "http://placehold.it/50x50", //imageUrl
@@ -250,6 +251,7 @@ public class AccountResourceIntTest {
             "123",              // password with only 3 digits
             "Bob",              // firstName
             "Green",            // lastName
+            "BG",				// displayName
             "bob@example.com",  // email
             true,               // activated
             "http://placehold.it/50x50", //imageUrl
@@ -279,6 +281,7 @@ public class AccountResourceIntTest {
             null,               // invalid null password
             "Bob",              // firstName
             "Green",            // lastName
+            "BG",				// displayName
             "bob@example.com",  // email
             true,               // activated
             "http://placehold.it/50x50", //imageUrl
@@ -309,6 +312,7 @@ public class AccountResourceIntTest {
             "password",             // password
             "Alice",                // firstName
             "Something",            // lastName
+            "Alice",				// displayName
             "alice@example.com",    // email
             true,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -320,7 +324,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
 
         // Duplicate login, different email
-        ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getFirstName(), validUser.getLastName(),
+        ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getFirstName(), validUser.getLastName(), validUser.getDisplayName(),
             "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities());
 
         // Good user
@@ -351,6 +355,7 @@ public class AccountResourceIntTest {
             "password",             // password
             "John",                 // firstName
             "Doe",                  // lastName
+            "jdog",                 // displayName
             "john@example.com",     // email
             true,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -362,7 +367,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
 
         // Duplicate email, different login
-        ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
+        ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(), validUser.getDisplayName(),
             validUser.getEmail(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities());
 
         // Good user
@@ -380,7 +385,7 @@ public class AccountResourceIntTest {
             .andExpect(status().is4xxClientError());
 
         // Duplicate email - with uppercase email address
-        final ManagedUserVM userWithUpperCaseEmail = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
+        final ManagedUserVM userWithUpperCaseEmail = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(), validUser.getDisplayName(),
                 validUser.getEmail().toUpperCase(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities());
 
         restMvc.perform(
@@ -402,6 +407,7 @@ public class AccountResourceIntTest {
             "password",             // password
             "Bad",                  // firstName
             "Guy",                  // lastName
+            "BG",                   // displayName
             "badguy@example.com",   // email
             true,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -468,6 +474,7 @@ public class AccountResourceIntTest {
             "not-used",          // login
             "firstname",                // firstName
             "lastname",                  // lastName
+            "NUsed",                   // displayName
             "save-account@example.com",    // email
             false,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -513,6 +520,7 @@ public class AccountResourceIntTest {
             "not-used",          // login
             "firstname",                // firstName
             "lastname",                  // lastName
+            "NUsed",                   // displayName
             "invalid email",    // email
             false,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -558,6 +566,7 @@ public class AccountResourceIntTest {
             "not-used",          // login
             "firstname",                // firstName
             "lastname",                  // lastName
+            "NUsed",                   // displayName
             "save-existing-email2@example.com",    // email
             false,                   // activated
             "http://placehold.it/50x50", //imageUrl
@@ -596,6 +605,7 @@ public class AccountResourceIntTest {
             "not-used",          // login
             "firstname",                // firstName
             "lastname",                  // lastName
+            "NUsed",                   // displayName
             "save-existing-email-and-login@example.com",    // email
             false,                   // activated
             "http://placehold.it/50x50", //imageUrl

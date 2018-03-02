@@ -14,6 +14,7 @@ public interface PlayerMapper extends EntityMapper<PlayerDTO, Player> {
     @Mapping(source = "game.id", target = "gameId")
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
+    @Mapping(source = "user.displayName", target = "displayName")
     PlayerDTO toDto(Player player); 
 
     @Mapping(source = "gameId", target = "game")

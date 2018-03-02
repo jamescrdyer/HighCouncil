@@ -30,7 +30,6 @@ public class DiscussionService implements ApplicationListener<SessionDisconnectE
 
     @SendToUser("/topic/discussion/{gameId}")
     public DiscussionDTO sendActivity(@Payload DiscussionDTO discussionDTO, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
-    	discussionDTO.setFromUser(principal.getName());
         discussionDTO.setTime(Instant.now());
         log.debug("Sending discussion {}", discussionDTO);
         return discussionDTO;

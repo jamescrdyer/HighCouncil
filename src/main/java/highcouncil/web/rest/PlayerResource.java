@@ -6,6 +6,7 @@ import highcouncil.domain.Player;
 import highcouncil.repository.PlayerRepository;
 import highcouncil.web.rest.errors.BadRequestAlertException;
 import highcouncil.web.rest.util.HeaderUtil;
+import highcouncil.service.GameService;
 import highcouncil.service.dto.PlayerDTO;
 import highcouncil.service.mapper.PlayerMapper;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -32,13 +33,16 @@ public class PlayerResource {
 
     private static final String ENTITY_NAME = "player";
 
+    private final GameService gameService;
+
     private final PlayerRepository playerRepository;
 
     private final PlayerMapper playerMapper;
 
-    public PlayerResource(PlayerRepository playerRepository, PlayerMapper playerMapper) {
+    public PlayerResource(PlayerRepository playerRepository, PlayerMapper playerMapper, GameService gameService) {
         this.playerRepository = playerRepository;
         this.playerMapper = playerMapper;
+        this.gameService = gameService;
     }
 
     /**
@@ -80,6 +84,7 @@ public class PlayerResource {
         Player player = playerRepository.findByUserIsCurrentUserAndGame(gameId);
         player.setPhaseLocked(setLocked);
         playerRepository.save(player);
+        gameService.processGame(gameId);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, player.getId().toString())).build();
     }
 

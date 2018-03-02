@@ -89,6 +89,10 @@ export class HomeComponent implements OnInit {
             (res: ResponseWrapper) => this.onLoadSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onLoadError(res.json)
         );
+        if (this.account && !this.account.displayName) {
+            console.log('No display name, ' + this.account.displayName);
+            this.router.navigate(['/settings']);
+        }
     }
 
     loadPage(page) {

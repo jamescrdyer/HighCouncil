@@ -88,5 +88,10 @@
         <addPrimaryKey columnNames="players_id, hands_id" tableName="player_hand"/>
         
     </changeSet>
+    <changeSet id="Add user name to user table" author="jdyer">
+        <addColumn tableName="jhi_user">
+            <column name="display_name" type="varchar(10)"/>
+        </addColumn>
+    </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

@@ -7,58 +7,24 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!game.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="game.id" readonly />
-        </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="highCouncilApp.game.timeLimitSeconds" for="field_timeLimitSeconds">Time Limit Seconds</label>
-            <input type="number" class="form-control" name="timeLimitSeconds" id="field_timeLimitSeconds"
-                [(ngModel)]="game.timeLimitSeconds"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="highCouncilApp.game.phase" for="field_phase">Phase</label>
-            <select class="form-control" name="phase" [(ngModel)]="game.phase" id="field_phase" >
-                <option value="Forming">{{'highCouncilApp.Phase.Forming' | translate}}</option>
-                <option value="Orders">{{'highCouncilApp.Phase.Orders' | translate}}</option>
-                <option value="Intrigue">{{'highCouncilApp.Phase.Intrigue' | translate}}</option>
-                <option value="Completed">{{'highCouncilApp.Phase.Completed' | translate}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="highCouncilApp.game.turn" for="field_turn">Turn</label>
-            <input type="number" class="form-control" name="turn" id="field_turn"
-                [(ngModel)]="game.turn" required min="1" />
-            <div [hidden]="!(editForm.controls.turn?.dirty && editForm.controls.turn?.invalid)">
+            <label class="form-control-label" jhiTranslate="highCouncilApp.game.randomOrderNumber" for="field_randomOrderNumber"></label>
+            <input type="number" class="form-control" name="randomOrderNumber" id="field_randomOrderNumber"
+                [(ngModel)]="game.randomOrderNumber" required min="1" />
+            <div [hidden]="!(editForm.controls.randomOrderNumber?.dirty && editForm.controls.randomOrderNumber?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.turn?.errors?.required" jhiTranslate="entity.validation.required">
+                   [hidden]="!editForm.controls.randomOrderNumber?.errors?.required" jhiTranslate="entity.validation.required">
                    This field is required.
                 </small>
                 <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.turn?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 1 }">
-                    This field should be at least 1.
+                    [hidden]="!editForm.controls.randomOrderNumber?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
+                    This field should be at least 0.
                 </small>
                 <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.turn?.errors?.number" jhiTranslate="entity.validation.number">
+                    [hidden]="!editForm.controls.randomOrderNumber?.errors?.number" jhiTranslate="entity.validation.number">
                     This field should be a number.
                 </small>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="highCouncilApp.game.kingdom" for="field_kingdom">Kingdom</label>
-            <select class="form-control" id="field_kingdom" name="kingdom" [(ngModel)]="game.kingdomId">
-                <option [ngValue]="null"></option>
-                <option [ngValue]="kingdomOption.id" *ngFor="let kingdomOption of kingdoms; trackBy: trackKingdomById">{{kingdomOption.id}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="highCouncilApp.game.deck" for="field_deck">Deck</label>
-            <select class="form-control" id="field_deck" name="deck" [(ngModel)]="game.deckId">
-                <option [ngValue]="null"></option>
-                <option [ngValue]="deckOption.id" *ngFor="let deckOption of decks; trackBy: trackDeckById">{{deckOption.id}}</option>
-            </select>
         </div>
     </div>
     <div class="modal-footer">

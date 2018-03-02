@@ -12,6 +12,25 @@
             <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="displayName" jhiTranslate="settings.form.displayname">Display Name</label>
+                    <input type="text" class="form-control" id="displayName" name="displayName" placeholder="{{'settings.form.displayname.placeholder' | translate}}"
+                           [(ngModel)]="settingsAccount.displayName" minlength=1 maxlength=10 #displayNameInput="ngModel" required>
+                    <div *ngIf="displayNameInput.dirty && displayNameInput.invalid">
+                        <small class="form-text text-danger"
+                           *ngIf="displayNameInput.errors.required" jhiTranslate="settings.messages.validate.displayname.required">
+                            Your display name is required.
+                        </small>
+                        <small class="form-text text-danger"
+                           *ngIf="displayNameInput.errors.minlength" jhiTranslate="settings.messages.validate.displayname.minlength">
+                            Your display name is required to be at least 1 character.
+                        </small>
+                        <small class="form-text text-danger"
+                           *ngIf="displayNameInput.errors.maxlength" jhiTranslate="settings.messages.validate.displayname.maxlength">
+                            Your display name cannot be longer than 50 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="firstName" jhiTranslate="settings.form.firstname">First Name</label>
                     <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'settings.form.firstname.placeholder' | translate}}"
                            [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 #firstNameInput="ngModel" required>
