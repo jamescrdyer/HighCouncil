@@ -28,6 +28,10 @@ public class GameDTO implements Serializable {
     @Min(value = 0)
     private Integer randomOrderNumber;
 
+    @NotNull
+    @Min(value = 3)
+    private Integer playersNumber;
+
     private KingdomDTO kingdom;
     
     private TurnResultDTO turnResult;
@@ -74,6 +78,14 @@ public class GameDTO implements Serializable {
 
 	public void setRandomOrderNumber(Integer randomOrderNumber) {
 		this.randomOrderNumber = randomOrderNumber;
+	}
+
+	public Integer getPlayersNumber() {
+		return playersNumber;
+	}
+
+	public void setPlayersNumber(Integer playersNumber) {
+		this.playersNumber = playersNumber;
 	}
 
 	public KingdomDTO getKingdom() {

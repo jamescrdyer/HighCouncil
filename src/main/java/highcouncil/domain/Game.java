@@ -46,6 +46,11 @@ public class Game implements Serializable {
     @Column(name = "random_order_number", nullable = false)
     private Integer randomOrderNumber = 0;
 
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "players_number", nullable = false)
+    private Integer playersNumber = 0;
+
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -115,7 +120,15 @@ public class Game implements Serializable {
 		this.randomOrderNumber = randomOrderNumber;
 	}
 
-    public Set<Player> getPlayers() {
+    public Integer getPlayersNumber() {
+		return playersNumber;
+	}
+
+	public void setPlayersNumber(Integer playersNumber) {
+		this.playersNumber = playersNumber;
+	}
+
+	public Set<Player> getPlayers() {
         return players;
     }
 

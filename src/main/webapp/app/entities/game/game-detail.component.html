@@ -75,7 +75,7 @@
 	    	</span>
 		</div>
 		<div class="row">
-			<input type="text" class="d-inline" style="width:89%" #newMessage></input>
+			<textarea class="form-control d-inline" rows="4" style="width:89%" #newMessage></textarea>
 			<button [disabled]="!recipientSelected" class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value); newMessage.value=''"><span>Send</span></button>
 		</div>
 		<br/>
@@ -85,31 +85,31 @@
 	            <label class="form-control-label" jhiTranslate="highCouncilApp.orders.action" for="field_action" [ngClass]="{'invalid': ordersSubmitted.action === undefined}">Action</label>
 		    </div>
 		    <div style="height: 30px" class="row justify-content-center" *ngIf="game.phase === 'Orders'">
-		        <button class="col-2 piety value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Piety" 
+		        <button class="col-2 piety value first d-inline" jhiTranslate="highCouncilApp.Action.short.Piety" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Piety'}" (click)="actionChange('Piety')"
 		        	(mouseenter)="setHover('Piety')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 popularity value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Popularity" 
+		        <button class="col-2 popularity value first d-inline" jhiTranslate="highCouncilApp.Action.short.Popularity" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Popularity'}" (click)="actionChange('Popularity')"
 		        	(mouseenter)="setHover('Popularity')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 military value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Military" 
+		        <button class="col-2 military value first d-inline" jhiTranslate="highCouncilApp.Action.short.Military" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Military'}" (click)="actionChange('Military')"
 		        	(mouseenter)="setHover('Military')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 wealth value first d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Wealth" 
+		        <button class="col-2 wealth value first d-inline" jhiTranslate="highCouncilApp.Action.short.Wealth" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Wealth'}" (click)="actionChange('Wealth')"
 		        	(mouseenter)="setHover('Wealth')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 favour value first d-none d-lg-inline" jhiTranslate="highCouncilApp.player.favourShort" 
+		        <button class="col-2 favour value first d-inline" jhiTranslate="highCouncilApp.player.favourShort" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Favour'}" (click)="actionChange('Favour')"
 		        	(mouseenter)="setHover('Favour')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"

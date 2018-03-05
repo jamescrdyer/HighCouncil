@@ -198,7 +198,7 @@ public class GameService {
 	}
 
 	private Game startGame(Game game) {
-		if (game.getPlayers().size() == 3 || game.getPlayers().size() == 4) {
+		if (game.getPlayers().size() == game.getPlayersNumber()) {
 			game.setPhase(Phase.Orders);
 			game.setTurn(1);
 			game.getPlayers().stream().findFirst().get().setChancellor(true);
