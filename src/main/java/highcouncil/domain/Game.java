@@ -47,14 +47,19 @@ public class Game implements Serializable {
     private Integer randomOrderNumber = 0;
 
     @NotNull
-    @Min(value = 0)
+    @Min(value = 3)
     @Column(name = "players_number", nullable = false)
-    private Integer playersNumber = 0;
+    private Integer playersNumber = 3;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Player> players = new HashSet<>();
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<TurnResult> turnResults = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(unique = true)
@@ -156,6 +161,26 @@ public class Game implements Serializable {
 
     public void setPlayers(Set<Player> players) {
         this.players = players;
+    }
+
+	public Set<TurnResult> getTurnResults() {
+        return turnResults;
+    }
+
+    public Game addTurnResult(TurnResult turnResult) {
+        this.turnResults.add(turnResult);
+        turnResult.setGame(this);
+        return this;
+    }
+
+    public Game removeTurnResult(TurnResult turnResult) {
+        this.turnResults.remove(turnResult);
+        turnResult.setGame(null);
+        return this;
+    }
+
+    public void setTurnResults(Set<TurnResult> turnResults) {
+        this.turnResults = turnResults;
     }
 
     public Kingdom getKingdom() {

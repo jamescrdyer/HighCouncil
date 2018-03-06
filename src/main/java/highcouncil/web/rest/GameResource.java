@@ -52,7 +52,7 @@ public class GameResource {
      */
     @PostMapping("/games")
     @Timed
-    public ResponseEntity<GameDTO> createGame(@Valid @RequestBody GameDTO gameDTO) throws URISyntaxException {
+    public ResponseEntity<GameDTO> createGame(@RequestBody GameDTO gameDTO) throws URISyntaxException {
         log.debug("REST request to save Game : {}", gameDTO);
         if (gameDTO.getId() != null) {
             throw new BadRequestAlertException("A new game cannot already have an ID", ENTITY_NAME, "idexists");

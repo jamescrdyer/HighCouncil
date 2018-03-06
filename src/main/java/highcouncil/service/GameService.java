@@ -219,6 +219,9 @@ public class GameService {
 	
 	private void processGame(Game game) {
 		List<Player> players = game.getPlayersList();
+		if (players.size() <= 0) {
+			return;
+		}
 		for (Player p : players) {
 			if (!p.isPhaseLocked()) {
 				return;
@@ -236,12 +239,12 @@ public class GameService {
 			int favour = allOrders.parallelStream().mapToInt(o -> o.getFavour()).sum() + getRandomOrderCount(Action.Favour, randomOrders);
 			TurnResult turnResult = new TurnResult();
 			turnResult.setTurn(game.getTurn());
-			turnResult.setGame(game);
 			turnResult.setPiety(piety);
 			turnResult.setPopularity(popularity);
 			turnResult.setMilitary(military);
 			turnResult.setWealth(wealth);
 			turnResult.setFavour(favour);
+			game.addTurnResult(turnResult);
 			PlayerTurnResult kingdomResult = new PlayerTurnResult();
 			kingdomResult.setGame(game);
 			kingdomResult.setTurn(game.getTurn());
@@ -311,6 +314,7 @@ public class GameService {
 					}
 					if (!kingdomActionsApplied.contains(action)) {
 						applyKingdomResolution(kingdom, resolution.getCodeKingdom(), kingdomResult);
+						kingdomActionsApplied.add(action);
 					}
 					addPenalties(p);
 				}
@@ -327,7 +331,7 @@ public class GameService {
 	}
 
 	private int getRandomOrderCount(Action toCount, List<Action> randomOrders) {
-		return (int)randomOrders.stream().filter(a -> a == Action.Wealth).count();
+		return (int)randomOrders.stream().filter(a -> a == toCount).count();
 	}
 	
 	private List<Action> createRandomOrders(Game game) {
@@ -358,7 +362,7 @@ public class GameService {
 			int score = 0;
 			score += p.getWealth();
 			score += p.getMilitary() * 2;
-			score += p.getPopularity() / 2 + p.getPopularity() % 2;
+			score += p.getPopularity() / 2;
 			score -= p.getPenalty() * 3;
 			if (kingdom.getHealth() <= 0) {
 				score += p.getFavour();
@@ -394,6 +398,7 @@ public class GameService {
 			}
 
 			if (playerMaxes.getMilitary() < p.getMilitary()) {
+				secondMostMilitary = playerMaxes.getMilitary();
 				playerMaxes.setMilitary(p.getMilitary());
 				playerCounts.setMilitary(1);
 			} else {
@@ -440,12 +445,13 @@ public class GameService {
 				int penalty = LEAST_POPULARITY_PENALTY / popularityMinCount;
 				score -= penalty;
 			}
-			if (kingdom.getMilitary() <= 0) {
-				gameOver = true;
-				if (playerMaxes.getMilitary() == p.getMilitary()) {
+			if (playerMaxes.getMilitary() == p.getMilitary()) {
+				score += p.getMilitary() - secondMostMilitary;
+				if (kingdom.getMilitary() <= 0) {
 					int bonus = KINGDOM_0_BONUS;
 					bonus = bonus / playerCounts.getMilitary();
 					score += bonus;
+					gameOver = true;
 				}
 			}
 			if (kingdom.getWealth() <= 0) {
@@ -557,7 +563,7 @@ public class GameService {
 		Player p = new Player();
 		User u = userService.getUserWithAuthorities();
 		p.setUser(u);
-		p.setName(u.getLogin());
+		p.setName(u.getDisplayName());
 		game.getPlayers().add(p);
 		p.setGame(game);
 		initPlayer(p);

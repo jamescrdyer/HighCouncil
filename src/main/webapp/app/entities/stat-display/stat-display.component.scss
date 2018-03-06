@@ -1,3 +1,5 @@
+@import "../../../content/scss/custom-variables";
+
 $chancellor-backcolor: #B288ff;
 
 .chancellor {
@@ -8,13 +10,20 @@ $chancellor-backcolor: #B288ff;
 .value {
     border-radius:5px;
     border-style: solid;
-    border-left-style: none;
     border-width: 1px;
     border-color: black;
     padding-right: 4px;
     padding-left: 10px;
 }
 
-.value.first {
-    border-left-style: solid;
+.value.most {
+    border-color: $most-color;
+    font-weight: 900;
+    border-width: 3px;
+}
+.value.least {
+    border-color: $least-color;
+    color: $least-color;
+    font-weight: 700;
+    border-width: 2px;
 }

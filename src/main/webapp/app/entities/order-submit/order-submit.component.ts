@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 import { Orders } from '../orders/orders.model';
 
@@ -7,19 +7,13 @@ import { Orders } from '../orders/orders.model';
     styleUrls: [ 'order-submit.component.scss' ],
     templateUrl: './order-submit.component.html'
 })
-export class OrderSubmitComponent implements OnInit {
+export class OrderSubmitComponent implements OnChanges {
     @Input() name: string;
     @Input() numberToSubmit: number;
 
     @Output() submitted: EventEmitter<Orders> = new EventEmitter
 
-    public orders: Orders = {
-            piety: 0,
-            popularity: 0,
-            military: 0,
-            wealth: 0,
-            favour: 0
-        };
+    public orders: Orders;
     public valueSumInvalid = true;
     public isSaving = false;
 
@@ -27,7 +21,14 @@ export class OrderSubmitComponent implements OnInit {
     ) {
     }
 
-    ngOnInit() {
+    ngOnChanges() {
+        this.orders = {
+                piety: 0,
+                popularity: 0,
+                military: 0,
+                wealth: 0,
+                favour: 0
+            };
     }
 
     checkSum() {

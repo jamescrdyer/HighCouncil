@@ -5,15 +5,15 @@
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Piety"> </span>
         	{{stats.piety}}
         </div>
-        <div class="col-2 popularity value">
+        <div class="col-2 popularity value" [ngClass]="{'most': mostStats && stats.popularity==mostStats.popularity,'least': leastStats && stats.popularity==leastStats.popularity}">
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Popularity"> </span>
         	{{stats.popularity}}
         </div>
-        <div class="col-2 military value">
+        <div class="col-2 military value" [ngClass]="{'most': mostStats && stats.military==mostStats.military,'least': leastStats && stats.military==leastStats.military}">
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Military"> </span>
         	{{stats.military}}
         </div>
-        <div class="col-2 wealth value">
+        <div class="col-2 wealth value" [ngClass]="{'most': mostStats && stats.wealth==mostStats.wealth,'least': leastStats && stats.wealth==leastStats.wealth}">
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Wealth"> </span>
         	{{stats.wealth}}
         </div>

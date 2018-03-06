@@ -109,7 +109,9 @@ public class GameServiceIntTest {
     @Test
     @Transactional
     public void checkScoresPopularitySharedPenalty() {
-    	p1.modifyPopularity(1);
+    	p1.setPopularity(1);
+    	p2.setPopularity(0);
+    	p3.setPopularity(0);
     	gameService.checkGameEndAndScore(game);
     	int score = p1.getScore()-GameService.LEAST_POPULARITY_PENALTY/2-GameService.MOST_POPULARITY_BONUS;
         assertThat(p2.getScore()).isEqualTo(score);
@@ -127,5 +129,36 @@ public class GameServiceIntTest {
     	gameService.checkGameEndAndScore(game);
         assertThat(p1.getScore()).isEqualTo(score+1);
         assertThat(game.getPhase()).isEqualTo(Phase.Completed);
+    }
+
+    @Test
+    @Transactional
+    public void checkScoresExample() {
+    	p1.setPiety(13);
+    	p1.setPopularity(3);
+    	p1.setMilitary(1);
+    	p1.setWealth(6);
+    	p1.setFavour(10);
+    	
+    	p2.setPiety(10);
+    	p2.setPopularity(8);
+    	p2.setMilitary(4);
+    	p2.setWealth(2);
+    	p2.setFavour(6);
+    	
+    	p3.setPiety(11);
+    	p3.setPopularity(6);
+    	p3.setMilitary(7);
+    	p3.setWealth(0);
+    	p3.setFavour(10);
+    	p3.setPenalty(2);
+    	
+    	kingdom.setHealth(0);
+    	kingdom.setWealth(-1);
+
+    	gameService.checkGameEndAndScore(game);
+        assertThat(p1.getScore()).isEqualTo(30);
+        assertThat(p2.getScore()).isEqualTo(17);
+        assertThat(p3.getScore()).isEqualTo(24);
     }
 }

@@ -9,7 +9,7 @@
 		<jhi-parsed-text-display class="col-sm-6" [text]="turnResult.summary"></jhi-parsed-text-display>
 	</div>
 	<div *ngFor="let ptr of turnResult.playerTurnResults; trackBy: id" class="row">
-		<div *ngIf="ptr.playerId;else kingdom" class="col-sm-6"><span>{{ptr.playerLogin}}</span><span class="action" [ngClass]="ptr.action" jhiTranslate="{{'highCouncilApp.Action.short.' + ptr.action}}"></span></div>
+		<div *ngIf="ptr.playerId;else kingdom" class="col-sm-6"><span>{{ptr.displayName}}</span><span class="action" [ngClass]="ptr.action" jhiTranslate="{{'highCouncilApp.Action.short.' + ptr.action}}"></span></div>
 		<ng-template #kingdom><div class="col-sm-6" jhiTranslate="highCouncilApp.game.kingdom"></div></ng-template>
 		<jhi-parsed-text-display class="col-sm-6" [text]="ptr.summary"></jhi-parsed-text-display>
 	</div>

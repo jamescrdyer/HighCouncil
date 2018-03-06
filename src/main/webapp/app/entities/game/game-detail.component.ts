@@ -16,6 +16,7 @@ import { Orders } from '../orders/orders.model';
 import { OrdersService } from '../orders/orders.service';
 import { PlayerService } from '../player/player.service';
 import { ActionResolutionService, ActionResolution, Action } from '../action-resolution';
+import { StatContainer } from '../stat-display/stat-container.model';
 
 @Component({
     selector: 'jhi-game-detail',
@@ -26,10 +27,15 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     game: Game;
     @ViewChild('messageContainer') messageDiv;
 
+    actions: string[] = ['Piety', 'Popularity', 'Military', 'Wealth', 'Favour'];
+
     private player: Player;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
     private isScrollPending = false;
+
+    public mostStats: StatContainer;
+    public leastStats: StatContainer;
     public ordersLocked = false;
     public currentUser: string;
     public actionResolutions: ActionResolution[] = [];
@@ -39,7 +45,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
             popularity: 0,
             military: 0,
             wealth: 0,
-            favour: 7
+            favour: 0
         };
 
     public discussionDestinations = {};
@@ -91,6 +97,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
         this.ordersSubmitted = {};
         this.ordersLocked = false;
         this.sortPlayers();
+        this.setMostAndLeast();
         this.updatedExpectedOrders();
         if (updatedGame.turnResult) {
             this.turnResultPopupService.show(updatedGame.turnResult);
@@ -164,6 +171,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
         this.gameService.find(id).subscribe((game) => {
             this.game = game;
             this.sortPlayers();
+            this.setMostAndLeast();
             if (this.game && this.game.players) {
                 this.game.players.forEach((p: Player) => {
                     if (this.currentUser !== p.userLogin) {
@@ -172,6 +180,33 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                         this.player = p;
                     }
                 });
+            }
+        });
+    }
+
+    setMostAndLeast() {
+        const statProperties = ['piety', 'popularity', 'military', 'wealth'];
+
+        this.mostStats = {};
+        this.leastStats = {};
+        statProperties.forEach((stat) => {
+            this.mostStats[stat] = 0;
+            this.leastStats[stat] = 1000;
+        });
+        statProperties.forEach((stat) => {
+            this.game.players.forEach((p: Player) => {
+                if (p[stat] > this.mostStats[stat]) {
+                    this.mostStats[stat] = p[stat];
+                }
+                if (p[stat] < this.leastStats[stat]) {
+                    this.leastStats[stat] = p[stat];
+                }
+            });
+        });
+        statProperties.forEach((stat) => {
+            if (this.mostStats[stat] === this.leastStats[stat]) {
+                this.mostStats[stat] = null;
+                this.leastStats[stat] = null;
             }
         });
     }
@@ -205,6 +240,11 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
                 }
             });
         }
+    }
+
+    checkSubmittedEqualsExpected() {
+        return (this.ordersSubmitted.wealth + this.ordersSubmitted.piety + this.ordersSubmitted.popularity
+                + this.ordersSubmitted.military + this.ordersSubmitted.favour === this.player.ordersExpected)
     }
 
     toggleLock() {

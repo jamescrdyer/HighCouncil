@@ -24,6 +24,8 @@ public class PlayerTurnResultDTO implements Serializable {
 
     private String playerLogin;
 
+    private String displayName;
+
     private String summary;
 
     private Long turnResultId;
@@ -84,7 +86,15 @@ public class PlayerTurnResultDTO implements Serializable {
         this.playerLogin = playerLogin;
     }
 
-    public Long getTurnResultId() {
+    public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public Long getTurnResultId() {
         return turnResultId;
     }
 

@@ -21,6 +21,8 @@ export class PlayerTurnResult implements BaseEntity {
         public action?: Action,
         public gameId?: number,
         public playerId?: number,
+        public playerLogin?: string,
+        public displayName?: string,
         public turnResultId?: number,
     ) {
     }

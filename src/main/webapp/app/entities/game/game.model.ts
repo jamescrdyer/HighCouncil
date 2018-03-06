@@ -14,6 +14,7 @@ export class Game implements BaseEntity {
         public phase?: Phase,
         public turn?: number,
         public randomOrderNumber?: number,
+        public playersNumber?: number,
         public players?: BaseEntity[],
         public turnResult?: BaseEntity,
         public kingdomId?: number,

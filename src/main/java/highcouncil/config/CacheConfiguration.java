@@ -44,6 +44,7 @@ public class CacheConfiguration {
             cm.createCache(highcouncil.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
             cm.createCache(highcouncil.domain.Game.class.getName(), jcacheConfiguration);
             cm.createCache(highcouncil.domain.Game.class.getName() + ".players", jcacheConfiguration);
+            cm.createCache(highcouncil.domain.Game.class.getName() + ".turnResults", jcacheConfiguration);
             cm.createCache(highcouncil.domain.Game.class.getName() + ".decks", jcacheConfiguration);
             cm.createCache(highcouncil.domain.Game.class.getName() + ".cards", jcacheConfiguration);
             cm.createCache(highcouncil.domain.Player.class.getName(), jcacheConfiguration);

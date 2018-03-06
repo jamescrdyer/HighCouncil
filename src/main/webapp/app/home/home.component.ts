@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { Account, LoginModalService, Principal, ITEMS_PER_PAGE, ResponseWrapper } from '../shared';
 import { GameService, Game } from '../entities/game';
@@ -15,7 +15,7 @@ import { GameService, Game } from '../entities/game';
     ]
 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
     account: Account;
     modalRef: NgbModalRef;
     formingGames: Game[];
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
     queryCount: any;
     totalItems: number;
     isSaving: boolean;
+    getGamesSubscription: Subscription;
 
     constructor(
         private principal: Principal,
@@ -50,8 +51,15 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
-        if (this.isAuthenticated()) {
-            this.loadAll();
+        this.getGamesSubscription = Observable.timer(8000).subscribe(() => {
+            if (this.isAuthenticated()) {
+                this.loadAll();
+            }
+        });
+    }
+    ngOnDestroy() {
+        if (this.getGamesSubscription) {
+            this.getGamesSubscription.unsubscribe();
         }
     }
 

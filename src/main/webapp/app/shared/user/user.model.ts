@@ -2,6 +2,7 @@ export class User {
     public id?: any;
     public login?: string;
     public firstName?: string;
+    public displayName?: string;
     public lastName?: string;
     public email?: string;
     public activated?: Boolean;
@@ -17,6 +18,7 @@ export class User {
         id?: any,
         login?: string,
         firstName?: string,
+        displayName?: string,
         lastName?: string,
         email?: string,
         activated?: Boolean,
@@ -31,6 +33,7 @@ export class User {
         this.id = id ? id : null;
         this.login = login ? login : null;
         this.firstName = firstName ? firstName : null;
+        this.displayName = displayName ? displayName : null;
         this.lastName = lastName ? lastName : null;
         this.email = email ? email : null;
         this.activated = activated ? activated : false;

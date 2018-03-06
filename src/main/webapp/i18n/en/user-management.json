@@ -15,6 +15,7 @@
             "title": "User"
         },
         "login": "Login",
+        "displayName": "Display name",
         "firstName": "First name",
         "lastName": "Last name",
         "email": "Email",

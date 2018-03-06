@@ -150,25 +150,6 @@ public class GameResourceIntTest {
 
     @Test
     @Transactional
-    public void checkTurnIsRequired() throws Exception {
-        int databaseSizeBeforeTest = gameRepository.findAll().size();
-        // set the field null
-        game.setTurn(null);
-
-        // Create the Game, which fails.
-        GameDTO gameDTO = gameMapper.toDto(game);
-
-        restGameMockMvc.perform(post("/api/games")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Game> gameList = gameRepository.findAll();
-        assertThat(gameList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllGames() throws Exception {
         // Initialize the database
         gameRepository.saveAndFlush(game);

@@ -21,13 +21,59 @@
 		</table>
 	</div>
 </ng-template>
-
+<ng-template #scoringHover>
+	<h4><span jhiTranslate="highCouncilApp.game.scoring.title"></span></h4>
+	<table>
+		<thead>
+		<tr>
+			<th jhiTranslate="highCouncilApp.orders.action"></th>
+			<th jhiTranslate="highCouncilApp.game.scoring.each"></th>
+			<th jhiTranslate="highCouncilApp.game.scoring.most"></th>
+			<th jhiTranslate="highCouncilApp.game.scoring.least"></th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let action of actions">
+				<td><span class="value first {{action}}" jhiTranslate="{{'highCouncilApp.Action.'+action}}"></span></td>
+				<td jhiTranslate="{{'highCouncilApp.game.scoring.'+action+'Each'}}"></td>
+				<td jhiTranslate="{{'highCouncilApp.game.scoring.'+action+'Most'}}"></td>
+				<td jhiTranslate="{{'highCouncilApp.game.scoring.'+action+'Least'}}"></td>
+			</tr>
+			<tr>
+				<td><span class="value first penalty" jhiTranslate="highCouncilApp.player.penalty"></span></td>
+				<td jhiTranslate="highCouncilApp.game.scoring.penaltyEach"></td>
+				<td>-</td>
+				<td>-</td>
+			</tr>
+		</tbody>
+	</table>
+	<br/>
+	<div>
+		<span class="value first Military" jhiTranslate="highCouncilApp.Action.Military"></span>
+		<span jhiTranslate="highCouncilApp.game.scoring.MilitaryOther"></span>
+	</div>
+	<div>
+		<span class="value first Favour" jhiTranslate="highCouncilApp.Action.Favour"></span>
+		<span jhiTranslate="highCouncilApp.game.scoring.FavourOther"></span>
+	</div>
+	<br/>
+	<p jhiTranslate="highCouncilApp.game.scoring.kingdomZero"></p>
+	<p jhiTranslate="highCouncilApp.game.scoring.mostLeastSharing"></p>
+	<p jhiTranslate="highCouncilApp.game.scoring.atLeast20"></p>
+	<p jhiTranslate="highCouncilApp.game.scoring.rounding"></p>
+</ng-template>
 <div *ngIf="game" class="row">
 	<div class="col-md-4" *ngIf="game.players">
-	    <h1><span jhiTranslate="highCouncilApp.game.players"></span></h1>
+	    <h1>
+		    <span jhiTranslate="highCouncilApp.game.players"></span>
+		    <span style="float: right" class="fa fa-balance-scale" [ngbPopover]="scoringHover" triggers="mouseenter:mouseleave" placement="bottom"></span>
+	    </h1>
 		<hr>
 	    <div *ngFor="let player of game.players; trackBy: id; last as isLast">
-		    <jhi-stat-display [stats]="player" [name]="player.displayName" [score]="player.score" [isChancellor]="player.chancellor"></jhi-stat-display>
+		    <jhi-stat-display [stats]="player" [name]="player.displayName" [score]="player.score" [isChancellor]="player.chancellor"
+		    	[mostStats]="mostStats" [leastStats]="leastStats"
+		    >
+		    </jhi-stat-display>
 		    <hr *ngIf="!isLast">
 	    </div>
 	</div>
@@ -45,19 +91,26 @@
 			<div *ngFor="let message of messages" style="margin-right: 0px">
 				<div *ngIf="message.message;else turnResultButton" class="row">
 					<div class="col-md-2">{{message.fromUser}}</div>
-					<div class="col-md-2"><span *ngFor="let toUser of message.toUsers; let isLast = last">{{toUser}}<span *ngIf="!isLast">, </span></span></div>
-					<div class="col-md-8">{{message.message}}</div>
+					<div class="col-md-2">
+						<span *ngIf="!message.toUsers || message.toUsers.length !== game.players.length-1;else allRecipients">
+							<span *ngFor="let toUser of message.toUsers; let isLast = last">{{toUser}}<span *ngIf="!isLast">, </span></span>
+						</span>
+						<ng-template #allRecipients><span jhiTranslate="highCouncilApp.game.allRecipients"></span></ng-template>
+					</div>
+					<div class="col-md-8 message">{{message.message}}</div>
 				</div>
-				<ng-template #turnResultButton class="row">
-					<div class="col-md-2" jhiTranslate="highCouncilApp.game.turn"></div>
-					<div class="col-md-2">{{message.turn}}</div>
-					<div class="col-md-8">
-					    <button class="btn btn-info"
-					    	[routerLink]="['/', { outlets: { popup: 'turn-result/'+ game.id + '/'+ message.turn} }]"
-                            replaceUrl="true"
-					    >
-					        <span class="fa fa-eye"></span>
-					    </button>
+				<ng-template #turnResultButton>
+					<div class="row">
+						<div class="col-md-2" jhiTranslate="highCouncilApp.game.turn"></div>
+						<div class="col-md-2">{{message.turn}}</div>
+						<div class="col-md-8">
+						    <button class="btn btn-info"
+						    	[routerLink]="['/', { outlets: { popup: 'turn-result/'+ game.id + '/'+ message.turn} }]"
+	                            replaceUrl="true"
+						    >
+						        <span class="fa fa-eye"></span>
+						    </button>
+						</div>
 					</div>
 				</ng-template>
 			</div>
@@ -84,32 +137,32 @@
 		    <div>
 	            <label class="form-control-label" jhiTranslate="highCouncilApp.orders.action" for="field_action" [ngClass]="{'invalid': ordersSubmitted.action === undefined}">Action</label>
 		    </div>
-		    <div style="height: 30px" class="row justify-content-center" *ngIf="game.phase === 'Orders'">
-		        <button class="col-2 piety value first d-inline" jhiTranslate="highCouncilApp.Action.short.Piety" 
+		    <div style="height: 30px" class="row justify-content-center" *ngIf="game.phase === 'Orders' && checkSubmittedEqualsExpected()">
+		        <button class="col-2 piety value selectable first d-inline" jhiTranslate="highCouncilApp.Action.short.Piety" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Piety'}" (click)="actionChange('Piety')"
 		        	(mouseenter)="setHover('Piety')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 popularity value first d-inline" jhiTranslate="highCouncilApp.Action.short.Popularity" 
+		        <button class="col-2 popularity value selectable first d-inline" jhiTranslate="highCouncilApp.Action.short.Popularity" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Popularity'}" (click)="actionChange('Popularity')"
 		        	(mouseenter)="setHover('Popularity')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 military value first d-inline" jhiTranslate="highCouncilApp.Action.short.Military" 
+		        <button class="col-2 military value selectable first d-inline" jhiTranslate="highCouncilApp.Action.short.Military" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Military'}" (click)="actionChange('Military')"
 		        	(mouseenter)="setHover('Military')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 wealth value first d-inline" jhiTranslate="highCouncilApp.Action.short.Wealth" 
+		        <button class="col-2 wealth value selectable first d-inline" jhiTranslate="highCouncilApp.Action.short.Wealth" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Wealth'}" (click)="actionChange('Wealth')"
 		        	(mouseenter)="setHover('Wealth')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
 		        >
 		        </button>
-		        <button class="col-2 favour value first d-inline" jhiTranslate="highCouncilApp.player.favourShort" 
+		        <button class="col-2 favour value selectable first d-inline" jhiTranslate="highCouncilApp.player.favourShort" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Favour'}" (click)="actionChange('Favour')"
 		        	(mouseenter)="setHover('Favour')"
 		        	[ngbPopover]="actionResolutionsHover" triggers="mouseenter:mouseleave"
@@ -120,7 +173,7 @@
 	    		(click)="toggleLock()"
 		    	[ngClass]="{'btn-primary active': ordersLocked}"
 		    	[disabled]="!ordersSubmitted.action 
-		    		|| (ordersSubmitted.wealth + ordersSubmitted.piety + ordersSubmitted.popularity + ordersSubmitted.military + ordersSubmitted.favour != player.ordersExpected)
+		    		|| !checkSubmittedEqualsExpected()
 		    		|| game.phase != 'Orders'"
 	    		jhiTranslate="highCouncilApp.game.lockOrders"
 	    	></button>

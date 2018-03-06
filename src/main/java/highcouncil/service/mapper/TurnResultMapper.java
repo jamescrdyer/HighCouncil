@@ -45,6 +45,7 @@ public class TurnResultMapper {
         	if (ptr.getPlayer() != null) {
         		if (ptr.getPlayer().getUser() != null) {
                 	playerResult.setPlayerLogin(ptr.getPlayer().getUser().getLogin());
+                	playerResult.setDisplayName(ptr.getPlayer().getUser().getDisplayName());
         		}
         		playerResult.setPlayerId(ptr.getPlayer().getId());
         	}

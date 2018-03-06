@@ -1,11 +1,5 @@
 <div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
-    </div>
-    <div class="col-md-9">
-        <h1 class="display-4" jhiTranslate="home.title">Welcome, Java Hipster!</h1>
-        <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
-
+    <div class="col-md-12">
         <div [ngSwitch]="isAuthenticated()">
             <div *ngSwitchCase="true">
                 <div *ngIf="account" class="alert alert-success" jhiTranslate="home.logged.message"
@@ -22,7 +16,7 @@
 				            <tr *ngFor="let game of formingGames; trackBy: trackId">
 				                <td>
 							    	<span *ngFor="let player of game.players; trackBy: id; last as isLast">
-							    		{{player.userLogin}}<span *ngIf="!isLast">, </span>
+							    		{{player.displayName}}<span *ngIf="!isLast">, </span>
 							    	</span>
 								</td>
 				                <td class="text-right">
