@@ -40,13 +40,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     public currentUser: string;
     public actionResolutions: ActionResolution[] = [];
     public hoverAction: Action;
-    public ordersSubmitted: Orders = {
-            piety: 0,
-            popularity: 0,
-            military: 0,
-            wealth: 0,
-            favour: 0
-        };
+    public ordersSubmitted: Orders;
 
     public discussionDestinations = {};
     public recipientSelected = true;
@@ -64,6 +58,17 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
         private turnResultPopupService: TurnResultPopupService,
         private route: ActivatedRoute
     ) {
+        this.initOrders();
+    }
+
+    initOrders() {
+        this.ordersSubmitted = {
+                piety: 0,
+                popularity: 0,
+                military: 0,
+                wealth: 0,
+                favour: 0
+        };
     }
 
     ngAfterViewChecked() {
@@ -94,7 +99,7 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     private updateGame(updatedGame: Game) {
         this.game = updatedGame;
-        this.ordersSubmitted = {};
+        this.initOrders();
         this.ordersLocked = false;
         this.sortPlayers();
         this.setMostAndLeast();
@@ -141,6 +146,17 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
             this.messages.push(discussion);
             this.isScrollPending = true;
         }
+    }
+
+    getMessageToList(message: Message): string {
+        let toList = '';
+        if (message && message.toUsers) {
+            if (message.toUsers.length === (this.game.players.length - 1)) {
+                return 'All';
+            }
+            message.toUsers.forEach((recipient) => toList += recipient + ' ');
+        }
+        return toList;
     }
 
     sendMessage(message: string) {

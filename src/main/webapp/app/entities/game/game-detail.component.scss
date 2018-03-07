@@ -1,7 +1,16 @@
 .messageContainer {
-	max-height: 100px;
+	max-height: 200px;
 	overflow-y: auto;
 	margin-right: 5px;
+}
+
+.message.row, .turnResult.row {
+	border-top-style: 1px;
+	border-color: gray;
+}
+
+.turnResult.row {
+	background-color: #EEE;	
 }
 
 .value {

@@ -83,27 +83,21 @@
 	    <jhi-stat-display [stats]="game.kingdom" [name]="'Kingdom'"></jhi-stat-display>
 		<hr>
 		<div class="row">
-			<div class="col-md-2">From</div>
-			<div class="col-md-2">To</div>
-			<div class="col-md-8">Message</div>
+			<div class="col-2 col-xl-1">From</div>
+			<div class="col-2 col-xl-1">To</div>
+			<div class="col-8 col-xl-10">Message</div>
 		</div>
 		<div class="messageContainer" #messageContainer>
 			<div *ngFor="let message of messages" style="margin-right: 0px">
-				<div *ngIf="message.message;else turnResultButton" class="row">
-					<div class="col-md-2">{{message.fromUser}}</div>
-					<div class="col-md-2">
-						<span *ngIf="!message.toUsers || message.toUsers.length !== game.players.length-1;else allRecipients">
-							<span *ngFor="let toUser of message.toUsers; let isLast = last">{{toUser}}<span *ngIf="!isLast">, </span></span>
-						</span>
-						<ng-template #allRecipients><span jhiTranslate="highCouncilApp.game.allRecipients"></span></ng-template>
-					</div>
-					<div class="col-md-8 message">{{message.message}}</div>
+				<div *ngIf="message.message;else turnResultButton" class="message row">
+					<div class="col-2 col-xl-1">{{message.fromUser}}</div>
+					<div class="col-2 col-xl-1">{{getMessageToList(message)}}</div>
+					<div class="col-8 col-xl-10">{{message.message}}</div>
 				</div>
 				<ng-template #turnResultButton>
-					<div class="row">
-						<div class="col-md-2" jhiTranslate="highCouncilApp.game.turn"></div>
-						<div class="col-md-2">{{message.turn}}</div>
-						<div class="col-md-8">
+					<div class="turnResult row">
+						<div class="col-4 col-xl-2"><span jhiTranslate="highCouncilApp.game.turn"></span> {{message.turn}}</div>
+						<div class="col-8 col-xl-10">
 						    <button class="btn btn-info"
 						    	[routerLink]="['/', { outlets: { popup: 'turn-result/'+ game.id + '/'+ message.turn} }]"
 	                            replaceUrl="true"
@@ -137,7 +131,7 @@
 		    <div>
 	            <label class="form-control-label" jhiTranslate="highCouncilApp.orders.action" for="field_action" [ngClass]="{'invalid': ordersSubmitted.action === undefined}">Action</label>
 		    </div>
-		    <div style="height: 30px" class="row justify-content-center" *ngIf="game.phase === 'Orders' && checkSubmittedEqualsExpected()">
+		    <div style="height: 30px" class="row justify-content-center" *ngIf="game.phase === 'Orders'">
 		        <button class="col-2 piety value selectable first d-inline" jhiTranslate="highCouncilApp.Action.short.Piety" 
 		        	[ngClass]="{'selected': ordersSubmitted.action === 'Piety'}" (click)="actionChange('Piety')"
 		        	(mouseenter)="setHover('Piety')"
