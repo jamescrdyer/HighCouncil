@@ -122,7 +122,12 @@
 	    	</span>
 		</div>
 		<div class="row">
-			<textarea class="form-control d-inline" rows="2" style="width:89%" #newMessage (keyup.enter)="sendMessage(newMessage.value); newMessage.value=''"></textarea>
+			<textarea class="form-control d-inline" rows="2" style="width:89%" #newMessage 
+				(keydown.alt.enter)="newMessage.value = newMessage.value + '\r\n'" 
+				(keydown.control.enter)="newMessage.value = newMessage.value + '\r\n'" 
+				(keyup.enter)="sendMessage(newMessage.value); newMessage.value=''"
+			>
+			</textarea>
 			<button [disabled]="!recipientSelected" class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value); newMessage.value=''"><span>Send</span></button>
 		</div>
 		<br/>
