@@ -122,7 +122,7 @@
 	    	</span>
 		</div>
 		<div class="row">
-			<textarea class="form-control d-inline" rows="4" style="width:89%" #newMessage></textarea>
+			<textarea class="form-control d-inline" rows="2" style="width:89%" #newMessage (keyup.enter)="sendMessage(newMessage.value); newMessage.value=''"></textarea>
 			<button [disabled]="!recipientSelected" class="d-inline" style="width:10%" (click)="sendMessage(newMessage.value); newMessage.value=''"><span>Send</span></button>
 		</div>
 		<br/>
@@ -173,19 +173,5 @@
 	    	></button>
 		    <jhi-order-submit [name]="'Orders'" [numberToSubmit]="player.ordersExpected" (submitted)="receiveOrders($event)"></jhi-stat-display>
 		</div>
-	</div>
-	<div style="padding-top: 10px">
-	    <button type="submit"
-	            (click)="previousState()"
-	            class="btn btn-info">
-	        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-	    </button>
-		
-	    <button type="button"
-	            [routerLink]="['/', { outlets: { popup: 'game/'+ game.id + '/edit'} }]"
-	            replaceUrl="true"
-	            class="btn btn-primary">
-	        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-	    </button>
 	</div>
 </div>

@@ -9,11 +9,11 @@
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Popularity"> </span>
         	{{stats.popularity}}
         </div>
-        <div class="col-2 military value" [ngClass]="{'most': mostStats && stats.military==mostStats.military,'least': leastStats && stats.military==leastStats.military}">
+        <div class="col-2 military value" [ngClass]="{'most': mostStats && stats.military==mostStats.military}">
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Military"> </span>
         	{{stats.military}}
         </div>
-        <div class="col-2 wealth value" [ngClass]="{'most': mostStats && stats.wealth==mostStats.wealth,'least': leastStats && stats.wealth==leastStats.wealth}">
+        <div class="col-2 wealth value" [ngClass]="{'most': mostStats && stats.wealth==mostStats.wealth}">
         	<span class="d-none d-lg-inline" jhiTranslate="highCouncilApp.Action.short.Wealth"> </span>
         	{{stats.wealth}}
         </div>

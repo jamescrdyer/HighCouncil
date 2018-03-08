@@ -264,7 +264,8 @@ export class GameDetailComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
 
     toggleLock() {
-        this.playerService.setLock(this.game.id, !this.ordersLocked).subscribe((response) => {
+        this.ordersLocked = !this.ordersLocked;
+        this.playerService.setLock(this.game.id, !this.ordersLocked).subscribe(null, () => {
             this.ordersLocked = !this.ordersLocked;
         });
     }
